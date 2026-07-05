@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Contact | Chloe's Travelling Tutors</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="Contact Chloe's Travelling Tutors to enquire about tutoring in your area or online." />
+
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/ctt-custom.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+
+	<body class="is-preload">
+
+		<nav class="ctt-nav">
+			<div class="ctt-nav-inner">
+				<a href="index.html" class="ctt-logo">
+					<div class="ctt-logo-mark">Logo<br />Here</div>
+					<div class="ctt-logo-text">
+						<strong>CHLOE'S</strong>
+						<span>Travelling</span>
+						<strong>TUTORS</strong>
+					</div>
+				</a>
+
+				<ul class="ctt-menu">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="tutors.html">Meet the Tutors</a></li>
+					<li><a href="blog.html">Blog</a></li>
+					<li><a href="contact.html" class="active">Contact</a></li>
+					<li><a href="book.html" class="ctt-book-button">Book a Tutor</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div id="wrapper" class="divided">
+
+			<section class="ctt-section ctt-page-top ctt-section-light">
+				<div class="ctt-inner">
+					<div class="ctt-section-title">
+						<h1>Contact Chloe's Travelling Tutors</h1>
+						<p>
+							Send us your details and we will help guide you to the right tutoring support.
+							The form below opens WhatsApp with your enquiry already written out.
+						</p>
+					</div>
+
+					<div class="ctt-contact-buttons">
+						<a href="https://wa.me/27000000000" target="_blank" rel="noopener" class="button primary">
+							WhatsApp us
+						</a>
+
+						<a href="mailto:hello@cttutors.co.za" target="_blank" rel="noopener" class="button secondary">
+							Email us
+						</a>
+					</div>
+				</div>
+			</section>
+
+			<section class="ctt-section">
+				<div class="ctt-inner">
+					<div class="ctt-form">
+						<form id="whatsappForm">
+							<div class="fields">
+								<div class="field half">
+									<label for="parentName">Parent / Guardian Name</label>
+									<input type="text" id="parentName" name="parentName" required />
+								</div>
+
+								<div class="field half">
+									<label for="phone">Phone Number</label>
+									<input type="tel" id="phone" name="phone" required />
+								</div>
+
+								<div class="field half">
+									<label for="email">Email Address</label>
+									<input type="email" id="email" name="email" />
+								</div>
+
+								<div class="field half">
+									<label for="learnerName">Learner Name</label>
+									<input type="text" id="learnerName" name="learnerName" />
+								</div>
+
+								<div class="field half">
+									<label for="grade">Learner Grade</label>
+									<select id="grade" name="grade" required>
+										<option value="">Select grade</option>
+										<option value="Grade 1">Grade 1</option>
+										<option value="Grade 2">Grade 2</option>
+										<option value="Grade 3">Grade 3</option>
+										<option value="Grade 4">Grade 4</option>
+										<option value="Grade 5">Grade 5</option>
+										<option value="Grade 6">Grade 6</option>
+										<option value="Grade 7">Grade 7</option>
+										<option value="Grade 8">Grade 8</option>
+										<option value="Grade 9">Grade 9</option>
+										<option value="Grade 10">Grade 10</option>
+										<option value="Grade 11">Grade 11</option>
+										<option value="Grade 12">Grade 12</option>
+										<option value="University">University</option>
+									</select>
+								</div>
+
+								<div class="field half">
+									<label for="subject">Subject Needed</label>
+									<input type="text" id="subject" name="subject" required />
+								</div>
+
+								<div class="field half">
+									<label for="lessonType">Lesson Type</label>
+									<select id="lessonType" name="lessonType" required>
+										<option value="">Select option</option>
+										<option value="In-person">In-person</option>
+										<option value="Online">Online</option>
+										<option value="Either">Either</option>
+									</select>
+								</div>
+
+								<div class="field half">
+									<label for="area">Area</label>
+									<input type="text" id="area" name="area" placeholder="Example: Roodepoort, Ruimsig, Online" />
+								</div>
+
+								<div class="field">
+									<label for="message">Tell us what your child needs help with</label>
+									<textarea id="message" name="message" rows="6"></textarea>
+								</div>
+							</div>
+
+							<ul class="actions special">
+								<li>
+									<button type="submit" class="button primary">
+										Send enquiry on WhatsApp
+									</button>
+								</li>
+							</ul>
+						</form>
+					</div>
+				</div>
+			</section>
+
+			<div id="site-footer"></div>
+
+		</div>
+
+		<script>
+			document.getElementById("whatsappForm").addEventListener("submit", function (event) {
+				event.preventDefault();
+
+				const whatsappNumber = "27000000000";
+
+				const parentName = document.getElementById("parentName").value.trim();
+				const phone = document.getElementById("phone").value.trim();
+				const email = document.getElementById("email").value.trim();
+				const learnerName = document.getElementById("learnerName").value.trim();
+				const grade = document.getElementById("grade").value.trim();
+				const subject = document.getElementById("subject").value.trim();
+				const lessonType = document.getElementById("lessonType").value.trim();
+				const area = document.getElementById("area").value.trim();
+				const message = document.getElementById("message").value.trim();
+
+				const whatsappMessage =
+					"Hi Chloe's Travelling Tutors,%0A%0A" +
+					"I would like to enquire about tutoring.%0A%0A" +
+					"Parent / Guardian: " + encodeURIComponent(parentName) + "%0A" +
+					"Phone: " + encodeURIComponent(phone) + "%0A" +
+					"Email: " + encodeURIComponent(email) + "%0A" +
+					"Learner: " + encodeURIComponent(learnerName) + "%0A" +
+					"Grade: " + encodeURIComponent(grade) + "%0A" +
+					"Subject: " + encodeURIComponent(subject) + "%0A" +
+					"Lesson Type: " + encodeURIComponent(lessonType) + "%0A" +
+					"Area: " + encodeURIComponent(area) + "%0A%0A" +
+					"Extra details:%0A" + encodeURIComponent(message);
+
+				const whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + whatsappMessage;
+
+				window.open(whatsappUrl, "_blank", "noopener");
+			});
+		</script>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script src="assets/js/load-footer.js"></script>
+
+	</body>
+</html>
