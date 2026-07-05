@@ -1,9 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-	Story by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license
--->
 <html>
 	<head>
 		<title>Chloe's Travelling Tutors | Home</title>
@@ -12,531 +7,8 @@
 		<meta name="description" content="Chloe's Travelling Tutors offers personalised tutoring in your area and online. Confidence. Support. Success." />
 
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/ctt-custom.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-
-		<style>
-			:root {
-				--ctt-black: #000000;
-				--ctt-white: #ffffff;
-				--ctt-blue: #0097b2;
-				--ctt-dark-grey: #393939;
-				--ctt-soft-grey: #8e99a2;
-				--ctt-light-bg: #f5f8fa;
-				--ctt-border: rgba(0, 151, 178, 0.25);
-			}
-
-			html {
-				scroll-behavior: smooth;
-			}
-
-			body {
-				color: var(--ctt-dark-grey);
-				background: var(--ctt-white);
-			}
-
-			h1, h2, h3, h4 {
-				color: var(--ctt-black);
-				font-weight: 800;
-				letter-spacing: -0.03em;
-			}
-
-			p {
-				color: var(--ctt-dark-grey);
-			}
-
-			.ctt-accent {
-				color: var(--ctt-blue);
-			}
-
-			.ctt-nav {
-				position: fixed;
-				top: 0;
-				left: 0;
-				z-index: 9999;
-				width: 100%;
-				background: rgba(255, 255, 255, 0.96);
-				border-bottom: 1px solid rgba(142, 153, 162, 0.25);
-				backdrop-filter: blur(10px);
-			}
-
-			.ctt-nav-inner {
-				max-width: 1200px;
-				margin: 0 auto;
-				padding: 0.85rem 1.5rem;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				gap: 1.5rem;
-			}
-
-			.ctt-logo {
-				display: flex;
-				align-items: center;
-				gap: 0.75rem;
-				text-decoration: none;
-				border-bottom: none;
-			}
-
-			.ctt-logo-mark {
-				width: 58px;
-				height: 58px;
-				border: 2px dashed var(--ctt-border);
-				border-radius: 14px;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				color: var(--ctt-blue);
-				font-size: 0.7rem;
-				font-weight: 700;
-				text-align: center;
-				line-height: 1.1;
-			}
-
-			.ctt-logo-text {
-				line-height: 1.05;
-			}
-
-			.ctt-logo-text strong {
-				display: block;
-				font-size: 1rem;
-				color: var(--ctt-black);
-				letter-spacing: 0.02em;
-			}
-
-			.ctt-logo-text span {
-				display: block;
-				font-size: 1.4rem;
-				color: var(--ctt-black);
-				font-weight: 800;
-			}
-
-			.ctt-menu {
-				display: flex;
-				align-items: center;
-				justify-content: flex-end;
-				gap: 1.25rem;
-				margin: 0;
-				padding: 0;
-				list-style: none;
-			}
-
-			.ctt-menu a {
-				border-bottom: none;
-				color: var(--ctt-dark-grey);
-				font-size: 0.9rem;
-				font-weight: 700;
-				text-decoration: none;
-			}
-
-			.ctt-menu a:hover,
-			.ctt-menu a.current {
-				color: var(--ctt-blue);
-			}
-
-			.ctt-book-button {
-				background: var(--ctt-blue);
-				color: var(--ctt-white) !important;
-				padding: 0.7rem 1rem;
-				border-radius: 0.5rem;
-				box-shadow: 0 0.5rem 1.2rem rgba(0, 151, 178, 0.2);
-			}
-
-			.ctt-book-button:hover {
-				background: var(--ctt-dark-grey);
-			}
-
-			.ctt-hero {
-				padding-top: 5.5rem;
-				background:
-					radial-gradient(circle at top right, rgba(0, 151, 178, 0.1), transparent 35%),
-					linear-gradient(180deg, #ffffff 0%, #f7fbfc 100%);
-			}
-
-			.ctt-hero h1 {
-				font-size: clamp(2.5rem, 5vw, 5rem);
-				line-height: 0.95;
-				margin-bottom: 1.25rem;
-			}
-
-			.ctt-hero .major {
-				font-size: 1.1rem;
-				line-height: 1.7;
-				max-width: 37rem;
-			}
-
-			.button.primary {
-				background-color: var(--ctt-blue);
-				box-shadow: inset 0 0 0 1px var(--ctt-blue);
-				color: var(--ctt-white) !important;
-			}
-
-			.button.primary:hover {
-				background-color: var(--ctt-dark-grey);
-				box-shadow: inset 0 0 0 1px var(--ctt-dark-grey);
-			}
-
-			.button.secondary {
-				background-color: transparent;
-				box-shadow: inset 0 0 0 1px var(--ctt-blue);
-				color: var(--ctt-blue) !important;
-			}
-
-			.button.secondary:hover {
-				background-color: rgba(0, 151, 178, 0.08);
-			}
-
-			.ctt-placeholder {
-				width: 100%;
-				height: 100%;
-				min-height: 22rem;
-				background:
-					linear-gradient(135deg, rgba(0, 151, 178, 0.08), rgba(142, 153, 162, 0.18)),
-					repeating-linear-gradient(
-						45deg,
-						rgba(255, 255, 255, 0.35),
-						rgba(255, 255, 255, 0.35) 10px,
-						rgba(255, 255, 255, 0.12) 10px,
-						rgba(255, 255, 255, 0.12) 20px
-					);
-				border: 2px dashed rgba(0, 151, 178, 0.3);
-				border-radius: 1.25rem;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				text-align: center;
-				color: var(--ctt-blue);
-				font-weight: 800;
-				padding: 2rem;
-			}
-
-			.ctt-section {
-				padding: 4.5rem 2rem;
-			}
-
-			.ctt-section-light {
-				background: var(--ctt-light-bg);
-			}
-
-			.ctt-inner {
-				max-width: 1100px;
-				margin: 0 auto;
-			}
-
-			.ctt-section-title {
-				text-align: center;
-				max-width: 760px;
-				margin: 0 auto 2.5rem auto;
-			}
-
-			.ctt-section-title h2 {
-				margin-bottom: 0.75rem;
-			}
-
-			.ctt-card-grid {
-				display: grid;
-				grid-template-columns: repeat(3, minmax(0, 1fr));
-				gap: 1.5rem;
-			}
-
-			.ctt-card-grid.four {
-				grid-template-columns: repeat(4, minmax(0, 1fr));
-			}
-
-			.ctt-card {
-				background: var(--ctt-white);
-				border: 1px solid rgba(142, 153, 162, 0.25);
-				border-radius: 1rem;
-				padding: 1.75rem;
-				box-shadow: 0 1rem 2.5rem rgba(57, 57, 57, 0.06);
-				height: 100%;
-			}
-
-			.ctt-card h3 {
-				font-size: 1.1rem;
-				margin-bottom: 0.7rem;
-			}
-
-			.ctt-card p {
-				font-size: 0.95rem;
-				margin-bottom: 0;
-			}
-
-			.ctt-icon {
-				width: 3rem;
-				height: 3rem;
-				border-radius: 50%;
-				border: 1px solid var(--ctt-border);
-				background: rgba(0, 151, 178, 0.08);
-				color: var(--ctt-blue);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-weight: 800;
-				margin-bottom: 1rem;
-			}
-
-			.ctt-learning-box {
-				background: var(--ctt-white);
-				border: 2px solid var(--ctt-border);
-				border-radius: 1.25rem;
-				padding: 2.25rem;
-				box-shadow: 0 1rem 2.5rem rgba(0, 151, 178, 0.08);
-			}
-
-			.ctt-learning-layout {
-				display: grid;
-				grid-template-columns: 1fr 1.4fr;
-				gap: 2rem;
-				align-items: start;
-			}
-
-			.ctt-learning-list {
-				display: grid;
-				gap: 1rem;
-			}
-
-			.ctt-learning-item {
-				display: grid;
-				grid-template-columns: 3rem 1fr;
-				gap: 1rem;
-				align-items: start;
-			}
-
-			.ctt-learning-item .ctt-icon {
-				margin-bottom: 0;
-			}
-
-			.ctt-learning-item h3 {
-				font-size: 1rem;
-				margin: 0 0 0.25rem 0;
-			}
-
-			.ctt-learning-item p {
-				font-size: 0.92rem;
-				margin: 0;
-			}
-
-			.ctt-quote {
-				background: var(--ctt-white);
-				border-top: 4px solid var(--ctt-blue);
-				border-bottom: 4px solid var(--ctt-blue);
-				text-align: center;
-				padding: 3.5rem 2rem;
-			}
-
-			.ctt-quote blockquote {
-				border-left: none;
-				margin: 0 auto;
-				max-width: 900px;
-				padding: 0;
-				font-size: clamp(1.5rem, 3vw, 2.4rem);
-				line-height: 1.35;
-				color: var(--ctt-dark-grey);
-				font-weight: 500;
-			}
-
-			.ctt-quote strong {
-				color: var(--ctt-blue);
-				font-weight: 800;
-			}
-
-			.ctt-quote cite {
-				display: block;
-				margin-top: 1rem;
-				color: var(--ctt-soft-grey);
-				font-style: normal;
-				font-weight: 700;
-			}
-
-			.ctt-tutor-card {
-				text-align: center;
-			}
-
-			.ctt-avatar {
-				width: 6rem;
-				height: 6rem;
-				margin: 0 auto 1.1rem auto;
-				border-radius: 50%;
-				border: 2px dashed var(--ctt-border);
-				background: rgba(0, 151, 178, 0.08);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				color: var(--ctt-blue);
-				font-weight: 800;
-				font-size: 0.75rem;
-			}
-
-			.ctt-small-link {
-				display: inline-block;
-				margin-top: 1rem;
-				color: var(--ctt-blue);
-				font-weight: 800;
-				border-bottom: none;
-			}
-
-			.ctt-subject-list {
-				display: grid;
-				grid-template-columns: repeat(4, minmax(0, 1fr));
-				gap: 1rem;
-			}
-
-			.ctt-subject {
-				background: var(--ctt-white);
-				border: 1px solid rgba(142, 153, 162, 0.25);
-				border-radius: 0.9rem;
-				padding: 1.15rem;
-				text-align: center;
-				font-weight: 800;
-				color: var(--ctt-dark-grey);
-				box-shadow: 0 0.8rem 1.8rem rgba(57, 57, 57, 0.05);
-			}
-
-			.ctt-footer {
-				background: var(--ctt-black);
-				color: var(--ctt-white);
-				padding: 3.5rem 2rem 2rem 2rem;
-			}
-
-			.ctt-footer-grid {
-				max-width: 1100px;
-				margin: 0 auto;
-				display: grid;
-				grid-template-columns: 1.5fr 1fr 1fr;
-				gap: 2rem;
-			}
-
-			.ctt-footer h3,
-			.ctt-footer h4,
-			.ctt-footer p,
-			.ctt-footer a,
-			.ctt-footer li {
-				color: var(--ctt-white);
-			}
-
-			.ctt-footer a {
-				border-bottom: none;
-			}
-
-			.ctt-footer ul {
-				list-style: none;
-				margin: 0;
-				padding: 0;
-			}
-
-			.ctt-footer li {
-				margin-bottom: 0.5rem;
-			}
-
-			.ctt-footer-logo {
-				width: 90px;
-				height: 70px;
-				border: 2px dashed rgba(255, 255, 255, 0.3);
-				border-radius: 0.8rem;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				color: var(--ctt-blue);
-				font-size: 0.75rem;
-				font-weight: 800;
-				margin-bottom: 1rem;
-			}
-
-			.ctt-socials {
-				display: flex;
-				gap: 0.75rem;
-				margin-top: 1rem;
-			}
-
-			.ctt-socials a {
-				width: 2.5rem;
-				height: 2.5rem;
-				border: 1px solid rgba(255, 255, 255, 0.25);
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				color: var(--ctt-white);
-				font-size: 0.8rem;
-				font-weight: 800;
-			}
-
-			.ctt-copyright {
-				max-width: 1100px;
-				margin: 2rem auto 0 auto;
-				padding-top: 1.5rem;
-				border-top: 1px solid rgba(255, 255, 255, 0.15);
-				text-align: center;
-				font-size: 0.85rem;
-				color: rgba(255, 255, 255, 0.75);
-			}
-
-			@media screen and (max-width: 980px) {
-				.ctt-nav-inner {
-					align-items: flex-start;
-					flex-direction: column;
-				}
-
-				.ctt-menu {
-					width: 100%;
-					overflow-x: auto;
-					justify-content: flex-start;
-					padding-bottom: 0.25rem;
-				}
-
-				.ctt-hero {
-					padding-top: 8rem;
-				}
-
-				.ctt-card-grid,
-				.ctt-card-grid.four,
-				.ctt-subject-list,
-				.ctt-footer-grid,
-				.ctt-learning-layout {
-					grid-template-columns: 1fr;
-				}
-			}
-
-			@media screen and (max-width: 736px) {
-				.ctt-nav-inner {
-					padding: 0.8rem 1rem;
-				}
-
-				.ctt-logo-mark {
-					width: 48px;
-					height: 48px;
-				}
-
-				.ctt-logo-text strong {
-					font-size: 0.8rem;
-				}
-
-				.ctt-logo-text span {
-					font-size: 1.1rem;
-				}
-
-				.ctt-menu {
-					gap: 0.9rem;
-				}
-
-				.ctt-menu a {
-					font-size: 0.82rem;
-					white-space: nowrap;
-				}
-
-				.ctt-book-button {
-					padding: 0.55rem 0.85rem;
-				}
-
-				.ctt-section {
-					padding: 3rem 1.25rem;
-				}
-
-				.ctt-learning-box {
-					padding: 1.5rem;
-				}
-			}
-		</style>
 	</head>
 
 	<body class="is-preload">
@@ -553,13 +25,10 @@
 				</a>
 
 				<ul class="ctt-menu">
-					<li><a href="index.html" class="current">Home</a></li>
-					<li><a href="index.html" class="current">Current Page</a></li>
-					<li><a href="about.html">About CTT</a></li>
+					<li><a href="index.html" class="active">Home</a></li>
 					<li><a href="tutors.html">Meet the Tutors</a></li>
-					<li><a href="subjects.html">Subjects</a></li>
 					<li><a href="blog.html">Blog</a></li>
-					<li><a href="contents.html">Contents</a></li>
+					<li><a href="contact.html">Contact</a></li>
 					<li><a href="book.html" class="ctt-book-button">Book a Tutor</a></li>
 				</ul>
 			</div>
@@ -593,7 +62,7 @@
 				</div>
 			</section>
 
-			<section class="ctt-section ctt-section-light" id="about-preview">
+			<section class="ctt-section ctt-section-light">
 				<div class="ctt-inner">
 					<div class="ctt-section-title">
 						<h2>What is CTT?</h2>
@@ -696,9 +165,6 @@
 					<p>
 						Today, CTT connects families with caring, qualified tutors across the community and online.
 					</p>
-					<ul class="actions stacked">
-						<li><a href="about.html" class="button secondary">Learn more about CTT</a></li>
-					</ul>
 				</div>
 
 				<div class="image">
@@ -714,7 +180,7 @@
 					<div class="ctt-section-title">
 						<h2>Meet our tutors</h2>
 						<p>
-							Get to know some of our friendly, experienced tutors. Full profiles will be available on the tutor page.
+							Get to know some of our friendly, experienced tutors. Full profiles are available on the tutor page.
 						</p>
 					</div>
 
@@ -767,7 +233,8 @@
 					<div class="ctt-section-title">
 						<h2>Subjects we support</h2>
 						<p>
-							CTT supports learners across school subjects, homework, exam preparation, and study confidence.
+							We support learners from Grade 1 to Grade 12 across core school subjects,
+							study skills, homework support, and exam preparation.
 						</p>
 					</div>
 
@@ -776,62 +243,36 @@
 						<div class="ctt-subject">English</div>
 						<div class="ctt-subject">Afrikaans</div>
 						<div class="ctt-subject">Natural Sciences</div>
+						<div class="ctt-subject">Life Sciences</div>
+						<div class="ctt-subject">Physical Sciences</div>
 						<div class="ctt-subject">Social Sciences</div>
+						<div class="ctt-subject">History</div>
+						<div class="ctt-subject">Geography</div>
+						<div class="ctt-subject">EMS</div>
+						<div class="ctt-subject">Accounting</div>
+						<div class="ctt-subject">Business Studies</div>
+						<div class="ctt-subject">Economics</div>
+						<div class="ctt-subject">CAT</div>
+						<div class="ctt-subject">IT</div>
 						<div class="ctt-subject">Study Skills</div>
 						<div class="ctt-subject">Homework Support</div>
 						<div class="ctt-subject">Exam Preparation</div>
+						<div class="ctt-subject">Reading Support</div>
+						<div class="ctt-subject">Writing Support</div>
 					</div>
 
-					<br />
-
-					<ul class="actions special">
-						<li><a href="subjects.html" class="button secondary">View all subjects</a></li>
-					</ul>
+					<div class="ctt-degree-box">
+						<h3>University degree support</h3>
+						<p>
+							We also leave space for university-level support where suitable tutors are available.
+							This can include academic writing, statistics, mathematics, accounting, economics,
+							business modules, education modules, research support, and selected degree-specific subjects.
+						</p>
+					</div>
 				</div>
 			</section>
 
-			<footer class="ctt-footer">
-				<div class="ctt-footer-grid">
-					<div>
-						<div class="ctt-footer-logo">Logo<br />Here</div>
-						<h3>Chloe's Travelling Tutors</h3>
-						<p>
-							Personalised tutoring in your area and online. Confidence. Support. Success.
-						</p>
-					</div>
-
-					<div>
-						<h4>Quick links</h4>
-						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="about.html">About CTT</a></li>
-							<li><a href="tutors.html">Meet the Tutors</a></li>
-							<li><a href="subjects.html">Subjects</a></li>
-							<li><a href="blog.html">Blog</a></li>
-							<li><a href="contents.html">Contents</a></li>
-							<li><a href="book.html">Book a Tutor</a></li>
-						</ul>
-					</div>
-
-					<div>
-						<h4>Contact us</h4>
-						<ul>
-							<li>WhatsApp: <a href="https://wa.me/27732657260">+27 73 265 7260</a></li>
-							<li>Email: <a href="mailto:hello@cttutors.co.za">hello@cttutors.co.za</a></li>
-						</ul>
-
-						<div class="ctt-socials">
-							<a href="#" aria-label="Instagram">IG</a>
-							<a href="#" aria-label="Facebook">FB</a>
-							<a href="#" aria-label="TikTok">TT</a>
-						</div>
-					</div>
-				</div>
-
-				<div class="ctt-copyright">
-					&copy; 2026 Chloe's Travelling Tutors. All rights reserved.
-				</div>
-			</footer>
+			<div id="site-footer"></div>
 
 		</div>
 
@@ -842,6 +283,7 @@
 		<script src="assets/js/breakpoints.min.js"></script>
 		<script src="assets/js/util.js"></script>
 		<script src="assets/js/main.js"></script>
+		<script src="assets/js/load-footer.js"></script>
 
 	</body>
 </html>
