@@ -1,0 +1,433 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Blog | Chloe's Travelling Tutors</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="Read tutoring tips, study advice, subject support, and learning guidance from Chloe's Travelling Tutors." />
+
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/ctt-custom.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+		<style>
+			.ctt-blog-hero {
+				background:
+					radial-gradient(circle at top right, rgba(0, 151, 178, 0.12), transparent 35%),
+					linear-gradient(180deg, #ffffff 0%, #f5f8fa 100%);
+			}
+
+			.ctt-blog-layout {
+				display: grid;
+				grid-template-columns: 1fr;
+				gap: 2rem;
+			}
+
+			.ctt-blog-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1.5rem;
+			}
+
+			.ctt-blog-grid.all {
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+			}
+
+			.ctt-blog-card {
+				background: #ffffff;
+				border: 1px solid rgba(142, 153, 162, 0.25);
+				border-radius: 1rem;
+				overflow: hidden;
+				box-shadow: 0 1rem 2.5rem rgba(57, 57, 57, 0.06);
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+
+			.ctt-blog-image {
+				min-height: 12rem;
+				background:
+					linear-gradient(135deg, rgba(0, 151, 178, 0.08), rgba(142, 153, 162, 0.18)),
+					repeating-linear-gradient(
+						45deg,
+						rgba(255, 255, 255, 0.35),
+						rgba(255, 255, 255, 0.35) 10px,
+						rgba(255, 255, 255, 0.12) 10px,
+						rgba(255, 255, 255, 0.12) 20px
+					);
+				border-bottom: 1px solid rgba(142, 153, 162, 0.25);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+				color: #0097b2;
+				font-weight: 800;
+				padding: 1.5rem;
+			}
+
+			.ctt-blog-content {
+				padding: 1.5rem;
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+			}
+
+			.ctt-blog-content h3 {
+				margin-bottom: 0.7rem;
+			}
+
+			.ctt-blog-meta {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+				margin-bottom: 1rem;
+			}
+
+			.ctt-blog-meta span {
+				background: rgba(0, 151, 178, 0.08);
+				color: #0097b2;
+				border: 1px solid rgba(0, 151, 178, 0.25);
+				border-radius: 999px;
+				padding: 0.3rem 0.65rem;
+				font-size: 0.78rem;
+				font-weight: 800;
+			}
+
+			.ctt-blog-excerpt {
+				margin-bottom: 1.25rem;
+				flex: 1;
+			}
+
+			.ctt-filter-box {
+				background: #ffffff;
+				border: 1px solid rgba(142, 153, 162, 0.25);
+				border-radius: 1rem;
+				padding: 1.5rem;
+				box-shadow: 0 1rem 2.5rem rgba(57, 57, 57, 0.06);
+			}
+
+			.ctt-filter-grid {
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: 1rem;
+				align-items: end;
+			}
+
+			.ctt-filter-box label {
+				font-weight: 800;
+				color: #393939;
+				margin-bottom: 0.35rem;
+				display: block;
+			}
+
+			.ctt-empty-message {
+				text-align: center;
+				padding: 2rem;
+				background: #ffffff;
+				border: 1px dashed rgba(0, 151, 178, 0.35);
+				border-radius: 1rem;
+				color: #393939;
+				font-weight: 700;
+			}
+
+			@media screen and (max-width: 980px) {
+				.ctt-blog-grid,
+				.ctt-blog-grid.all,
+				.ctt-filter-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+
+	<body class="is-preload">
+
+		<div id="site-header"></div>
+
+		<div id="wrapper" class="divided">
+
+			<section class="ctt-section ctt-page-top ctt-blog-hero">
+				<div class="ctt-inner">
+					<div class="ctt-section-title">
+						<h1>CTT Blog</h1>
+						<p>
+							Helpful tutoring tips, study advice, learning support, and subject guidance for parents and learners.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="ctt-section">
+				<div class="ctt-inner ctt-blog-layout">
+
+					<div>
+						<div class="ctt-section-title">
+							<h2>Top blogs</h2>
+							<p>
+								Our most useful reads for parents and learners.
+							</p>
+						</div>
+
+						<div id="topBlogs" class="ctt-blog-grid"></div>
+					</div>
+
+					<div class="ctt-filter-box">
+						<h2>All blogs</h2>
+						<p>
+							Filter blogs by author, date, or subject.
+						</p>
+
+						<div class="ctt-filter-grid">
+							<div>
+								<label for="authorFilter">Created by</label>
+								<select id="authorFilter">
+									<option value="all">All authors</option>
+								</select>
+							</div>
+
+							<div>
+								<label for="dateFilter">Create date</label>
+								<select id="dateFilter">
+									<option value="all">All dates</option>
+								</select>
+							</div>
+
+							<div>
+								<label for="subjectFilter">Subject</label>
+								<select id="subjectFilter">
+									<option value="all">All subjects</option>
+								</select>
+							</div>
+
+							<div>
+								<button id="clearFilters" class="button secondary" type="button">
+									Clear filters
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div id="allBlogs" class="ctt-blog-grid all"></div>
+
+				</div>
+			</section>
+
+			<div id="site-footer"></div>
+
+		</div>
+
+		<script>
+			const blogs = [
+				{
+					title: "How to help your child study without overwhelm",
+					author: "Chloe",
+					date: "2026-07-05",
+					subject: "Study Skills",
+					isTopBlog: true,
+					image: "",
+					excerpt: "A simple guide to building better study routines, reducing stress, and helping learners feel more prepared.",
+					link: "#"
+				},
+				{
+					title: "Why every child learns differently",
+					author: "Chloe",
+					date: "2026-07-04",
+					subject: "Learning Styles",
+					isTopBlog: true,
+					image: "",
+					excerpt: "Understanding visual, auditory, practical, and step-by-step learners can make tutoring far more effective.",
+					link: "#"
+				},
+				{
+					title: "When should you get a tutor?",
+					author: "CTT Team",
+					date: "2026-07-03",
+					subject: "Parent Guidance",
+					isTopBlog: true,
+					image: "",
+					excerpt: "Tutoring is not only for failing marks. It can also help with confidence, consistency, and exam preparation.",
+					link: "#"
+				},
+				{
+					title: "Building maths confidence in primary school",
+					author: "Sarah W.",
+					date: "2026-06-28",
+					subject: "Mathematics",
+					isTopBlog: false,
+					image: "",
+					excerpt: "Small gaps in maths can grow quickly. Here is how parents can support basic number confidence at home.",
+					link: "#"
+				},
+				{
+					title: "How to prepare for exam season",
+					author: "James T.",
+					date: "2026-06-25",
+					subject: "Exam Preparation",
+					isTopBlog: false,
+					image: "",
+					excerpt: "A practical approach to planning revision, managing time, and avoiding last-minute cramming.",
+					link: "#"
+				},
+				{
+					title: "Reading support for younger learners",
+					author: "Maya L.",
+					date: "2026-06-20",
+					subject: "English",
+					isTopBlog: false,
+					image: "",
+					excerpt: "Reading confidence develops through routine, patience, repetition, and the right level of support.",
+					link: "#"
+				}
+			];
+
+			const topBlogsContainer = document.getElementById("topBlogs");
+			const allBlogsContainer = document.getElementById("allBlogs");
+			const authorFilter = document.getElementById("authorFilter");
+			const dateFilter = document.getElementById("dateFilter");
+			const subjectFilter = document.getElementById("subjectFilter");
+			const clearFilters = document.getElementById("clearFilters");
+
+			function formatDate(dateString) {
+				const date = new Date(dateString + "T00:00:00");
+				return date.toLocaleDateString("en-ZA", {
+					year: "numeric",
+					month: "long",
+					day: "numeric"
+				});
+			}
+
+			function getMonthYear(dateString) {
+				const date = new Date(dateString + "T00:00:00");
+				return date.toLocaleDateString("en-ZA", {
+					year: "numeric",
+					month: "long"
+				});
+			}
+
+			function createBlogCard(blog) {
+				const imageMarkup = blog.image
+					? '<img src="' + blog.image + '" alt="' + blog.title + '" />'
+					: 'Blog image placeholder<br />Add image later';
+
+				return `
+					<article class="ctt-blog-card">
+						<div class="ctt-blog-image">
+							${imageMarkup}
+						</div>
+
+						<div class="ctt-blog-content">
+							<div class="ctt-blog-meta">
+								<span>${blog.subject}</span>
+								<span>${blog.author}</span>
+								<span>${formatDate(blog.date)}</span>
+							</div>
+
+							<h3>${blog.title}</h3>
+
+							<p class="ctt-blog-excerpt">
+								${blog.excerpt}
+							</p>
+
+							<a href="${blog.link}" class="ctt-small-link">
+								Read blog
+							</a>
+						</div>
+					</article>
+				`;
+			}
+
+			function populateFilter(selectElement, values, defaultLabel) {
+				selectElement.innerHTML = '<option value="all">' + defaultLabel + '</option>';
+
+				values.forEach(function (value) {
+					const option = document.createElement("option");
+					option.value = value;
+					option.textContent = value;
+					selectElement.appendChild(option);
+				});
+			}
+
+			function populateFilters() {
+				const authors = [...new Set(blogs.map(function (blog) {
+					return blog.author;
+				}))].sort();
+
+				const subjects = [...new Set(blogs.map(function (blog) {
+					return blog.subject;
+				}))].sort();
+
+				const dates = [...new Set(blogs.map(function (blog) {
+					return getMonthYear(blog.date);
+				}))];
+
+				populateFilter(authorFilter, authors, "All authors");
+				populateFilter(subjectFilter, subjects, "All subjects");
+				populateFilter(dateFilter, dates, "All dates");
+			}
+
+			function renderTopBlogs() {
+				const topBlogs = blogs
+					.filter(function (blog) {
+						return blog.isTopBlog;
+					})
+					.slice(0, 3);
+
+				topBlogsContainer.innerHTML = topBlogs.map(createBlogCard).join("");
+			}
+
+			function renderAllBlogs() {
+				const selectedAuthor = authorFilter.value;
+				const selectedDate = dateFilter.value;
+				const selectedSubject = subjectFilter.value;
+
+				const filteredBlogs = blogs.filter(function (blog) {
+					const matchesAuthor = selectedAuthor === "all" || blog.author === selectedAuthor;
+					const matchesDate = selectedDate === "all" || getMonthYear(blog.date) === selectedDate;
+					const matchesSubject = selectedSubject === "all" || blog.subject === selectedSubject;
+
+					return matchesAuthor && matchesDate && matchesSubject;
+				});
+
+				if (filteredBlogs.length === 0) {
+					allBlogsContainer.innerHTML = `
+						<div class="ctt-empty-message">
+							No blogs match these filters yet.
+						</div>
+					`;
+					return;
+				}
+
+				allBlogsContainer.innerHTML = filteredBlogs.map(createBlogCard).join("");
+			}
+
+			function setupFilterEvents() {
+				authorFilter.addEventListener("change", renderAllBlogs);
+				dateFilter.addEventListener("change", renderAllBlogs);
+				subjectFilter.addEventListener("change", renderAllBlogs);
+
+				clearFilters.addEventListener("click", function () {
+					authorFilter.value = "all";
+					dateFilter.value = "all";
+					subjectFilter.value = "all";
+					renderAllBlogs();
+				});
+			}
+
+			populateFilters();
+			renderTopBlogs();
+			renderAllBlogs();
+			setupFilterEvents();
+		</script>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script src="assets/js/load-header.js"></script>
+		<script src="assets/js/load-footer.js"></script>
+
+	</body>
+</html>
