@@ -586,3 +586,9 @@ p {
 		padding: 1.5rem;
 	}
 }
+
+.ctt-nav a:before,
+.ctt-nav a:after {
+	display: none !important;
+	content: none !important;
+}
