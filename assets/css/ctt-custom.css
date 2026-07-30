@@ -470,18 +470,22 @@ p {
 	margin-bottom: 0.5rem;
 }
 
-.ctt-footer-logo {
-	width: 90px;
-	height: 70px;
-	border: 2px dashed rgba(255, 255, 255, 0.3);
-	border-radius: 0.8rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: var(--ctt-blue);
-	font-size: 0.75rem;
-	font-weight: 800;
+.ctt-footer-brand {
+	display: inline-block;
+	width: 14rem;
 	margin-bottom: 1rem;
+	border: 0;
+	text-decoration: none;
+}
+
+.ctt-footer-logo-image {
+	display: block;
+	width: 100%;
+	height: auto;
+	object-fit: contain;
+	background: #ffffff;
+	border-radius: 0.75rem;
+	padding: 0.45rem;
 }
 
 .ctt-socials {
