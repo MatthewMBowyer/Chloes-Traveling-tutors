@@ -817,3 +817,241 @@ p {
 	height: 4rem;
 }
 }
+
+/* =========================================================
+   Dynamic tutor cards and directory
+   Add this entire block to the END of assets/css/ctt-custom.css
+   ========================================================= */
+
+.ctt-tutor-photo-wrap {
+	width: 8rem;
+	height: 8rem;
+	margin: 0 auto 1.25rem;
+	flex: 0 0 auto;
+}
+
+.ctt-tutor-photo {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	border: 0.3rem solid #ffffff;
+	object-fit: cover;
+	object-position: center;
+	box-shadow: 0 0.8rem 1.8rem rgba(57, 57, 57, 0.12);
+}
+
+.ctt-tutor-fallback {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 151, 178, 0.1);
+	color: var(--ctt-blue);
+	font-size: 1.6rem;
+	font-weight: 800;
+}
+
+.ctt-featured-actions,
+.ctt-directory-actions {
+	margin-top: 2rem;
+}
+
+.ctt-tutor-directory {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.5rem;
+}
+
+.ctt-tutor-detail {
+	scroll-margin-top: 2rem;
+}
+
+.ctt-tutor-detail-heading {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	margin-bottom: 1rem;
+}
+
+.ctt-tutor-detail-heading .ctt-tutor-photo-wrap {
+	width: 7rem;
+	height: 7rem;
+	margin: 0;
+}
+
+.ctt-tutor-detail-heading h2 {
+	margin-bottom: 0.35rem;
+}
+
+.ctt-tutor-qualification {
+	margin: 0;
+	color: var(--ctt-soft-grey);
+	font-size: 0.9rem;
+	line-height: 1.5;
+}
+
+.ctt-tutor-bio {
+	margin-top: 1rem;
+	line-height: 1.7;
+}
+
+.ctt-tutor-enquire {
+	margin-top: 1.25rem;
+}
+
+/* =========================================================
+   Optional learning preferences assessment
+   ========================================================= */
+
+.ctt-assessment {
+	margin: 2rem 0;
+	padding: 1.75rem;
+	border: 2px solid var(--ctt-border);
+	border-radius: 1rem;
+	background:
+		radial-gradient(circle at top right, rgba(0, 151, 178, 0.08), transparent 35%),
+		#ffffff;
+}
+
+.ctt-assessment-heading {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1.5rem;
+}
+
+.ctt-assessment-heading h2 {
+	margin-bottom: 0.5rem;
+}
+
+.ctt-assessment-heading p {
+	margin-bottom: 0;
+}
+
+.ctt-assessment-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.65rem;
+	flex: 0 0 auto;
+	padding: 0.75rem 1rem;
+	border-radius: 999px;
+	background: rgba(0, 151, 178, 0.1);
+	color: var(--ctt-blue);
+	font-weight: 800;
+	cursor: pointer;
+}
+
+.ctt-assessment-toggle input {
+	width: auto;
+	margin: 0;
+}
+
+.ctt-assessment-questions {
+	display: grid;
+	gap: 1rem;
+	margin-top: 1.75rem;
+}
+
+.ctt-assessment-question {
+	margin: 0;
+	padding: 1.25rem;
+	border: 1px solid rgba(142, 153, 162, 0.3);
+	border-radius: 0.9rem;
+	background: var(--ctt-light-bg);
+}
+
+.ctt-assessment-question legend {
+	width: 100%;
+	margin-bottom: 1rem;
+	padding: 0;
+	color: var(--ctt-dark-grey);
+	font-size: 1rem;
+	font-weight: 800;
+	line-height: 1.55;
+}
+
+.ctt-score-options {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.65rem;
+}
+
+.ctt-score-option {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-height: 3.5rem;
+	margin: 0;
+	padding: 0.65rem;
+	border: 1px solid rgba(142, 153, 162, 0.35);
+	border-radius: 0.7rem;
+	background: #ffffff;
+	color: var(--ctt-dark-grey);
+	font-size: 0.85rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.ctt-score-option:has(input:checked) {
+	border-color: var(--ctt-blue);
+	background: rgba(0, 151, 178, 0.1);
+	color: var(--ctt-blue);
+}
+
+.ctt-score-option input {
+	width: auto;
+	margin: 0;
+	flex: 0 0 auto;
+}
+
+.ctt-assessment-result {
+	margin-top: 1.5rem;
+	padding: 1.25rem;
+	border-left: 0.35rem solid var(--ctt-blue);
+	border-radius: 0.6rem;
+	background: rgba(0, 151, 178, 0.08);
+}
+
+.ctt-assessment-result h3 {
+	margin-bottom: 0.65rem;
+}
+
+.ctt-assessment-result p:last-child {
+	margin-bottom: 0;
+}
+
+.ctt-assessment-note {
+	font-size: 0.9rem;
+}
+
+@media screen and (max-width: 980px) {
+	.ctt-tutor-directory {
+		grid-template-columns: 1fr;
+	}
+
+	.ctt-score-options {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media screen and (max-width: 736px) {
+	.ctt-assessment-heading,
+	.ctt-tutor-detail-heading {
+		flex-direction: column;
+	}
+
+	.ctt-assessment-toggle {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.ctt-score-options {
+		grid-template-columns: 1fr;
+	}
+
+	.ctt-tutor-detail-heading .ctt-tutor-photo-wrap {
+		width: 6.5rem;
+		height: 6.5rem;
+	}
+}
+
