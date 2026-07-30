@@ -612,21 +612,19 @@ p {
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	width: 15rem;
-	height: 6rem;
-	overflow: hidden;
+	width: 16rem;
+	height: 5.5rem;
 	border-bottom: 0;
 	text-decoration: none;
 }
 
 .ctt-logo {
 	display: block;
-	width: 15rem;
-	height: 6rem;
-	max-width: none;
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
 	object-fit: contain;
-	transform: scale(2);
-	transform-origin: left center;
+	object-position: left center;
 }
 
 .ctt-navigation {
@@ -764,15 +762,9 @@ p {
 	}
 
 	.ctt-brand {
-		width: 11rem;
-		height: 5rem;
-	}
-
-	.ctt-logo {
-		width: 11rem;
-		height: 5rem;
-		transform: scale(1.7);
-	}
+	width: 12rem;
+	height: 4.5rem;
+}
 
 	.ctt-menu-toggle {
 		display: block;
@@ -817,13 +809,7 @@ p {
 	}
 
 	.ctt-brand {
-		width: 9rem;
-		height: 4.25rem;
-	}
-
-	.ctt-logo {
-		width: 9rem;
-		height: 4.25rem;
-		transform: scale(1.6);
-	}
+	width: 10rem;
+	height: 4rem;
+}
 }
