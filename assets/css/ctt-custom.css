@@ -609,18 +609,24 @@ p {
 }
 
 .ctt-brand {
-	display: inline-flex;
+	display: flex;
 	align-items: center;
+	justify-content: flex-start;
+	width: 15rem;
+	height: 6rem;
+	overflow: hidden;
 	border-bottom: 0;
 	text-decoration: none;
 }
 
 .ctt-logo {
 	display: block;
-	width: auto;
-	height: 5.75rem;
-	max-width: 22rem;
+	width: 15rem;
+	height: 6rem;
+	max-width: none;
 	object-fit: contain;
+	transform: scale(2);
+	transform-origin: left center;
 }
 
 .ctt-navigation {
@@ -708,7 +714,7 @@ p {
 
 
 /* =========================================================
-   Homepage images
+   Homepage opening image
    ========================================================= */
 
 .ctt-hero .image img {
@@ -719,7 +725,12 @@ p {
 	object-position: center;
 }
 
-.ctt-about-image {
+
+/* =========================================================
+   Chloe image
+   ========================================================= */
+
+.spotlight.ctt-chloe-section > .image.ctt-about-image {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -727,9 +738,13 @@ p {
 	background: #ffffff;
 }
 
-.ctt-about-image img {
-	width: 92%;
-	height: 92%;
+.spotlight.ctt-chloe-section > .image.ctt-about-image img {
+	position: relative;
+	top: auto;
+	left: auto;
+	width: 88%;
+	height: 88%;
+	min-height: 0;
 	display: block;
 	object-fit: contain;
 	object-position: center;
@@ -737,7 +752,7 @@ p {
 
 
 /* =========================================================
-   Responsive header
+   Tablet and mobile
    ========================================================= */
 
 @media screen and (max-width: 980px) {
@@ -748,9 +763,15 @@ p {
 		gap: 0;
 	}
 
+	.ctt-brand {
+		width: 11rem;
+		height: 5rem;
+	}
+
 	.ctt-logo {
-		height: 4.5rem;
-		max-width: 17rem;
+		width: 11rem;
+		height: 5rem;
+		transform: scale(1.7);
 	}
 
 	.ctt-menu-toggle {
@@ -778,21 +799,31 @@ p {
 		margin-top: 0.35rem;
 	}
 
-	.ctt-about-image img {
+	.spotlight.ctt-chloe-section > .image.ctt-about-image img {
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
 	}
 }
 
+
+/* =========================================================
+   Small phones
+   ========================================================= */
+
 @media screen and (max-width: 480px) {
 	.ctt-header-inner {
 		width: calc(100% - 1.5rem);
 	}
 
-	.ctt-logo {
-		height: 3.75rem;
-		max-width: 14rem;
+	.ctt-brand {
+		width: 9rem;
+		height: 4.25rem;
 	}
-}
+
+	.ctt-logo {
+		width: 9rem;
+		height: 4.25rem;
+		transform: scale(1.6);
+	}
 }
