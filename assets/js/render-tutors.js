@@ -125,9 +125,12 @@
 				return;
 			}
 
-			container.innerHTML = window.CTT_TUTORS
-				.map(createDirectoryCard)
-				.join("");
+			container.innerHTML = [...window.CTT_TUTORS]
+	.sort(function (a, b) {
+		return a.name.localeCompare(b.name);
+	})
+	.map(createDirectoryCard)
+	.join("");
 		}
 	};
 })();
