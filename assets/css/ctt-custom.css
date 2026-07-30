@@ -608,7 +608,7 @@ p {
 
 .ctt-header-inner {
 	width: min(90rem, calc(100% - 3rem));
-	min-height: 6rem;
+	min-height: 7rem;
 	margin: 0 auto;
 	display: flex;
 	align-items: center;
@@ -626,8 +626,8 @@ p {
 .ctt-logo {
 	display: block;
 	width: auto;
-	height: 4.5rem;
-	max-width: 16rem;
+	height: 5.75rem;
+	max-width: 22rem;
 	object-fit: contain;
 }
 
@@ -716,23 +716,31 @@ p {
 
 
 /* =========================================================
-   Homepage image improvements
+   Homepage images
    ========================================================= */
 
-.ctt-hero .image img,
-.ctt-about-image img {
+.ctt-hero .image img {
 	width: 100%;
 	height: 100%;
 	display: block;
 	object-fit: cover;
-}
-
-.ctt-hero .image img {
 	object-position: center;
 }
 
+.ctt-about-image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	background: #ffffff;
+}
+
 .ctt-about-image img {
-	object-position: center top;
+	width: 92%;
+	height: 92%;
+	display: block;
+	object-fit: contain;
+	object-position: center;
 }
 
 
@@ -743,14 +751,14 @@ p {
 @media screen and (max-width: 980px) {
 	.ctt-header-inner {
 		width: min(100% - 2rem, 90rem);
-		min-height: 5rem;
+		min-height: 5.5rem;
 		flex-wrap: wrap;
 		gap: 0;
 	}
 
 	.ctt-logo {
-		height: 3.75rem;
-		max-width: 13rem;
+		height: 4.5rem;
+		max-width: 17rem;
 	}
 
 	.ctt-menu-toggle {
@@ -777,6 +785,12 @@ p {
 	.ctt-navigation .ctt-nav-button {
 		margin-top: 0.35rem;
 	}
+
+	.ctt-about-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
 }
 
 @media screen and (max-width: 480px) {
@@ -785,7 +799,8 @@ p {
 	}
 
 	.ctt-logo {
-		height: 3.25rem;
-		max-width: 11rem;
+		height: 3.75rem;
+		max-width: 14rem;
 	}
+}
 }
