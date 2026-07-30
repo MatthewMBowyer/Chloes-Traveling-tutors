@@ -55,14 +55,6 @@ p {
 	gap: 1.5rem;
 }
 
-.ctt-logo {
-	display: block;
-	width: auto;
-	height: 5.75rem;
-	max-width: 22rem;
-	object-fit: contain;
-}
-
 .ctt-logo-mark {
 	width: 58px;
 	height: 58px;
