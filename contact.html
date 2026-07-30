@@ -22,29 +22,19 @@
 					<div class="ctt-section-title">
 						<h1>Contact Chloe's Travelling Tutors</h1>
 						<p>
-							Send us your details and we will help guide you to the right tutoring support.
-							The form below opens WhatsApp with your enquiry already written out.
+							Tell us about your learner and we will help identify the right tutoring support.
+							You can also complete the optional learning preferences assessment to help us make a stronger tutor match.
 						</p>
 					</div>
 
 					<div class="ctt-contact-buttons">
-						<a
-	href="https://wa.me/27732657260"
-	target="_blank"
-	rel="noopener"
-	class="button primary"
->
-	WhatsApp us
-</a>
+						<a href="https://wa.me/27732657260" target="_blank" rel="noopener" class="button primary">
+							WhatsApp us
+						</a>
 
-<a
-	href="mailto:cttfeatherbrooke@gmail.com"
-	target="_blank"
-	rel="noopener"
-	class="button secondary"
->
-	Email us
-</a>						
+						<a href="mailto:cttfeatherbrooke@gmail.com" target="_blank" rel="noopener" class="button secondary">
+							Email us
+						</a>
 					</div>
 				</div>
 			</section>
@@ -111,7 +101,12 @@
 
 								<div class="field half">
 									<label for="area">Area</label>
-									<input type="text" id="area" name="area" placeholder="Example: Roodepoort, Ruimsig, Online" />
+									<input type="text" id="area" name="area" placeholder="Example: Roodepoort, Ruimsig or Online" />
+								</div>
+
+								<div class="field">
+									<label for="preferredTutor">Preferred Tutor, if any</label>
+									<input type="text" id="preferredTutor" name="preferredTutor" placeholder="Optional" />
 								</div>
 
 								<div class="field">
@@ -119,6 +114,27 @@
 									<textarea id="message" name="message" rows="6"></textarea>
 								</div>
 							</div>
+
+							<section class="ctt-assessment">
+								<div class="ctt-assessment-heading">
+									<div>
+										<h2>Optional Learning Preferences Assessment</h2>
+										<p>
+											These questions help us understand which lesson approaches may suit your child.
+											It is not a diagnosis, and there are no right or wrong answers.
+										</p>
+									</div>
+
+									<label class="ctt-assessment-toggle">
+										<input type="checkbox" id="assessmentToggle" />
+										<span>Complete assessment</span>
+									</label>
+								</div>
+
+								<div id="assessmentQuestions" class="ctt-assessment-questions" hidden></div>
+
+								<div id="assessmentResult" class="ctt-assessment-result" hidden></div>
+							</section>
 
 							<ul class="actions special">
 								<li>
@@ -133,42 +149,237 @@
 			</section>
 
 			<div id="site-footer"></div>
-
 		</div>
 
 		<script>
+			const assessmentItems = [
+				{
+					text: "When learning something new, my child prefers to see a diagram, demonstration or example.",
+					style: "Visual"
+				},
+				{
+					text: "My child remembers information better after discussing it or hearing it explained aloud.",
+					style: "Auditory"
+				},
+				{
+					text: "My child likes writing notes, making lists or reading instructions carefully.",
+					style: "Read/write"
+				},
+				{
+					text: "My child learns well through movement, practical activities or physically trying something.",
+					style: "Kinesthetic"
+				},
+				{
+					text: "Colour, mind maps, pictures and visual organisation help my child understand work.",
+					style: "Visual"
+				},
+				{
+					text: "My child often talks through a problem or explains it aloud while working.",
+					style: "Auditory"
+				},
+				{
+					text: "My child prefers written examples, worksheets, textbooks or step-by-step notes.",
+					style: "Read/write"
+				},
+				{
+					text: "My child concentrates better when allowed to move, build, point, act or use objects.",
+					style: "Kinesthetic"
+				},
+				{
+					text: "My child notices layouts, patterns, shapes and where information appears on a page.",
+					style: "Visual"
+				},
+				{
+					text: "Rhymes, songs, repetition and verbal reminders help my child remember.",
+					style: "Auditory"
+				},
+				{
+					text: "My child enjoys rewriting information in their own words or summarising it.",
+					style: "Read/write"
+				},
+				{
+					text: "Real-life examples and hands-on practice help ideas make sense to my child.",
+					style: "Kinesthetic"
+				}
+			];
+
+			const scoreOptions = [
+				{ label: "Not like my child", value: 0 },
+				{ label: "Sometimes", value: 1 },
+				{ label: "Often", value: 2 },
+				{ label: "Very much like my child", value: 3 }
+			];
+
+			const assessmentToggle = document.getElementById("assessmentToggle");
+			const assessmentQuestions = document.getElementById("assessmentQuestions");
+			const assessmentResult = document.getElementById("assessmentResult");
+			const preferredTutor = document.getElementById("preferredTutor");
+
+			function renderAssessment() {
+				assessmentQuestions.innerHTML = assessmentItems.map(function (item, index) {
+					const options = scoreOptions.map(function (option) {
+						return `
+							<label class="ctt-score-option">
+								<input
+									type="radio"
+									name="assessment_${index}"
+									value="${option.value}"
+								/>
+								<span>${option.label}</span>
+							</label>
+						`;
+					}).join("");
+
+					return `
+						<fieldset class="ctt-assessment-question">
+							<legend>${index + 1}. ${item.text}</legend>
+							<div class="ctt-score-options">${options}</div>
+						</fieldset>
+					`;
+				}).join("");
+			}
+
+			function calculateAssessment() {
+				const scores = {
+					"Visual": 0,
+					"Auditory": 0,
+					"Read/write": 0,
+					"Kinesthetic": 0
+				};
+
+				let answered = 0;
+
+				assessmentItems.forEach(function (item, index) {
+					const selected = document.querySelector(
+						'input[name="assessment_' + index + '"]:checked'
+					);
+
+					if (selected) {
+						scores[item.style] += Number(selected.value);
+						answered += 1;
+					}
+				});
+
+				const ranking = Object.entries(scores).sort(function (a, b) {
+					return b[1] - a[1];
+				});
+
+				return {
+					scores: scores,
+					answered: answered,
+					primary: ranking[0][0],
+					secondary: ranking[1][0]
+				};
+			}
+
+			function updateAssessmentResult() {
+				if (!assessmentToggle.checked) {
+					assessmentResult.hidden = true;
+					return;
+				}
+
+				const result = calculateAssessment();
+
+				if (result.answered !== assessmentItems.length) {
+					assessmentResult.hidden = true;
+					return;
+				}
+
+				assessmentResult.innerHTML = `
+					<h3>Learning preferences summary</h3>
+					<p>
+						<strong>Strongest preference:</strong> ${result.primary}<br />
+						<strong>Secondary preference:</strong> ${result.secondary}
+					</p>
+					<p class="ctt-assessment-note">
+						This result guides tutor matching and lesson planning. It does not limit your child
+						to one way of learning.
+					</p>
+				`;
+
+				assessmentResult.hidden = false;
+			}
+
+			assessmentToggle.addEventListener("change", function () {
+				assessmentQuestions.hidden = !assessmentToggle.checked;
+
+				if (!assessmentToggle.checked) {
+					assessmentResult.hidden = true;
+				}
+			});
+
+			assessmentQuestions.addEventListener("change", updateAssessmentResult);
+
+			function applyTutorFromUrl() {
+				const params = new URLSearchParams(window.location.search);
+				const tutor = params.get("tutor");
+
+				if (tutor) {
+					preferredTutor.value = tutor;
+				}
+			}
+
 			document.getElementById("whatsappForm").addEventListener("submit", function (event) {
 				event.preventDefault();
 
 				const whatsappNumber = "27732657260";
+				let assessmentText = "Not completed";
 
-				const parentName = document.getElementById("parentName").value.trim();
-				const phone = document.getElementById("phone").value.trim();
-				const email = document.getElementById("email").value.trim();
-				const learnerName = document.getElementById("learnerName").value.trim();
-				const grade = document.getElementById("grade").value.trim();
-				const subject = document.getElementById("subject").value.trim();
-				const lessonType = document.getElementById("lessonType").value.trim();
-				const area = document.getElementById("area").value.trim();
-				const message = document.getElementById("message").value.trim();
+				if (assessmentToggle.checked) {
+					const result = calculateAssessment();
+
+					if (result.answered !== assessmentItems.length) {
+						alert("Please answer all learning preference questions, or untick the assessment option.");
+						return;
+					}
+
+					assessmentText =
+						"Completed%0A" +
+						"Strongest preference: " + encodeURIComponent(result.primary) + "%0A" +
+						"Secondary preference: " + encodeURIComponent(result.secondary) + "%0A" +
+						"Visual score: " + result.scores.Visual + "%0A" +
+						"Auditory score: " + result.scores.Auditory + "%0A" +
+						"Read/write score: " + result.scores["Read/write"] + "%0A" +
+						"Kinesthetic score: " + result.scores.Kinesthetic;
+				}
+
+				const values = {
+					parentName: document.getElementById("parentName").value.trim(),
+					phone: document.getElementById("phone").value.trim(),
+					email: document.getElementById("email").value.trim(),
+					learnerName: document.getElementById("learnerName").value.trim(),
+					grade: document.getElementById("grade").value.trim(),
+					subject: document.getElementById("subject").value.trim(),
+					lessonType: document.getElementById("lessonType").value.trim(),
+					area: document.getElementById("area").value.trim(),
+					preferredTutor: preferredTutor.value.trim(),
+					message: document.getElementById("message").value.trim()
+				};
 
 				const whatsappMessage =
 					"Hi Chloe's Travelling Tutors,%0A%0A" +
 					"I would like to enquire about tutoring.%0A%0A" +
-					"Parent / Guardian: " + encodeURIComponent(parentName) + "%0A" +
-					"Phone: " + encodeURIComponent(phone) + "%0A" +
-					"Email: " + encodeURIComponent(email) + "%0A" +
-					"Learner: " + encodeURIComponent(learnerName) + "%0A" +
-					"Grade: " + encodeURIComponent(grade) + "%0A" +
-					"Subject: " + encodeURIComponent(subject) + "%0A" +
-					"Lesson Type: " + encodeURIComponent(lessonType) + "%0A" +
-					"Area: " + encodeURIComponent(area) + "%0A%0A" +
-					"Extra details:%0A" + encodeURIComponent(message);
+					"Parent / Guardian: " + encodeURIComponent(values.parentName) + "%0A" +
+					"Phone: " + encodeURIComponent(values.phone) + "%0A" +
+					"Email: " + encodeURIComponent(values.email) + "%0A" +
+					"Learner: " + encodeURIComponent(values.learnerName) + "%0A" +
+					"Grade: " + encodeURIComponent(values.grade) + "%0A" +
+					"Subject: " + encodeURIComponent(values.subject) + "%0A" +
+					"Lesson Type: " + encodeURIComponent(values.lessonType) + "%0A" +
+					"Area: " + encodeURIComponent(values.area) + "%0A" +
+					"Preferred Tutor: " + encodeURIComponent(values.preferredTutor || "No preference") + "%0A%0A" +
+					"Extra details:%0A" + encodeURIComponent(values.message || "None provided") + "%0A%0A" +
+					"Learning preferences assessment:%0A" + assessmentText;
 
-				const whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + whatsappMessage;
-
-				window.open(whatsappUrl, "_blank", "noopener");
+				window.open(
+					"https://wa.me/" + whatsappNumber + "?text=" + whatsappMessage,
+					"_blank",
+					"noopener"
+				);
 			});
+
+			renderAssessment();
+			applyTutorFromUrl();
 		</script>
 
 		<script src="assets/js/jquery.min.js"></script>
@@ -180,6 +391,5 @@
 		<script src="assets/js/main.js"></script>
 		<script src="assets/js/load-header.js"></script>
 		<script src="assets/js/load-footer.js"></script>
-
 	</body>
 </html>
