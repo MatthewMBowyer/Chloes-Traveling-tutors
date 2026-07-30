@@ -2,7 +2,7 @@ window.CTT_TUTORS = [
   {
     "name": "Lauren Immelman",
     "slug": "lauren-immelman",
-    "image": "images/tutors/lauren_immelman.jpg",
+    "image": "images/lauren_immelman.jpg",
     "qualifications": "Diploma in Journalism, Bachelor of Education (Intermediate Phase), 180-hour TEFL certificate and remedial learning training",
     "grades": "Grades 7 to 12",
     "subjects": [
@@ -24,7 +24,7 @@ window.CTT_TUTORS = [
   {
     "name": "Megan Karam",
     "slug": "megan-karam",
-    "image": "images/tutors/megan_karam.jpg",
+    "image": "images/megan_karam.jpg",
     "qualifications": "Honours in Architecture",
     "grades": "Grades 1 to 12",
     "subjects": [
@@ -72,7 +72,7 @@ window.CTT_TUTORS = [
   {
     "name": "Kirsten Snyman",
     "slug": "kirsten-snyman",
-    "image": "images/tutors/kirsten_snyman.jpg",
+    "image": "images/kirsten_snyman.jpg",
     "qualifications": "Matriculated with six distinctions and is completing a Bachelor of Accounting",
     "grades": "Grades 1 to 12 and university",
     "subjects": [
@@ -124,7 +124,7 @@ window.CTT_TUTORS = [
   {
     "name": "Keegan Anderson",
     "slug": "keegan-anderson",
-    "image": "images/tutors/keegan_anderson.jpg",
+    "image": "images/keegan_anderson.jpg",
     "qualifications": "Bachelor of Mechanical Engineering",
     "grades": "High school and first-year university",
     "subjects": [
@@ -146,7 +146,7 @@ window.CTT_TUTORS = [
   {
     "name": "Lize Blom",
     "slug": "lize-blom",
-    "image": "images/tutors/lize_blom.jpg",
+    "image": "images/lize_blom.jpg",
     "qualifications": "Bachelor of Education in Foundation Phase",
     "grades": "Grades 1 to 9",
     "subjects": [
@@ -191,7 +191,7 @@ window.CTT_TUTORS = [
   {
     "name": "Ethan Klebe",
     "slug": "ethan-klebe",
-    "image": "images/tutors/ethan_klebe.jpg",
+    "image": "images/ethan_klebe.jpg",
     "qualifications": "Bachelor of Mechanical Engineering and Honours in Industrial Engineering",
     "grades": "Grades 7 to 12 and university",
     "subjects": [
@@ -212,7 +212,7 @@ window.CTT_TUTORS = [
   {
     "name": "Nicole Vermeulen",
     "slug": "nicole-vermeulen",
-    "image": "images/tutors/nicole_vermeulen.jpg",
+    "image": "images/nicole_vermeulen.jpg",
     "qualifications": "BA Psychology and Criminology, currently completing a BEd Foundation Phase",
     "grades": "Grades 2 to 12",
     "subjects": [
@@ -240,7 +240,7 @@ window.CTT_TUTORS = [
   {
     "name": "Alrecha Collins",
     "slug": "alrecha-collins",
-    "image": "images/tutors/alrecha_collins.jpg",
+    "image": "images/alrecha_collins.jpg",
     "qualifications": "BA summa cum laude, PGCE and currently completing Honours in Educational Psychology",
     "grades": "Grades 1 to 9",
     "subjects": [
@@ -264,7 +264,7 @@ window.CTT_TUTORS = [
   {
     "name": "Nevada Cawood",
     "slug": "nevada-cawood",
-    "image": "images/tutors/nevada_cawood.jpg",
+    "image": "images/nevada_cawood.jpg",
     "qualifications": "Matric certificate and currently studying Foundation Phase Education",
     "grades": "Grades 1 to 7",
     "subjects": [
@@ -283,7 +283,7 @@ window.CTT_TUTORS = [
   {
     "name": "Megan Meyer",
     "slug": "megan-meyer",
-    "image": "images/tutors/megan_meyer.jpg",
+    "image": "images/megan_meyer.jpg",
     "qualifications": "Cambridge International curriculum and Bachelor of Mechanical Engineering studies",
     "grades": "High school and introductory university",
     "subjects": [
@@ -308,7 +308,7 @@ window.CTT_TUTORS = [
   {
     "name": "Chloe Smith",
     "slug": "chloe-smith",
-    "image": "images/tutors/chloe_smith.jpg",
+    "image": "images/chloe_smith.jpg",
     "qualifications": "BBA Marketing and top student in 2025",
     "grades": "Grades 1 to 8",
     "subjects": [
@@ -330,7 +330,7 @@ window.CTT_TUTORS = [
   {
     "name": "Alex Smith",
     "slug": "alex-smith",
-    "image": "images/tutors/alex_smith.jpg",
+    "image": "images/alex_smith.jpg",
     "qualifications": "Six Grade 12 distinctions and currently completing a BCom Accounting at the University of Pretoria",
     "grades": "Grades 10 to 12",
     "subjects": [
