@@ -2,13 +2,226 @@
 <html>
 	<head>
 		<title>Chloe's Travelling Tutors | Home</title>
+
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<meta name="description" content="Chloe's Travelling Tutors offers personalised tutoring in your area and online. Confidence. Support. Success." />
+
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, user-scalable=no"
+		/>
+
+		<meta
+			name="description"
+			content="Chloe's Travelling Tutors offers personalised tutoring in your area and online. Confidence. Support. Success."
+		/>
 
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/ctt-custom.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+
+		<noscript>
+			<link rel="stylesheet" href="assets/css/noscript.css" />
+		</noscript>
+
+		<style>
+			/* =========================================================
+			   Getting started section
+			   ========================================================= */
+
+			.ctt-start-section {
+				background:
+					radial-gradient(
+						circle at top right,
+						rgba(0, 151, 178, 0.1),
+						transparent 35%
+					),
+					linear-gradient(180deg, #ffffff 0%, #f5f8fa 100%);
+			}
+
+			.ctt-start-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 1.5rem;
+				margin-top: 2rem;
+			}
+
+			.ctt-start-card {
+				position: relative;
+				text-align: center;
+				padding: 4.5rem 1.75rem 2rem;
+				background: #ffffff;
+				border: 1px solid rgba(142, 153, 162, 0.25);
+				border-radius: 1.25rem;
+				box-shadow: 0 1rem 2.5rem rgba(57, 57, 57, 0.08);
+			}
+
+			.ctt-start-icon {
+				position: absolute;
+				top: -2.75rem;
+				left: 50%;
+				width: 6rem;
+				height: 6rem;
+				transform: translateX(-50%);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border: 0.4rem solid #ffffff;
+				border-radius: 50%;
+				background: rgba(0, 151, 178, 0.1);
+				box-shadow: 0 0.75rem 1.75rem rgba(57, 57, 57, 0.12);
+				font-size: 2.4rem;
+			}
+
+			.ctt-start-card:nth-child(2) .ctt-start-icon {
+				background: rgba(255, 182, 193, 0.25);
+			}
+
+			.ctt-step-label {
+				display: inline-block;
+				margin-bottom: 0.7rem;
+				padding: 0.3rem 1rem;
+				border-radius: 999px;
+				background: rgba(0, 151, 178, 0.1);
+				color: #0097b2;
+				font-size: 0.9rem;
+				font-weight: 800;
+			}
+
+			.ctt-start-card:nth-child(2) .ctt-step-label {
+				background: rgba(255, 182, 193, 0.25);
+				color: #393939;
+			}
+
+			.ctt-start-card h3 {
+				margin-bottom: 0.75rem;
+			}
+
+			.ctt-start-card p {
+				margin-bottom: 0;
+			}
+
+			.ctt-start-offer {
+				width: fit-content;
+				margin: 2rem auto 0;
+				padding: 0.8rem 1.4rem;
+				border-radius: 999px;
+				background: rgba(0, 151, 178, 0.1);
+				color: #393939;
+				font-weight: 800;
+				text-align: center;
+			}
+
+			.ctt-start-offer strong {
+				color: #0097b2;
+			}
+
+			.ctt-start-actions {
+				margin-top: 2rem;
+			}
+
+			/* =========================================================
+			   Learning styles section
+			   ========================================================= */
+
+			.ctt-learning-box {
+				padding: 3rem;
+			}
+
+			.ctt-learning-layout {
+				grid-template-columns: 0.9fr 1.3fr;
+				gap: 3rem;
+				align-items: center;
+			}
+
+			.ctt-learning-intro h2 {
+				font-size: clamp(2.25rem, 4vw, 4rem);
+				line-height: 1.08;
+				margin-bottom: 1.5rem;
+			}
+
+			.ctt-learning-intro p {
+				font-size: 1.05rem;
+				line-height: 1.8;
+			}
+
+			.ctt-learning-list {
+				gap: 1.25rem;
+			}
+
+			.ctt-learning-item {
+				grid-template-columns: 4.5rem 1fr;
+				gap: 1.25rem;
+				align-items: center;
+			}
+
+			.ctt-learning-item .ctt-icon {
+				width: 4.5rem;
+				height: 4.5rem;
+				margin: 0;
+				font-size: 1.5rem;
+				background: #ffffff;
+				border: 1px solid rgba(0, 151, 178, 0.45);
+			}
+
+			.ctt-learning-item h3 {
+				font-size: 1.2rem;
+				margin-bottom: 0.35rem;
+			}
+
+			.ctt-learning-item p {
+				font-size: 0.98rem;
+				line-height: 1.65;
+			}
+
+			/* =========================================================
+			   CTT story section
+			   ========================================================= */
+
+			.ctt-chloe-section .content {
+				padding-top: 3rem;
+				padding-bottom: 3rem;
+			}
+
+			.ctt-chloe-section .content p {
+				line-height: 1.75;
+			}
+
+			.ctt-story-highlight {
+				color: #0097b2;
+				font-weight: 800;
+			}
+
+			@media screen and (max-width: 980px) {
+				.ctt-start-grid {
+					grid-template-columns: 1fr;
+					gap: 4.5rem;
+				}
+
+				.ctt-learning-layout {
+					grid-template-columns: 1fr;
+					gap: 2rem;
+				}
+			}
+
+			@media screen and (max-width: 736px) {
+				.ctt-start-card {
+					padding: 4.25rem 1.35rem 1.75rem;
+				}
+
+				.ctt-learning-box {
+					padding: 1.5rem;
+				}
+
+				.ctt-learning-item {
+					grid-template-columns: 3.75rem 1fr;
+					gap: 1rem;
+				}
+
+				.ctt-learning-item .ctt-icon {
+					width: 3.75rem;
+					height: 3.75rem;
+				}
+			}
+		</style>
 	</head>
 
 	<body class="is-preload">
@@ -17,21 +230,45 @@
 
 		<div id="wrapper" class="divided">
 
-			<section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right ctt-hero" id="home">
+			<!-- =====================================================
+			     Hero section
+			     ===================================================== -->
+
+			<section
+				class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right ctt-hero"
+				id="home"
+			>
 				<div class="content">
 					<h1>
-						Tutoring that <span class="ctt-accent">comes to you</span>
+						Tutoring that
+						<span class="ctt-accent">comes to you</span>
 					</h1>
 
 					<p class="major">
-						Chloe's Travelling Tutors offers personalised tutoring in your area and online.
-						Our caring tutors are matched to each learner's needs to help them build confidence,
-						strengthen understanding, and achieve their goals.
+						We believe the right tutor can change more than just a mark.
+						Every child learns differently, so we simplify difficult concepts,
+						teach in a way they understand, build confidence, and create those
+						“Oh, I finally get it!” moments.
 					</p>
 
 					<ul class="actions stacked">
-						<li><a href="tutors.html" class="button big wide primary">Meet the Tutors</a></li>
-						<li><a href="contact.html" class="button big wide secondary">Book a Tutor</a></li>
+						<li>
+							<a
+								href="tutors.html"
+								class="button big wide primary"
+							>
+								Meet the Tutors
+							</a>
+						</li>
+
+						<li>
+							<a
+								href="contact.html"
+								class="button big wide secondary"
+							>
+								Book a Tutor
+							</a>
+						</li>
 					</ul>
 				</div>
 
@@ -43,108 +280,265 @@
 				</div>
 			</section>
 
-			<section class="ctt-section ctt-section-light">
+			<!-- =====================================================
+			     Getting started
+			     ===================================================== -->
+
+			<section class="ctt-section ctt-start-section">
 				<div class="ctt-inner">
+
 					<div class="ctt-section-title">
-						<h2>What is CTT?</h2>
+						<h2>
+							Getting started is
+							<span class="ctt-accent">easy!</span>
+						</h2>
+
 						<p>
-							CTT helps learners grow through personalised support, confidence-building lessons,
-							and flexible tutoring either in person or online.
+							Three simple steps to personalised tutoring that builds
+							confidence and delivers results.
 						</p>
 					</div>
 
-					<div class="ctt-card-grid">
-						<div class="ctt-card">
-							<div class="ctt-icon">01</div>
-							<h3>In-person or online</h3>
+					<div class="ctt-start-grid">
+
+						<div class="ctt-start-card">
+							<div class="ctt-start-icon" aria-hidden="true">
+								✓
+							</div>
+
+							<span class="ctt-step-label">
+								Step 1
+							</span>
+
+							<h3>Tell us about your child</h3>
+
 							<p>
-								Choose the option that works best for your family. We can come to you or connect online.
+								Fill in our online form, complete the learning style
+								assessment, and sign the tutoring agreement.
 							</p>
 						</div>
 
-						<div class="ctt-card">
-							<div class="ctt-icon">02</div>
-							<h3>Matched to your needs</h3>
+						<div class="ctt-start-card">
+							<div class="ctt-start-icon" aria-hidden="true">
+								💬
+							</div>
+
+							<span class="ctt-step-label">
+								Step 2
+							</span>
+
+							<h3>We’ll be in touch</h3>
+
 							<p>
-								We get to know each learner and match them with a tutor suited to their goals.
+								We’ll contact you to discuss your child’s needs and
+								match them with the right tutor.
 							</p>
 						</div>
 
-						<div class="ctt-card">
-							<div class="ctt-icon">03</div>
-							<h3>Support across grades</h3>
+						<div class="ctt-start-card">
+							<div class="ctt-start-icon" aria-hidden="true">
+								🎓
+							</div>
+
+							<span class="ctt-step-label">
+								Step 3
+							</span>
+
+							<h3>Start learning!</h3>
+
 							<p>
-								From primary to senior levels, we support a wide range of subjects and learning needs.
+								Meet your tutor, enjoy 20% off your first lesson,
+								and start building confidence from day one.
 							</p>
 						</div>
+
 					</div>
+
+					<div class="ctt-start-offer">
+						★ <strong>20% off</strong> your first lesson
+					</div>
+
+					<ul class="actions special ctt-start-actions">
+						<li>
+							<a
+								href="contact.html"
+								class="button big primary"
+							>
+								Complete the Enquiry Form
+							</a>
+						</li>
+					</ul>
+
 				</div>
 			</section>
 
+			<!-- =====================================================
+			     Learning styles
+			     ===================================================== -->
+
 			<section class="ctt-section">
 				<div class="ctt-inner">
+
 					<div class="ctt-learning-box">
 						<div class="ctt-learning-layout">
-							<div>
-								<h2>Every child <span class="ctt-accent">learns differently</span></h2>
+
+							<div class="ctt-learning-intro">
+								<h2>
+									Every child
+									<span class="ctt-accent">
+										learns differently
+									</span>
+								</h2>
+
 								<p>
-									No two children are the same. That is why we adapt our teaching to suit how each learner
-									thinks, understands, remembers, and grows.
+									No two children are the same. That is why we adapt
+									our teaching to suit how each learner thinks,
+									understands, remembers, and grows.
 								</p>
+
 								<p>
-									By matching our teaching to the way your child learns best, we help them build
-									understanding, confidence, and a genuine love of learning.
+									By matching our teaching to the way your child learns
+									best, we help them build understanding, confidence,
+									and a genuine love of learning.
 								</p>
 							</div>
 
 							<div class="ctt-learning-list">
+
 								<div class="ctt-learning-item">
-									<div class="ctt-icon">👁</div>
+									<div class="ctt-icon" aria-hidden="true">
+										◉
+									</div>
+
 									<div>
 										<h3>Visual learners</h3>
-										<p>Learn best through images, diagrams, colour, examples, and clear visual structure.</p>
+
+										<p>
+											Learn best through images, diagrams, colour,
+											examples, and clear visual structure.
+										</p>
 									</div>
 								</div>
 
 								<div class="ctt-learning-item">
-									<div class="ctt-icon">👂</div>
+									<div class="ctt-icon" aria-hidden="true">
+										♫
+									</div>
+
 									<div>
 										<h3>Auditory learners</h3>
-										<p>Understand best by listening, discussing, repeating, and explaining aloud.</p>
+
+										<p>
+											Understand best by listening, discussing,
+											repeating, and explaining aloud.
+										</p>
 									</div>
 								</div>
 
 								<div class="ctt-learning-item">
-									<div class="ctt-icon">✋</div>
+									<div class="ctt-icon" aria-hidden="true">
+										✎
+									</div>
+
 									<div>
-										<h3>Practical learners</h3>
-										<p>Thrive with hands-on activities, examples, practice questions, and real-world links.</p>
+										<h3>Read/write learners</h3>
+
+										<p>
+											Learn best through reading notes, writing ideas
+											down, lists, textbooks, and written explanations.
+										</p>
 									</div>
 								</div>
 
 								<div class="ctt-learning-item">
-									<div class="ctt-icon">✓</div>
+									<div class="ctt-icon" aria-hidden="true">
+										✋
+									</div>
+
 									<div>
-										<h3>Step-by-step learners</h3>
-										<p>Benefit from structure, guided practice, simple routines, and repeated reinforcement.</p>
+										<h3>Kinesthetic learners</h3>
+
+										<p>
+											Thrive with hands-on activities, movement,
+											practice, real-world examples, and doing.
+										</p>
 									</div>
 								</div>
+
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</section>
 
-			<section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in ctt-chloe-section">
+			<!-- =====================================================
+			     How CTT started
+			     ===================================================== -->
+
+			<section
+				class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in ctt-chloe-section"
+			>
 				<div class="content">
 					<h2>How CTT started</h2>
+
 					<p>
-						Chloe's Travelling Tutors began from a passion for helping learners feel confident,
-						supported, and capable. What started as a small tutoring service has grown into a trusted
-						team of tutors who love making a positive difference in students' lives.
+						<strong>CTT began long before it had a name.</strong>
 					</p>
+
 					<p>
-						Today, CTT connects families with caring, qualified tutors across the community and online.
+						Chloe started tutoring her younger brother and his friends
+						in Grade 4, inspired by her own experience at school.
+						Traditional learning did not always work for her. She often
+						had to come home and relearn entire concepts in a completely
+						different way.
+					</p>
+
+					<p>
+						With the help of her mom, learning became memorable.
+						Mind maps, flashcards, funny sayings, shooting hoops while
+						answering questions, and even learning during laps in the
+						pool. That extra effort changed everything.
+					</p>
+
+					<p>
+						Chloe knows what it feels like to struggle, to feel behind,
+						and to wonder why something that seems easy for everyone else
+						just will not click.
+					</p>
+
+					<p>
+						But struggling does not mean a child is not capable.
+						Sometimes, they simply have not been taught in the way they
+						learn best.
+					</p>
+
+					<p>
+						From a 60% student in her early school years to graduating
+						as the top student in her university degree in 2025, Chloe
+						made it her mission to help other learners discover what
+						they are capable of.
+					</p>
+
+					<p>
+						Ten years later, CTT is now a growing team across Gauteng,
+						KwaZulu-Natal, and the Western Cape, with tutors studying
+						or qualified in fields including engineering, architecture,
+						accounting, psychology, marketing, and more.
+					</p>
+
+					<p>
+						<span class="ctt-story-highlight">
+							We understand the struggle. That is why we do what we do.
+						</span>
+					</p>
+
+					<p>
+						No child is incapable, no child is “not smart enough”, and
+						no child should feel less than because they learn differently.
+						Sometimes, all it takes is the right person, the right
+						explanation, and someone who refuses to give up on them.
+						That is what CTT is here to be.
 					</p>
 				</div>
 
@@ -156,101 +550,112 @@
 				</div>
 			</section>
 
+			<!-- =====================================================
+			     Meet our tutors
+			     ===================================================== -->
+
 			<section class="ctt-section ctt-section-light">
 				<div class="ctt-inner">
+
 					<div class="ctt-section-title">
 						<h2>Meet our tutors</h2>
+
 						<p>
-							Get to know some of our friendly, experienced tutors. Full profiles are available on the tutor page.
+							Get to know some of our friendly, experienced tutors.
+							Full profiles are available on the tutor page.
 						</p>
 					</div>
 
 					<div class="ctt-card-grid">
+
 						<div class="ctt-card ctt-tutor-card">
-							<div class="ctt-avatar">Photo<br />Here</div>
+							<div class="ctt-avatar">
+								Photo<br />Here
+							</div>
+
 							<h3>Sarah W.</h3>
+
 							<p>English and Literacy</p>
 							<p>Primary to Grade 10</p>
 							<p>Online and in-person</p>
-							<a href="tutors.html" class="ctt-small-link">View profile</a>
+
+							<a
+								href="tutors.html"
+								class="ctt-small-link"
+							>
+								View profile
+							</a>
 						</div>
 
 						<div class="ctt-card ctt-tutor-card">
-							<div class="ctt-avatar">Photo<br />Here</div>
+							<div class="ctt-avatar">
+								Photo<br />Here
+							</div>
+
 							<h3>James T.</h3>
+
 							<p>Mathematics and Science</p>
 							<p>Grade 7 to Grade 12</p>
 							<p>Online and in-person</p>
-							<a href="tutors.html" class="ctt-small-link">View profile</a>
+
+							<a
+								href="tutors.html"
+								class="ctt-small-link"
+							>
+								View profile
+							</a>
 						</div>
 
 						<div class="ctt-card ctt-tutor-card">
-							<div class="ctt-avatar">Photo<br />Here</div>
+							<div class="ctt-avatar">
+								Photo<br />Here
+							</div>
+
 							<h3>Maya L.</h3>
+
 							<p>Primary school support</p>
 							<p>Pre-primary to Grade 6</p>
 							<p>Online and in-person</p>
-							<a href="tutors.html" class="ctt-small-link">View profile</a>
+
+							<a
+								href="tutors.html"
+								class="ctt-small-link"
+							>
+								View profile
+							</a>
 						</div>
+
 					</div>
 
 					<br />
 
 					<ul class="actions special">
-						<li><a href="tutors.html" class="button primary">See all tutors</a></li>
+						<li>
+							<a
+								href="tutors.html"
+								class="button primary"
+							>
+								See All Tutors
+							</a>
+						</li>
 					</ul>
+
 				</div>
 			</section>
+
+			<!-- =====================================================
+			     Quote
+			     ===================================================== -->
 
 			<section class="ctt-quote">
 				<blockquote>
-					If a child can't learn the way <strong>we teach</strong>, maybe <strong>we</strong> should teach the way <strong>they learn</strong>.
+					If a child can't learn the way
+					<strong>we teach</strong>, maybe
+					<strong>we</strong> should teach the way
+					<strong>they learn</strong>.
 				</blockquote>
+
 				<cite>Ignacio Estrada</cite>
-			</section>
-
-			<section class="ctt-section">
-				<div class="ctt-inner">
-					<div class="ctt-section-title">
-						<h2>Subjects we support</h2>
-						<p>
-							We support learners from Grade 1 to Grade 12 across core school subjects,
-							study skills, homework support, and exam preparation.
-						</p>
-					</div>
-
-					<div class="ctt-subject-list">
-						<div class="ctt-subject">Mathematics</div>
-						<div class="ctt-subject">English</div>
-						<div class="ctt-subject">Afrikaans</div>
-						<div class="ctt-subject">Natural Sciences</div>
-						<div class="ctt-subject">Life Sciences</div>
-						<div class="ctt-subject">Physical Sciences</div>
-						<div class="ctt-subject">Social Sciences</div>
-						<div class="ctt-subject">History</div>
-						<div class="ctt-subject">Geography</div>
-						<div class="ctt-subject">EMS</div>
-						<div class="ctt-subject">Accounting</div>
-						<div class="ctt-subject">Business Studies</div>
-						<div class="ctt-subject">Economics</div>
-						<div class="ctt-subject">CAT</div>
-						<div class="ctt-subject">IT</div>
-						<div class="ctt-subject">Study Skills</div>
-						<div class="ctt-subject">Homework Support</div>
-						<div class="ctt-subject">Exam Preparation</div>
-						<div class="ctt-subject">Reading Support</div>
-						<div class="ctt-subject">Writing Support</div>
-					</div>
-
-					<div class="ctt-degree-box">
-						<h3>University degree support</h3>
-						<p>
-							We also leave space for university-level support where suitable tutors are available.
-							This can include academic writing, statistics, mathematics, accounting, economics,
-							business modules, education modules, research support, and selected degree-specific subjects.
-						</p>
-					</div>
-				</div>
 			</section>
 
 			<div id="site-footer"></div>
