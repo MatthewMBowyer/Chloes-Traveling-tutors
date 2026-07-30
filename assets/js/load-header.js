@@ -1,48 +1,63 @@
 document.addEventListener("DOMContentLoaded", function () {
-	const headerTarget = document.getElementById("site-header");
+	const headerContainer = document.getElementById("site-header");
 
-	if (!headerTarget) {
+	if (!headerContainer) {
 		return;
 	}
 
-	fetch("header/header.html")
+	fetch("header.html")
 		.then(function (response) {
 			if (!response.ok) {
-				throw new Error("Header could not be loaded.");
+				throw new Error("Could not load header.html");
 			}
 
 			return response.text();
 		})
-		.then(function (html) {
-			headerTarget.innerHTML = html;
+		.then(function (headerHtml) {
+			headerContainer.innerHTML = headerHtml;
 
-			const currentFile = window.location.pathname.split("/").pop() || "index.html";
-			const currentPage = currentFile.replace(".html", "");
-			const links = headerTarget.querySelectorAll(".ctt-menu a");
-
-			links.forEach(function (link) {
-				const href = link.getAttribute("href");
-
-				if (href === currentFile) {
-					link.classList.add("active");
-				}
-			});
-
-			if (currentPage === "index") {
-				const homeLink = headerTarget.querySelector('[data-page="index"]');
-				if (homeLink) {
-					homeLink.classList.add("active");
-				}
-			}
-
-			if (currentPage === "contact") {
-				const contactLink = headerTarget.querySelector('[data-page="contact"]');
-				if (contactLink) {
-					contactLink.classList.add("active");
-				}
-			}
+			setupMobileNavigation();
+			setActiveNavigationLink();
 		})
 		.catch(function (error) {
-			console.error(error);
+			console.error("Header loading error:", error);
 		});
 });
+
+function setupMobileNavigation() {
+	const menuToggle = document.getElementById("cttMenuToggle");
+	const navigation = document.getElementById("cttNavigation");
+
+	if (!menuToggle || !navigation) {
+		return;
+	}
+
+	menuToggle.addEventListener("click", function () {
+		const menuIsOpen = navigation.classList.toggle("is-open");
+
+		menuToggle.classList.toggle("is-open", menuIsOpen);
+		menuToggle.setAttribute("aria-expanded", String(menuIsOpen));
+	});
+
+	navigation.querySelectorAll("a").forEach(function (link) {
+		link.addEventListener("click", function () {
+			navigation.classList.remove("is-open");
+			menuToggle.classList.remove("is-open");
+			menuToggle.setAttribute("aria-expanded", "false");
+		});
+	});
+}
+
+function setActiveNavigationLink() {
+	const currentPage =
+		window.location.pathname.split("/").pop() || "index.html";
+
+	document.querySelectorAll(".ctt-navigation a").forEach(function (link) {
+		const linkPage = link.getAttribute("href");
+
+		if (linkPage === currentPage) {
+			link.classList.add("is-active");
+			link.setAttribute("aria-current", "page");
+		}
+	});
+}
