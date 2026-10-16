@@ -130,6 +130,18 @@ p {
 		linear-gradient(180deg, #ffffff 0%, #f7fbfc 100%);
 }
 
+.ctt-hero h1 {
+	font-size: clamp(2.5rem, 5vw, 5rem);
+	line-height: 0.95;
+	margin-bottom: 1.25rem;
+}
+
+.ctt-hero .major {
+	font-size: 1.1rem;
+	line-height: 1.7;
+	max-width: 37rem;
+}
+
 .button.primary {
 	background-color: var(--ctt-blue);
 	box-shadow: inset 0 0 0 1px var(--ctt-blue);
@@ -284,6 +296,38 @@ p {
 .ctt-learning-item p {
 	font-size: 0.92rem;
 	margin: 0;
+}
+
+.ctt-quote {
+	background: var(--ctt-white);
+	border-top: 4px solid var(--ctt-blue);
+	border-bottom: 4px solid var(--ctt-blue);
+	text-align: center;
+	padding: 3.5rem 2rem;
+}
+
+.ctt-quote blockquote {
+	border-left: none;
+	margin: 0 auto;
+	max-width: 900px;
+	padding: 0;
+	font-size: clamp(1.5rem, 3vw, 2.4rem);
+	line-height: 1.35;
+	color: var(--ctt-dark-grey);
+	font-weight: 500;
+}
+
+.ctt-quote strong {
+	color: var(--ctt-blue);
+	font-weight: 800;
+}
+
+.ctt-quote cite {
+	display: block;
+	margin-top: 1rem;
+	color: var(--ctt-soft-grey);
+	font-style: normal;
+	font-weight: 700;
 }
 
 .ctt-tutor-card {
@@ -670,6 +714,7 @@ p {
 	transform: translateY(-0.5rem) rotate(-45deg);
 }
 
+
 /* =========================================================
    Homepage opening image
    ========================================================= */
@@ -679,8 +724,34 @@ p {
 	height: 100%;
 	display: block;
 	object-fit: cover;
-	object-position: center 35%;
+	object-position: center;
 }
+
+
+/* =========================================================
+   Chloe image
+   ========================================================= */
+
+.spotlight.ctt-chloe-section > .image.ctt-about-image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	background: #ffffff;
+}
+
+.spotlight.ctt-chloe-section > .image.ctt-about-image img {
+	position: relative;
+	top: auto;
+	left: auto;
+	width: 88%;
+	height: 88%;
+	min-height: 0;
+	display: block;
+	object-fit: contain;
+	object-position: center;
+}
+
 
 /* =========================================================
    Tablet and mobile
@@ -724,7 +795,13 @@ p {
 		margin-top: 0.35rem;
 	}
 
+	.spotlight.ctt-chloe-section > .image.ctt-about-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
 }
+
 
 /* =========================================================
    Small phones
@@ -977,393 +1054,4 @@ p {
 		height: 6.5rem;
 	}
 }
-
-/* =========================================================
-   Round 1 improvements: hero reassurance strip and tutor filters
-   Styled with the existing CTT palette variables only.
-   ========================================================= */
-
-.ctt-filter-box {
-	background: var(--ctt-white);
-	border: 1px solid rgba(142, 153, 162, 0.25);
-	border-radius: 1rem;
-	padding: 1.75rem;
-	margin-bottom: 2.5rem;
-	box-shadow: 0 1rem 2.5rem rgba(57, 57, 57, 0.06);
-}
-
-.ctt-filter-box h2 {
-	margin-bottom: 0.5rem;
-}
-
-.ctt-filter-box p {
-	margin-bottom: 0;
-}
-
-.ctt-filter-grid {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 1.25rem;
-	align-items: end;
-	margin-top: 1.5rem;
-}
-
-.ctt-filter-grid label {
-	display: block;
-	margin-bottom: 0.35rem;
-	color: var(--ctt-dark-grey);
-	font-weight: 800;
-}
-
-.ctt-filter-toggle {
-	display: flex;
-	align-items: center;
-	gap: 0.65rem;
-	padding: 0.75rem 1rem;
-	border: 1px solid var(--ctt-border);
-	border-radius: 0.7rem;
-	background: rgba(0, 151, 178, 0.08);
-}
-
-.ctt-filter-toggle label {
-	margin: 0;
-	color: var(--ctt-blue);
-	cursor: pointer;
-}
-
-.ctt-filter-toggle input {
-	width: auto;
-	margin: 0;
-	flex: 0 0 auto;
-}
-
-.ctt-filter-summary {
-	margin-top: 1.25rem;
-	color: var(--ctt-soft-grey);
-	font-weight: 700;
-}
-
-.ctt-directory-empty {
-	grid-column: 1 / -1;
-	padding: 2.5rem 1.75rem;
-	border: 2px dashed var(--ctt-border);
-	border-radius: 1rem;
-	background: var(--ctt-light-bg);
-	text-align: center;
-}
-
-.ctt-directory-empty h3 {
-	margin-bottom: 0.65rem;
-}
-
-.ctt-directory-empty p {
-	margin: 0;
-	color: var(--ctt-dark-grey);
-}
-
-/* Visible keyboard focus on the filter controls, following existing conventions. */
-.ctt-filter-box select:focus-visible,
-.ctt-filter-box button:focus-visible,
-.ctt-filter-toggle input:focus-visible {
-	outline: 3px solid var(--ctt-blue);
-	outline-offset: 2px;
-}
-
-@media screen and (max-width: 980px) {
-	.ctt-filter-grid {
-		grid-template-columns: 1fr;
-	}
-}
-
-/* =========================================================
-   Homepage opening quote (Round 2)
-   The hero leads with the quote instead of a headline, and the
-   portrait panel is cropped to the two people.
-   ========================================================= */
-
-/* The Round 2 hero has no visible headline, so the page would otherwise ship
-   with no <h1>. This keeps one in the document for assistive tech without
-   changing the visual design. */
-.ctt-visually-hidden {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        margin: -1px;
-        padding: 0;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-}
-
-.ctt-hero-quote {
-	border-left: 0.35rem solid var(--ctt-blue);
-	margin: 0 0 1rem 0;
-	padding: 0 0 0 1.5rem;
-	max-width: 34rem;
-	font-size: clamp(1.5rem, 2.4vw, 2.25rem);
-	line-height: 1.3;
-	color: var(--ctt-dark-grey);
-	font-weight: 500;
-}
-
-.ctt-hero-quote strong {
-	color: var(--ctt-blue);
-	font-weight: 800;
-}
-
-.ctt-hero-cite {
-	display: block;
-	margin: 0 0 2rem 0;
-	color: var(--ctt-soft-grey);
-	font-style: normal;
-	font-weight: 700;
-}
-
-/* =========================================================
-   Sticky header that shrinks on scroll
-   ========================================================= */
-
-/* The header is injected into an empty #site-header div at runtime. Making the
-   DIV sticky pins it for the whole page: its containing block is <body>, which
-   is as tall as the document, so it stays at the top while scrolling. Making
-   .ctt-site-header itself sticky would NOT work, because its containing block
-   (#site-header) is only as tall as the header and would scroll away with it.
-   Sticky rather than fixed, so no page padding is needed and nothing shifts
-   when the fragment loads. */
-#site-header {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-}
-
-/* Anchor jumps (e.g. "Meet the Tutors" from the hero) must clear the sticky bar. */
-html {
-        scroll-padding-top: 6rem;
-}
-
-.ctt-header-inner {
-        transition:
-                min-height 0.25s ease,
-                padding 0.25s ease;
-}
-
-.ctt-brand {
-        transition:
-                width 0.25s ease,
-                height 0.25s ease;
-}
-
-.ctt-site-header {
-        transition: box-shadow 0.25s ease;
-}
-
-.ctt-site-header.is-scrolled {
-        box-shadow: 0 0.25rem 1rem rgba(57, 57, 57, 0.1);
-}
-
-.ctt-site-header.is-scrolled .ctt-header-inner {
-        min-height: 4.25rem;
-}
-
-.ctt-site-header.is-scrolled .ctt-brand {
-        width: 11rem;
-        height: 3.5rem;
-}
-
-.ctt-site-header.is-scrolled .ctt-navigation a {
-        min-height: 2.4rem;
-        padding: 0.45rem 0.85rem;
-        font-size: 0.9rem;
-}
-
-.ctt-site-header.is-scrolled .ctt-navigation .ctt-nav-button {
-        padding-left: 1.15rem;
-        padding-right: 1.15rem;
-}
-
-@media screen and (max-width: 980px) {
-        /* Phones and tablets: the tall mobile bar is what eats the screen, so
-           it shrinks the most here - roughly half its resting height. */
-        html {
-                scroll-padding-top: 4.5rem;
-        }
-
-        .ctt-site-header.is-scrolled .ctt-header-inner {
-                min-height: 3.25rem;
-        }
-
-        .ctt-site-header.is-scrolled .ctt-brand {
-                width: 8rem;
-                height: 2.5rem;
-        }
-
-        .ctt-site-header.is-scrolled .ctt-menu-toggle {
-                width: 2.5rem;
-                height: 2.5rem;
-        }
-
-        /* While the menu is open the bar keeps its full height, so open links
-           are never clipped by a bar that shrank under them. */
-        .ctt-site-header.is-menu-open .ctt-header-inner {
-                min-height: 5.5rem;
-        }
-
-        .ctt-site-header.is-menu-open .ctt-brand {
-                width: 12rem;
-                height: 4.5rem;
-        }
-}
-
-@media screen and (max-width: 480px) {
-        .ctt-site-header.is-scrolled .ctt-header-inner {
-                min-height: 3rem;
-        }
-
-        .ctt-site-header.is-scrolled .ctt-brand {
-                width: 7rem;
-                height: 2.25rem;
-        }
-}
-
-@media (prefers-reduced-motion: reduce) {
-        .ctt-header-inner,
-        .ctt-brand,
-        .ctt-site-header {
-                transition: none;
-        }
-}
-
-/* =========================================================
-   Search-facing content: subjects, grades, areas and FAQ
-   ========================================================= */
-
-.ctt-seo-block,
-.ctt-faq {
-        margin-top: 3.5rem;
-}
-
-.ctt-seo-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.5rem;
-        align-items: start;
-}
-
-.ctt-seo-panel {
-        padding: 2rem;
-        border: 1px solid var(--ctt-border);
-        border-radius: 0.75rem;
-        background: var(--ctt-white);
-}
-
-.ctt-seo-panel h3,
-.ctt-seo-areas h3 {
-        margin-bottom: 1rem;
-}
-
-.ctt-seo-panel h3:not(:first-child) {
-        margin-top: 2rem;
-}
-
-.ctt-seo-subject-group {
-        margin-bottom: 1.25rem;
-}
-
-.ctt-seo-subject-group h4,
-.ctt-seo-area-group h4 {
-        margin-bottom: 0.35rem;
-        color: var(--ctt-blue);
-        font-size: 0.8rem;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-}
-
-.ctt-seo-subject-group ul,
-.ctt-seo-list {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-}
-
-.ctt-seo-subject-group li,
-.ctt-seo-list li {
-        position: relative;
-        margin: 0 0 0.3rem 0;
-        padding-left: 1rem;
-        line-height: 1.5;
-        color: var(--ctt-dark-grey);
-}
-
-.ctt-seo-subject-group li::before,
-.ctt-seo-list li::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0.62em;
-        width: 0.35rem;
-        height: 0.35rem;
-        border-radius: 50%;
-        background: var(--ctt-blue);
-}
-
-.ctt-seo-areas {
-        margin-top: 2.5rem;
-        padding: 2rem;
-        border-radius: 0.75rem;
-        background: var(--ctt-light-bg);
-}
-
-.ctt-seo-area-group {
-        margin-bottom: 1.25rem;
-}
-
-/* One column of definitions per province on wide screens, stacked on phones. */
-.ctt-seo-areas {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-        gap: 0 1.5rem;
-        align-items: start;
-}
-
-.ctt-seo-areas h3 {
-        grid-column: 1 / -1;
-}
-
-.ctt-faq {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1.25rem 1.5rem;
-        align-items: start;
-}
-
-.ctt-faq .ctt-section-title {
-        grid-column: 1 / -1;
-}
-
-.ctt-faq-item {
-        padding: 1.5rem;
-        border: 1px solid var(--ctt-border);
-        border-radius: 0.75rem;
-        background: var(--ctt-white);
-}
-
-.ctt-faq-item h3 {
-        margin-bottom: 0.5rem;
-        font-size: 1.05rem;
-}
-
-.ctt-faq-item p {
-        margin: 0;
-        line-height: 1.6;
-}
-
-@media screen and (max-width: 980px) {
-        .ctt-seo-grid,
-        .ctt-faq {
-                grid-template-columns: minmax(0, 1fr);
-        }
-}
-
 
