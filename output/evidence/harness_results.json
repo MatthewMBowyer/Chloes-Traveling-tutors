@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T14:31:06Z",
+  "generated_at": "2026-10-16T17:17:54Z",
   "node_data": {
     "count": 16,
     "slugs": [
@@ -225,9 +225,9 @@
     "remote_list": "",
     "branch_not_main": true,
     "no_remote_configured": true,
-    "ls_remote_stdout": "94c1ce2963970d55dba613281e663c863e22f1ea\trefs/heads/main",
+    "ls_remote_stdout": "f742a196c81fcabacdb8c744a52cd4fd6596264d\trefs/heads/main",
     "ls_remote_rc": 0,
-    "upstream_head": "94c1ce2963970d55dba613281e663c863e22f1ea",
+    "upstream_head": "f742a196c81fcabacdb8c744a52cd4fd6596264d",
     "upstream_unchanged": false,
     "baseline_head": "37704102d40b0f1cd2664e07bf0db0ef9b3322eb"
   },
@@ -251,6 +251,186 @@
     "assets/js/render-tutors.js": 200,
     "assets/css/ctt-custom.css": 200,
     "footer.html (named in request)": 404
+  },
+  "roster_size": 16,
+  "seo_head": {
+    "pages": {
+      "index.html": {
+        "title": "Private Tutors in South Africa | Chloe's Travelling Tutors",
+        "description": "Private and online tutors in South Africa for Grades 1 to 12 and first-year university. In person in Gauteng, KwaZulu-Natal and the Western Cape. 20% off.",
+        "canonical": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/",
+        "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+        "og": {
+          "og:type": "website",
+          "og:site_name": "Chloe's Travelling Tutors",
+          "og:locale": "en_ZA",
+          "og:title": "Private Tutors in South Africa | Chloe's Travelling Tutors",
+          "og:description": "Private and online tutors in South Africa for Grades 1 to 12 and first-year university. In person in Gauteng, KwaZulu-Natal and the Western Cape. 20% off.",
+          "og:url": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/",
+          "og:image": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/images/ctt_social_share.jpg",
+          "og:image:width": "1200",
+          "og:image:height": "630",
+          "og:image:alt": "A tutor helping a learner, with the Chloe's Travelling Tutors logo"
+        },
+        "twitter": {
+          "twitter:card": "summary_large_image",
+          "twitter:title": "Private Tutors in South Africa | Chloe's Travelling Tutors",
+          "twitter:description": "Private and online tutors in South Africa for Grades 1 to 12 and first-year university. In person in Gauteng, KwaZulu-Natal and the Western Cape. 20% off.",
+          "twitter:image": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/images/ctt_social_share.jpg"
+        },
+        "lang": true,
+        "description_count": 1
+      },
+      "tutors.html": {
+        "title": "Meet Our Tutors | Qualified Tutors Across South Africa",
+        "description": "Meet our qualified tutors and subject specialists. Find a tutor by subject, grade and area, in person or online across South Africa.",
+        "canonical": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/tutors.html",
+        "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+        "og": {
+          "og:type": "website",
+          "og:site_name": "Chloe's Travelling Tutors",
+          "og:locale": "en_ZA",
+          "og:title": "Meet Our Tutors | Qualified Tutors Across South Africa",
+          "og:description": "Meet our qualified tutors and subject specialists. Find a tutor by subject, grade and area, in person or online across South Africa.",
+          "og:url": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/tutors.html",
+          "og:image": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/images/ctt_social_share.jpg",
+          "og:image:width": "1200",
+          "og:image:height": "630",
+          "og:image:alt": "A tutor helping a learner, with the Chloe's Travelling Tutors logo"
+        },
+        "twitter": {
+          "twitter:card": "summary_large_image",
+          "twitter:title": "Meet Our Tutors | Qualified Tutors Across South Africa",
+          "twitter:description": "Meet our qualified tutors and subject specialists. Find a tutor by subject, grade and area, in person or online across South Africa.",
+          "twitter:image": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/images/ctt_social_share.jpg"
+        },
+        "lang": true,
+        "description_count": 1
+      },
+      "contact.html": {
+        "title": "Book a Tutor in South Africa | Chloe's Travelling Tutors",
+        "description": "Book a tutor in South Africa. Tell us your child's grade, subjects and area and we will match them with the right tutor.",
+        "canonical": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/contact.html",
+        "robots": "index, follow, max-image-preview:large, max-snippet:-1",
+        "og": {
+          "og:type": "website",
+          "og:site_name": "Chloe's Travelling Tutors",
+          "og:locale": "en_ZA",
+          "og:title": "Book a Tutor in South Africa | Chloe's Travelling Tutors",
+          "og:description": "Book a tutor in South Africa. Tell us your child's grade, subjects and area and we will match them with the right tutor.",
+          "og:url": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/contact.html",
+          "og:image": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/images/ctt_social_share.jpg",
+          "og:image:width": "1200",
+          "og:image:height": "630",
+          "og:image:alt": "A tutor helping a learner, with the Chloe's Travelling Tutors logo"
+        },
+        "twitter": {
+          "twitter:card": "summary_large_image",
+          "twitter:title": "Book a Tutor in South Africa | Chloe's Travelling Tutors",
+          "twitter:description": "Book a tutor in South Africa. Tell us your child's grade, subjects and area and we will match them with the right tutor.",
+          "twitter:image": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/images/ctt_social_share.jpg"
+        },
+        "lang": true,
+        "description_count": 1
+      }
+    },
+    "titles_unique": true,
+    "descriptions_unique": true,
+    "titles_within_limit": true,
+    "descriptions_within_limit": true,
+    "canonicals_absolute_and_match_page": true,
+    "robots_indexable": true,
+    "single_description_per_page": true,
+    "og_complete": true,
+    "og_image_exists": true,
+    "twitter_complete": true,
+    "lang_en_za": true,
+    "za_tutor_wording": true,
+    "pass": true
+  },
+  "structured_data": {
+    "pages": {
+      "index.html": {
+        "blocks": 3,
+        "types": [
+          "EducationalOrganization",
+          "FAQPage",
+          "LocalBusiness",
+          "WebSite"
+        ],
+        "errors": [],
+        "has_org_id": true
+      },
+      "tutors.html": {
+        "blocks": 3,
+        "types": [
+          "BreadcrumbList",
+          "EducationalOrganization",
+          "ItemList",
+          "LocalBusiness"
+        ],
+        "errors": [],
+        "has_org_id": true
+      },
+      "contact.html": {
+        "blocks": 3,
+        "types": [
+          "BreadcrumbList",
+          "ContactPage",
+          "EducationalOrganization",
+          "LocalBusiness"
+        ],
+        "errors": [],
+        "has_org_id": true
+      }
+    },
+    "all_parse": true,
+    "required_types": true,
+    "org_identified": true,
+    "visible_faq_items": 7,
+    "marked_faq_items": 7,
+    "faq_text_matches": true,
+    "listed_tutors": 16,
+    "tutor_list_matches_roster": true,
+    "pass": true
+  },
+  "location_content": {
+    "roster_areas": 16,
+    "physical_areas": 14,
+    "missing_areas": [],
+    "all_areas_listed": true,
+    "online_areas_shown": true,
+    "provinces": [
+      "Gauteng",
+      "KwaZulu-Natal",
+      "Western Cape"
+    ],
+    "all_provinces_listed": true,
+    "south_africa_named": true,
+    "subject_items": 31,
+    "grade_items": 4,
+    "grade_coverage_wording": true,
+    "has_subjects_heading": true,
+    "has_faq_heading": true,
+    "areas_before_faq": true,
+    "pass": true
+  },
+  "crawl_files": {
+    "robots_exists": true,
+    "sitemap_exists": true,
+    "sitemap_declared": true,
+    "robots_allows_crawl": true,
+    "blog_not_disallowed": true,
+    "sitemap_urls": [
+      "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/",
+      "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/tutors.html",
+      "https://matthewmbowyer.github.io/Chloes-Traveling-tutors/contact.html"
+    ],
+    "sitemap_covers_public_pages": true,
+    "blog_excluded": true,
+    "sitemap_local_files_exist": true,
+    "no_noindex_sitemap_urls": true,
+    "pass": true
   },
   "console": {
     "index.html": [],
@@ -306,7 +486,9 @@
       "Chloe\u2019s Travelling Tutors \u2014 personalised tutoring",
       "Meet our tutors",
       "Getting started is easy!",
-      "Every child learns differently"
+      "Every child learns differently",
+      "Subjects, grades and areas we cover",
+      "Tutoring questions, answered"
     ],
     "h1Count": 1,
     "h1Texts": [
@@ -339,7 +521,9 @@
     "Chloe\u2019s Travelling Tutors \u2014 personalised tutoring",
     "Meet our tutors",
     "Getting started is easy!",
-    "Every child learns differently"
+    "Every child learns differently",
+    "Subjects, grades and areas we cover",
+    "Tutoring questions, answered"
   ],
   "filter": {
     "options": [
@@ -465,7 +649,7 @@
       "width": 1400,
       "height": 1000,
       "decodable": true,
-      "distinct_colours": 24711,
+      "distinct_colours": 24712,
       "ok": true
     },
     "01_homepage_full.png": {
@@ -473,7 +657,7 @@
       "width": 1400,
       "height": 5200,
       "decodable": true,
-      "distinct_colours": 17876,
+      "distinct_colours": 17937,
       "ok": true
     },
     "02_tutors_filter.png": {
@@ -621,7 +805,7 @@
           "text": "Contact"
         }
       ],
-      "robotsMeta": null,
+      "robotsMeta": "index, follow, max-image-preview:large, max-snippet:-1",
       "protocol": "http:"
     },
     "tutors.html": {
@@ -643,7 +827,7 @@
           "text": "Contact"
         }
       ],
-      "robotsMeta": null,
+      "robotsMeta": "index, follow, max-image-preview:large, max-snippet:-1",
       "protocol": "http:"
     },
     "blog.html": {
@@ -687,7 +871,7 @@
           "text": "Contact"
         }
       ],
-      "robotsMeta": null,
+      "robotsMeta": "index, follow, max-image-preview:large, max-snippet:-1",
       "protocol": "http:"
     }
   },
@@ -727,13 +911,41 @@
       "Tutors"
     ],
     "robots_by_page": {
-      "index.html": null,
-      "tutors.html": null,
+      "index.html": "index, follow, max-image-preview:large, max-snippet:-1",
+      "tutors.html": "index, follow, max-image-preview:large, max-snippet:-1",
       "blog.html": "noindex, nofollow",
-      "contact.html": null
+      "contact.html": "index, follow, max-image-preview:large, max-snippet:-1"
     },
     "blog_not_indexed": true,
     "blog_page_still_served": true,
     "hidden": true
+  },
+  "header_shrink": {
+    "phone": {
+      "width": 500,
+      "stickyContainer": "sticky",
+      "innerPosition": "relative",
+      "beforeHeight": 81,
+      "beforeBrandHeight": 66,
+      "beforeTop": 0,
+      "beforeScrolled": false,
+      "immediateScrollY": 867,
+      "scrollY": 867,
+      "scrollingElement": "HTML",
+      "htmlOverflowY": "visible",
+      "bodyOverflowY": "visible",
+      "docHeight": 9042,
+      "afterHeight": 48,
+      "afterBrandHeight": 37,
+      "afterTop": 0,
+      "afterScrolled": true,
+      "afterMinHeight": "47.6667px",
+      "restoredScrollY": 0,
+      "restoredHeight": 81,
+      "restoredScrolled": false
+    },
+    "shrink_ratio": 0.593,
+    "shrink_px": 33,
+    "pass": true
   }
 }

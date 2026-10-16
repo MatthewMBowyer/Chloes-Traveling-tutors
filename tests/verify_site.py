@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html
 import json
 import os
 import re
@@ -24,6 +25,7 @@ import tempfile
 import time
 import urllib.error
 import urllib.request
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -1256,6 +1258,483 @@ window.addEventListener("load", function () {
 # Main
 # --------------------------------------------------------------------------
 
+# --------------------------------------------------------------------------
+# Round 3 SEO and mobile header
+# --------------------------------------------------------------------------
+
+SEO_BASE = "https://matthewmbowyer.github.io/Chloes-Traveling-tutors"
+SEO_PAGES = ["index.html", "tutors.html", "contact.html"]
+SEO_URL = {
+    "index.html": SEO_BASE + "/",
+    "tutors.html": SEO_BASE + "/tutors.html",
+    "contact.html": SEO_BASE + "/contact.html",
+}
+TITLE_MAX = 60
+DESCRIPTION_MAX = 160
+REQUIRED_SCHEMA_TYPES = {
+    "index.html": {"EducationalOrganization", "WebSite", "FAQPage"},
+    "tutors.html": {"EducationalOrganization", "ItemList", "BreadcrumbList"},
+    "contact.html": {"EducationalOrganization", "BreadcrumbList", "ContactPage"},
+}
+ONLINE_AREA_HINT = "online"
+
+
+def html_unescape(value: str) -> str:
+    """Decode entities in a fragment scraped out of the page source."""
+    return html.unescape(value)
+
+
+def page_source(page: str) -> str:
+    return (SITE / page).read_text(encoding="utf-8", errors="ignore")
+
+
+def roster() -> list[dict]:
+    """The tutor records the site actually renders, parsed straight from the data file."""
+    raw = (SITE / "assets/data/tutors.js").read_text(encoding="utf-8")
+    return json.loads(raw[raw.index("[") : raw.rindex("]") + 1])
+
+
+def seo_head_checks() -> dict:
+    """Round 3 (R3-02): each public page carries its own indexable head data."""
+    out: dict = {"pages": {}}
+    for page in SEO_PAGES:
+        text = page_source(page)
+        title = re.search(r"<title>(.*?)</title>", text, re.S)
+        desc = re.search(r'<meta name="description" content="([^"]*)"', text)
+        canonical = re.search(r'<link rel="canonical" href="([^"]*)"', text)
+        robots = re.search(r'<meta name="robots" content="([^"]*)"', text)
+        og = dict(re.findall(r'<meta property="(og:[^"]+)" content="([^"]*)"', text))
+        twitter = dict(re.findall(r'<meta name="(twitter:[^"]+)" content="([^"]*)"', text))
+        out["pages"][page] = {
+            "title": title.group(1).strip() if title else None,
+            "description": desc.group(1).strip() if desc else None,
+            "canonical": canonical.group(1).strip() if canonical else None,
+            "robots": robots.group(1).strip() if robots else None,
+            "og": og,
+            "twitter": twitter,
+            "lang": bool(re.search(r'<html lang="en-ZA">', text)),
+            "description_count": text.count('name="description"'),
+        }
+
+    pages = out["pages"]
+    titles = {p: d["title"] for p, d in pages.items()}
+    descriptions = {p: d["description"] for p, d in pages.items()}
+
+    out["titles_unique"] = len(set(titles.values())) == len(titles)
+    out["descriptions_unique"] = len(set(descriptions.values())) == len(descriptions)
+    out["titles_within_limit"] = all(t and len(t) <= TITLE_MAX for t in titles.values())
+    out["descriptions_within_limit"] = all(
+        d and len(d) <= DESCRIPTION_MAX for d in descriptions.values()
+    )
+    out["canonicals_absolute_and_match_page"] = all(
+        pages[p]["canonical"] == SEO_URL[p] for p in SEO_PAGES
+    )
+    out["robots_indexable"] = all(
+        (pages[p]["robots"] or "").startswith("index")
+        and "noindex" not in (pages[p]["robots"] or "")
+        for p in SEO_PAGES
+    )
+    out["single_description_per_page"] = all(
+        pages[p]["description_count"] == 1 for p in SEO_PAGES
+    )
+    out["og_complete"] = all(
+        all(key in pages[p]["og"] for key in ("og:title", "og:description", "og:url", "og:image"))
+        and pages[p]["og"].get("og:url") == SEO_URL[p]
+        for p in SEO_PAGES
+    )
+    out["og_image_exists"] = (SITE / "images/ctt_social_share.jpg").is_file()
+    out["twitter_complete"] = all(
+        all(key in pages[p]["twitter"] for key in ("twitter:card", "twitter:title", "twitter:image"))
+        for p in SEO_PAGES
+    )
+    out["lang_en_za"] = all(pages[p]["lang"] for p in SEO_PAGES)
+
+    # The South African tutor-seeker wording has to be in the head, not just the body.
+    index_title = (titles.get("index.html") or "").lower()
+    index_desc = (descriptions.get("index.html") or "").lower()
+    out["za_tutor_wording"] = (
+        "south africa" in index_title
+        and "tutor" in index_title
+        and "south africa" in index_desc
+    )
+
+    out["pass"] = all(
+        out[key]
+        for key in [
+            "titles_unique",
+            "descriptions_unique",
+            "titles_within_limit",
+            "descriptions_within_limit",
+            "canonicals_absolute_and_match_page",
+            "robots_indexable",
+            "single_description_per_page",
+            "og_complete",
+            "og_image_exists",
+            "twitter_complete",
+            "lang_en_za",
+            "za_tutor_wording",
+        ]
+    )
+    return out
+
+
+def structured_data_checks(tutors: list[dict]) -> dict:
+    """Round 3 (R3-03): JSON-LD parses and the FAQ markup matches the FAQ text.
+
+    Mismatched FAQ schema (markup words a question the page does not show) is a
+    rich-result violation, so the visible and marked-up FAQ must be identical.
+    """
+    out: dict = {"pages": {}}
+    for page in SEO_PAGES:
+        blocks = re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>', page_source(page), re.S
+        )
+        parsed = []
+        errors = []
+        for block in blocks:
+            try:
+                parsed.append(json.loads(block))
+            except json.JSONDecodeError as exc:
+                errors.append(str(exc))
+        types = set()
+        for item in parsed:
+            value = item.get("@type")
+            types.update(value if isinstance(value, list) else [value])
+        out["pages"][page] = {
+            "blocks": len(blocks),
+            "types": sorted(types),
+            "errors": errors,
+            "has_org_id": any(
+                item.get("@id") == SEO_BASE + "/#organization" for item in parsed
+            ),
+        }
+
+    out["all_parse"] = all(not d["errors"] for d in out["pages"].values())
+    out["required_types"] = all(
+        REQUIRED_SCHEMA_TYPES[page] <= set(d["types"]) for page, d in out["pages"].items()
+    )
+    out["org_identified"] = all(d["has_org_id"] for d in out["pages"].values())
+
+    # Visible FAQ text vs FAQPage markup.
+    index = page_source("index.html")
+    visible = [
+        (html_unescape(h3).strip(), html_unescape(p).strip())
+        for h3, p in re.findall(
+            r'<div class="ctt-faq-item">\s*<h3>(.*?)</h3>\s*<p>(.*?)</p>', index, re.S
+        )
+    ]
+    faq_block = next(
+        (
+            block
+            for block in re.findall(
+                r'<script type="application/ld\+json">(.*?)</script>', index, re.S
+            )
+            if '"FAQPage"' in block
+        ),
+        None,
+    )
+    marked = []
+    if faq_block:
+        data = json.loads(faq_block)
+        marked = [
+            (item["name"].strip(), item["acceptedAnswer"]["text"].strip())
+            for item in data.get("mainEntity", [])
+        ]
+    out["visible_faq_items"] = len(visible)
+    out["marked_faq_items"] = len(marked)
+    out["faq_text_matches"] = visible == marked
+    if not out["faq_text_matches"]:
+        out["faq_diff"] = {
+            "only_visible": [q for q, _ in visible if (q, _) not in marked],
+            "only_marked": [q for q, _ in marked if (q, _) not in visible],
+        }
+
+    # A tutor ItemList, if present, must cover the roster.
+    tutors_block = next(
+        (
+            block
+            for block in re.findall(
+                r'<script type="application/ld\+json">(.*?)</script>',
+                page_source("tutors.html"),
+                re.S,
+            )
+            if '"ItemList"' in block
+        ),
+        None,
+    )
+    listed = []
+    if tutors_block:
+        data = json.loads(tutors_block)
+        listed = [item["item"]["name"] for item in data.get("itemListElement", [])]
+    out["listed_tutors"] = len(listed)
+    out["tutor_list_matches_roster"] = listed == [t["name"] for t in tutors]
+
+    out["pass"] = bool(
+        out["all_parse"]
+        and out["required_types"]
+        and out["org_identified"]
+        and out["faq_text_matches"]
+        and out["visible_faq_items"] >= 5
+        and out["tutor_list_matches_roster"]
+    )
+    return out
+
+
+def location_content_checks(tutors: list[dict]) -> dict:
+    """Round 3 (R3-04): the crawlable copy still matches the tutor roster.
+
+    Search visibility comes from describing where the tutors actually are, so
+    every roster area has to appear on the homepage. Areas that are online-only
+    are excluded from the area list and covered by the online wording instead.
+    """
+    out: dict = {}
+    index = page_source("index.html")
+
+    areas = sorted({t["area"] for t in tutors})
+    physical = [a for a in areas if ONLINE_AREA_HINT not in a.lower()]
+    missing = [a for a in physical if a not in index]
+    out["roster_areas"] = len(areas)
+    out["physical_areas"] = len(physical)
+    out["missing_areas"] = missing
+    out["all_areas_listed"] = not missing
+    out["online_areas_shown"] = "online" in index.lower()
+
+    provinces: set[str] = set()
+    for tutor in tutors:
+        provinces.update(tutor["province"])
+    out["provinces"] = sorted(provinces)
+    out["all_provinces_listed"] = all(p in index for p in provinces)
+    out["south_africa_named"] = "South Africa" in index
+
+    out["subject_items"] = 0
+    out["grade_items"] = 0
+    if "<h3>Subjects</h3>" in index and "<h3>Grades</h3>" in index:
+        subjects = index[index.index("<h3>Subjects</h3>") : index.index("<h3>Grades</h3>")]
+        out["subject_items"] = len(re.findall(r"<li>", subjects))
+    if "<h3>Grades</h3>" in index and "<h3>How lessons run</h3>" in index:
+        grades = index[index.index("<h3>Grades</h3>") : index.index("<h3>How lessons run</h3>")]
+        out["grade_items"] = len(re.findall(r"<li>", grades))
+    out["grade_coverage_wording"] = (
+        "Grades 1 to 7" in index
+        and "Grades 10 to 12" in index
+        and "University" in index
+    )
+    out["has_subjects_heading"] = "Subjects, grades and areas we" in index
+    out["has_faq_heading"] = "Tutoring questions," in index
+    # The FAQ answer points readers at the area list, so that list has to come
+    # before the FAQ for the wording to be true.
+    out["areas_before_faq"] = index.index("Where we tutor") < index.index("Tutoring questions,")
+
+    out["pass"] = bool(
+        out["all_areas_listed"]
+        and out["online_areas_shown"]
+        and out["all_provinces_listed"]
+        and out["south_africa_named"]
+        and out["subject_items"] >= 25
+        and out["grade_items"] >= 4
+        and out["grade_coverage_wording"]
+        and out["has_subjects_heading"]
+        and out["has_faq_heading"]
+        and out["areas_before_faq"]
+    )
+    return out
+
+
+def crawl_file_checks() -> dict:
+    """Round 3 (R3-05): robots.txt and sitemap.xml agree with the noindex blog.
+
+    The blog page is noindex and must stay out of the sitemap, and it is
+    deliberately NOT Disallowed in robots.txt: a blocked URL can still be indexed
+    from external links because the crawler never gets to read the noindex tag.
+    """
+    out: dict = {}
+    robots_path = SITE / "robots.txt"
+    sitemap_path = SITE / "sitemap.xml"
+    out["robots_exists"] = robots_path.is_file()
+    out["sitemap_exists"] = sitemap_path.is_file()
+    if not (out["robots_exists"] and out["sitemap_exists"]):
+        out["pass"] = False
+        return out
+
+    robots = robots_path.read_text(encoding="utf-8")
+    sitemap = sitemap_path.read_text(encoding="utf-8")
+    out["sitemap_declared"] = f"Sitemap: {SEO_BASE}/sitemap.xml" in robots
+    out["robots_allows_crawl"] = bool(re.search(r"^Allow: /\s*$", robots, re.M))
+    out["blog_not_disallowed"] = "blog.html" not in robots
+
+    try:
+        root = ET.fromstring(sitemap)
+        locs = [el.text.strip() for el in root.iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
+    except ET.ParseError as exc:
+        out["sitemap_error"] = str(exc)
+        out["pass"] = False
+        return out
+
+    out["sitemap_urls"] = locs
+    out["sitemap_covers_public_pages"] = locs == [SEO_URL[p] for p in SEO_PAGES]
+    out["blog_excluded"] = not any("blog" in loc for loc in locs)
+    out["sitemap_local_files_exist"] = all(
+        (SITE / loc.replace(SEO_BASE + "/", "") or SITE).is_file()
+        or loc == SEO_BASE + "/"
+        for loc in locs
+    )
+    # A sitemap URL that is also noindex is a contradictory signal.
+    noindex_in_sitemap = [
+        loc
+        for loc in locs
+        if loc != SEO_BASE + "/"
+        and "noindex"
+        in page_source(loc.replace(SEO_BASE + "/", ""))[:2000].lower()
+    ]
+    out["no_noindex_sitemap_urls"] = not noindex_in_sitemap
+    out["pass"] = bool(
+        out["sitemap_declared"]
+        and out["robots_allows_crawl"]
+        and out["blog_not_disallowed"]
+        and out["sitemap_covers_public_pages"]
+        and out["blog_excluded"]
+        and out["sitemap_local_files_exist"]
+        and out["no_noindex_sitemap_urls"]
+    )
+    return out
+
+
+SHRINK_NO_TRANSITION = """<style>
+.ctt-header-inner, .ctt-brand, .ctt-site-header { transition: none !important; }
+</style>
+"""
+
+SHRINK_PROBE = """<script>
+window.addEventListener("load", function () {
+  setTimeout(function () {
+    var header = document.querySelector(".ctt-site-header");
+    var inner = document.querySelector(".ctt-header-inner");
+    var brand = document.querySelector(".ctt-brand");
+
+    // The site sets html { scroll-behavior: smooth }. That animates scrollTo()
+    // and leaves the offset at 0 under a headless virtual clock, so pin it to
+    // auto for this probe; the shrink behaviour itself is what is being read.
+    document.documentElement.style.scrollBehavior = "auto";
+
+    function height(el) { return el ? Math.round(el.getBoundingClientRect().height) : null; }
+    function topOf(el) { return el ? Math.round(el.getBoundingClientRect().top) : null; }
+    function pageY() { return Math.round(window.pageYOffset || document.documentElement.scrollTop || 0); }
+
+    // Headless Chromium does not reliably deliver a scroll event for every
+    // scrollTo() under the virtual clock, so if the page is already at an
+    // offset that should have flipped the class, fire the event the browser
+    // would have fired. The page's own listener still does the work, so an
+    // unwired or broken listener fails this probe rather than passing.
+    function nudgeIfEventMissing() {
+      var scrolled = header.classList.contains("is-scrolled");
+      if ((pageY() > 60 && !scrolled) || (pageY() < 20 && scrolled)) {
+        window.dispatchEvent(new Event("scroll"));
+      }
+    }
+
+    var result = {
+      width: window.innerWidth,
+      stickyContainer: header ? getComputedStyle(header.parentElement).position : null,
+      innerPosition: inner ? getComputedStyle(inner.parentElement).position : null,
+      beforeHeight: height(inner),
+      beforeBrandHeight: height(brand),
+      beforeTop: topOf(header),
+      beforeScrolled: header ? header.classList.contains("is-scrolled") : null
+    };
+
+    window.scrollTo(0, 900);
+
+    setTimeout(function () {
+      nudgeIfEventMissing();
+      result.immediateScrollY = pageY();
+      result.scrollY = pageY();
+      result.scrollingElement = document.scrollingElement ? document.scrollingElement.tagName : null;
+      result.htmlOverflowY = getComputedStyle(document.documentElement).overflowY;
+      result.bodyOverflowY = getComputedStyle(document.body).overflowY;
+      result.docHeight = document.documentElement.scrollHeight;
+      result.afterHeight = height(inner);
+      result.afterBrandHeight = height(brand);
+      result.afterTop = topOf(header);
+      result.afterScrolled = header ? header.classList.contains("is-scrolled") : null;
+      result.afterMinHeight = inner ? getComputedStyle(inner).minHeight : null;
+
+      window.scrollTo(0, 0);
+
+      setTimeout(function () {
+        nudgeIfEventMissing();
+        result.restoredScrollY = pageY();
+        result.restoredHeight = height(inner);
+        result.restoredScrolled = header ? header.classList.contains("is-scrolled") : null;
+
+        var blob = document.createElement("script");
+        blob.type = "application/json";
+        blob.id = "cttShrinkResult";
+        blob.textContent = JSON.stringify(result);
+        document.body.appendChild(blob);
+      }, 700);
+    }, 700);
+  }, 1200);
+});
+</script>
+"""
+
+
+def probe_header_shrink(tmp: Path, port: int, width: int) -> dict:
+    """Measure the header before, during and after a scroll at one viewport width."""
+    probe = tmp / f"__shrink_{width}.html"
+    shutil.copyfile(tmp / "index.html", probe)
+    # Neutralise the 0.25s height transition for the probe, as the screenshot
+    # capture does: the animated clock barely advances under the headless
+    # virtual clock, so a mid-flight rect would be measured instead of the
+    # settled height. The class toggle itself is still the real code path.
+    inject_head(probe, SHRINK_NO_TRANSITION)
+    inject_head(probe, SHRINK_PROBE)
+    dom = dump_dom(
+        f"http://127.0.0.1:{port}/{probe.name}",
+        extra_args=[f"--window-size={width},844"],
+        budget=8000,
+    )
+    match = re.search(
+        r'<script type="application/json" id="cttShrinkResult">(.*?)</script>', dom, re.S
+    )
+    if not match:
+        return {"error": "no shrink result", "dom_has_header": ".ctt-site-header" in dom}
+    return json.loads(html_unescape(match.group(1)))
+
+
+def header_shrink_checks(tmp: Path, port: int) -> dict:
+    """Round 3 (R3-06): the header pins to the top and shrinks once scrolled.
+
+    Measured at phone width, where a tall bar costs the most screen.
+    """
+    out: dict = {"phone": probe_header_shrink(tmp, port, 390)}
+    phone = out["phone"]
+    if phone.get("error"):
+        out["pass"] = False
+        return out
+
+    before = phone.get("beforeHeight")
+    after = phone.get("afterHeight")
+    both_measured = isinstance(before, int) and isinstance(after, int) and before > 0
+    out["shrink_ratio"] = round(after / before, 3) if both_measured else None
+    out["shrink_px"] = (before - after) if both_measured else None
+    # The bar pins to the viewport top while scrolled and gives back a large
+    # share of its height; phone rest height is 5.5rem and scrolled is 3rem, so
+    # anything above 0.72 means the shrink did not really happen.
+    out["pass"] = bool(
+        phone.get("stickyContainer") == "sticky"
+        and phone.get("afterTop") == 0
+        and phone.get("afterScrolled") is True
+        and phone.get("beforeScrolled") is False
+        and phone.get("restoredScrolled") is False
+        and both_measured
+        and after < before
+        and after <= before * 0.72
+        and phone.get("restoredHeight") == before
+    )
+    return out
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", type=int, default=8010, help="port for the real-site HTTP probes")
@@ -1417,6 +1896,50 @@ def run_all(args, report: dict, tmp: Path) -> None:
     required_ok = all(statuses[p] == 200 for p in REQUIRED_PATHS)
     record("PASS" if required_ok else "FAIL", "AC-21",
            "; ".join(f"{k}={v}" for k, v in statuses.items()))
+
+    # 5b. Round 3 SEO: head metadata, structured data, location copy, crawl files.
+    # All static: these read the shipped files, so they prove what is published.
+    tutors = roster()
+    report["roster_size"] = len(tutors)
+
+    head = seo_head_checks()
+    report["seo_head"] = head
+    record("PASS" if head["pass"] else "FAIL", "R3-02",
+           "titles unique=%s within %s chars=%s; descriptions unique=%s within %s chars=%s; "
+           "canonicals=%s; robots indexable=%s; og=%s; twitter=%s; lang=%s; ZA tutor wording=%s"
+           % (head["titles_unique"], TITLE_MAX, head["titles_within_limit"],
+              head["descriptions_unique"], DESCRIPTION_MAX, head["descriptions_within_limit"],
+              head["canonicals_absolute_and_match_page"], head["robots_indexable"],
+              head["og_complete"], head["twitter_complete"], head["lang_en_za"],
+              head["za_tutor_wording"]))
+
+    schema = structured_data_checks(tutors)
+    report["structured_data"] = schema
+    record("PASS" if schema["pass"] else "FAIL", "R3-03",
+           "blocks=%s types=%s parse=%s org@id=%s; visible FAQ=%s marked=%s match=%s%s; "
+           "listed tutors=%s matchRoster=%s"
+           % ({p: d["blocks"] for p, d in schema["pages"].items()},
+              {p: d["types"] for p, d in schema["pages"].items()},
+              schema["all_parse"], schema["org_identified"],
+              schema["visible_faq_items"], schema["marked_faq_items"], schema["faq_text_matches"],
+              f" diff={schema['faq_diff']}" if schema.get("faq_diff") else "",
+              schema["listed_tutors"], schema["tutor_list_matches_roster"]))
+
+    location = location_content_checks(tutors)
+    report["location_content"] = location
+    record("PASS" if location["pass"] else "FAIL", "R3-04",
+           f"roster areas={location['roster_areas']} physical={location['physical_areas']} "
+           f"missing={location['missing_areas'] or 'none'}; provinces={location['provinces']} "
+           f"all listed={location['all_provinces_listed']}; subject items={location['subject_items']} "
+           f"grade items={location['grade_items']}; South Africa named={location['south_africa_named']}")
+
+    crawl = crawl_file_checks()
+    report["crawl_files"] = crawl
+    record("PASS" if crawl["pass"] else "FAIL", "R3-05",
+           f"robots declared sitemap={crawl.get('sitemap_declared')} allows crawl={crawl.get('robots_allows_crawl')} "
+           f"blog not disallowed={crawl.get('blog_not_disallowed')}; sitemap urls={crawl.get('sitemap_urls')} "
+           f"blog excluded={crawl.get('blog_excluded')} files exist={crawl.get('sitemap_local_files_exist')} "
+           f"no noindex urls={crawl.get('no_noindex_sitemap_urls')}")
 
     # 6. Rendered-DOM probes against the throwaway copy
     if CHROMIUM:
@@ -1628,6 +2151,19 @@ def run_all(args, report: dict, tmp: Path) -> None:
                f"blog unlisted: rendered nav {hidden['nav_labels']} over pages "
                f"{hidden['nav_pages_without_blog']}; blog noindex={hidden['blog_not_indexed']}; "
                f"page still served={hidden['blog_page_still_served']}")
+
+        # Round 3: the owner wants the taller phone bar to shrink as the page
+        # scrolls, so the header stops eating the screen.
+        shrink = header_shrink_checks(tmp, args.probe_port)
+        report["header_shrink"] = shrink
+        phone = shrink["phone"]
+        record("PASS" if shrink["pass"] else "FAIL", "R3-06",
+               f"phone {phone.get('width')}px: container={phone.get('stickyContainer')} "
+               f"height {phone.get('beforeHeight')}->{phone.get('afterHeight')} "
+               f"(brand {phone.get('beforeBrandHeight')}->{phone.get('afterBrandHeight')}, "
+               f"ratio={shrink.get('shrink_ratio')}), pinned at top={phone.get('afterTop')} "
+               f"while scrolled={phone.get('afterScrolled')}; restored="
+               f"{phone.get('restoredHeight')} scrolled={phone.get('restoredScrolled')}")
     else:
         record("FAIL", "AC-23", "chromium not available for rendered-DOM probes")
 

@@ -1119,3 +1119,251 @@ p {
 	font-style: normal;
 	font-weight: 700;
 }
+
+/* =========================================================
+   Sticky header that shrinks on scroll
+   ========================================================= */
+
+/* The header is injected into an empty #site-header div at runtime. Making the
+   DIV sticky pins it for the whole page: its containing block is <body>, which
+   is as tall as the document, so it stays at the top while scrolling. Making
+   .ctt-site-header itself sticky would NOT work, because its containing block
+   (#site-header) is only as tall as the header and would scroll away with it.
+   Sticky rather than fixed, so no page padding is needed and nothing shifts
+   when the fragment loads. */
+#site-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+}
+
+/* Anchor jumps (e.g. "Meet the Tutors" from the hero) must clear the sticky bar. */
+html {
+        scroll-padding-top: 6rem;
+}
+
+.ctt-header-inner {
+        transition:
+                min-height 0.25s ease,
+                padding 0.25s ease;
+}
+
+.ctt-brand {
+        transition:
+                width 0.25s ease,
+                height 0.25s ease;
+}
+
+.ctt-site-header {
+        transition: box-shadow 0.25s ease;
+}
+
+.ctt-site-header.is-scrolled {
+        box-shadow: 0 0.25rem 1rem rgba(57, 57, 57, 0.1);
+}
+
+.ctt-site-header.is-scrolled .ctt-header-inner {
+        min-height: 4.25rem;
+}
+
+.ctt-site-header.is-scrolled .ctt-brand {
+        width: 11rem;
+        height: 3.5rem;
+}
+
+.ctt-site-header.is-scrolled .ctt-navigation a {
+        min-height: 2.4rem;
+        padding: 0.45rem 0.85rem;
+        font-size: 0.9rem;
+}
+
+.ctt-site-header.is-scrolled .ctt-navigation .ctt-nav-button {
+        padding-left: 1.15rem;
+        padding-right: 1.15rem;
+}
+
+@media screen and (max-width: 980px) {
+        /* Phones and tablets: the tall mobile bar is what eats the screen, so
+           it shrinks the most here - roughly half its resting height. */
+        html {
+                scroll-padding-top: 4.5rem;
+        }
+
+        .ctt-site-header.is-scrolled .ctt-header-inner {
+                min-height: 3.25rem;
+        }
+
+        .ctt-site-header.is-scrolled .ctt-brand {
+                width: 8rem;
+                height: 2.5rem;
+        }
+
+        .ctt-site-header.is-scrolled .ctt-menu-toggle {
+                width: 2.5rem;
+                height: 2.5rem;
+        }
+
+        /* While the menu is open the bar keeps its full height, so open links
+           are never clipped by a bar that shrank under them. */
+        .ctt-site-header.is-menu-open .ctt-header-inner {
+                min-height: 5.5rem;
+        }
+
+        .ctt-site-header.is-menu-open .ctt-brand {
+                width: 12rem;
+                height: 4.5rem;
+        }
+}
+
+@media screen and (max-width: 480px) {
+        .ctt-site-header.is-scrolled .ctt-header-inner {
+                min-height: 3rem;
+        }
+
+        .ctt-site-header.is-scrolled .ctt-brand {
+                width: 7rem;
+                height: 2.25rem;
+        }
+}
+
+@media (prefers-reduced-motion: reduce) {
+        .ctt-header-inner,
+        .ctt-brand,
+        .ctt-site-header {
+                transition: none;
+        }
+}
+
+/* =========================================================
+   Search-facing content: subjects, grades, areas and FAQ
+   ========================================================= */
+
+.ctt-seo-block,
+.ctt-faq {
+        margin-top: 3.5rem;
+}
+
+.ctt-seo-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+}
+
+.ctt-seo-panel {
+        padding: 2rem;
+        border: 1px solid var(--ctt-border);
+        border-radius: 0.75rem;
+        background: var(--ctt-white);
+}
+
+.ctt-seo-panel h3,
+.ctt-seo-areas h3 {
+        margin-bottom: 1rem;
+}
+
+.ctt-seo-panel h3:not(:first-child) {
+        margin-top: 2rem;
+}
+
+.ctt-seo-subject-group {
+        margin-bottom: 1.25rem;
+}
+
+.ctt-seo-subject-group h4,
+.ctt-seo-area-group h4 {
+        margin-bottom: 0.35rem;
+        color: var(--ctt-blue);
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+}
+
+.ctt-seo-subject-group ul,
+.ctt-seo-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+}
+
+.ctt-seo-subject-group li,
+.ctt-seo-list li {
+        position: relative;
+        margin: 0 0 0.3rem 0;
+        padding-left: 1rem;
+        line-height: 1.5;
+        color: var(--ctt-dark-grey);
+}
+
+.ctt-seo-subject-group li::before,
+.ctt-seo-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.62em;
+        width: 0.35rem;
+        height: 0.35rem;
+        border-radius: 50%;
+        background: var(--ctt-blue);
+}
+
+.ctt-seo-areas {
+        margin-top: 2.5rem;
+        padding: 2rem;
+        border-radius: 0.75rem;
+        background: var(--ctt-light-bg);
+}
+
+.ctt-seo-area-group {
+        margin-bottom: 1.25rem;
+}
+
+/* One column of definitions per province on wide screens, stacked on phones. */
+.ctt-seo-areas {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+        gap: 0 1.5rem;
+        align-items: start;
+}
+
+.ctt-seo-areas h3 {
+        grid-column: 1 / -1;
+}
+
+.ctt-faq {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem 1.5rem;
+        align-items: start;
+}
+
+.ctt-faq .ctt-section-title {
+        grid-column: 1 / -1;
+}
+
+.ctt-faq-item {
+        padding: 1.5rem;
+        border: 1px solid var(--ctt-border);
+        border-radius: 0.75rem;
+        background: var(--ctt-white);
+}
+
+.ctt-faq-item h3 {
+        margin-bottom: 0.5rem;
+        font-size: 1.05rem;
+}
+
+.ctt-faq-item p {
+        margin: 0;
+        line-height: 1.6;
+}
+
+@media screen and (max-width: 980px) {
+        .ctt-seo-grid,
+        .ctt-faq {
+                grid-template-columns: minmax(0, 1fr);
+        }
+}
+
+
