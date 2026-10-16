@@ -1,0 +1,19 @@
+{
+  "source": "images/index_open_image.jpeg",
+  "source_size": [
+    1122,
+    1402
+  ],
+  "crop": "images/hero_study_crop.jpeg",
+  "crop_size": [
+    822,
+    1010
+  ],
+  "crop_is_smaller": true,
+  "origin_in_source": [
+    300,
+    392
+  ],
+  "mean_absolute_pixel_difference": 1.268,
+  "match": true
+}
