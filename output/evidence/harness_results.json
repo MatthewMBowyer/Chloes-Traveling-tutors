@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T17:17:54Z",
+  "generated_at": "2026-10-16T17:33:43Z",
   "node_data": {
     "count": 16,
     "slugs": [
@@ -225,9 +225,9 @@
     "remote_list": "",
     "branch_not_main": true,
     "no_remote_configured": true,
-    "ls_remote_stdout": "f742a196c81fcabacdb8c744a52cd4fd6596264d\trefs/heads/main",
+    "ls_remote_stdout": "a303c22ded58fc2c0aa7aa40a02ef5433091078c\trefs/heads/main",
     "ls_remote_rc": 0,
-    "upstream_head": "f742a196c81fcabacdb8c744a52cd4fd6596264d",
+    "upstream_head": "a303c22ded58fc2c0aa7aa40a02ef5433091078c",
     "upstream_unchanged": false,
     "baseline_head": "37704102d40b0f1cd2664e07bf0db0ef9b3322eb"
   },
@@ -430,6 +430,70 @@
     "blog_excluded": true,
     "sitemap_local_files_exist": true,
     "no_noindex_sitemap_urls": true,
+    "pass": true
+  },
+  "enquiry_source": {
+    "module_present": true,
+    "script_present": true,
+    "doc_present": true,
+    "transports": {
+      "formdata": true,
+      "beacon": true,
+      "no_cors_fallback": true
+    },
+    "endpoint_paste_point": true,
+    "loaded_by_page": true,
+    "send_before_whatsapp": true,
+    "prevent_default_first": true,
+    "sent_keys": [
+      "parentName",
+      "phone",
+      "email",
+      "learnerName",
+      "grade",
+      "subject",
+      "lessonType",
+      "area",
+      "preferredTutor",
+      "message",
+      "assessmentCompleted",
+      "strongestPreference",
+      "secondaryPreference",
+      "visualScore",
+      "auditoryScore",
+      "readWriteScore",
+      "kinestheticScore",
+      "sourcePage"
+    ],
+    "sheet_fields": [
+      "parentName",
+      "phone",
+      "email",
+      "learnerName",
+      "grade",
+      "subject",
+      "lessonType",
+      "area",
+      "preferredTutor",
+      "message",
+      "assessmentCompleted",
+      "strongestPreference",
+      "secondaryPreference",
+      "visualScore",
+      "auditoryScore",
+      "readWriteScore",
+      "kinestheticScore",
+      "sourcePage"
+    ],
+    "keys_match_sheet": true,
+    "sheet_header_count": 19,
+    "headers_cover_fields": true,
+    "script_has_handlers": true,
+    "script_sanitises": true,
+    "script_no_hardcoded_sheet": true,
+    "captures_asked_fields": true,
+    "whatsapp_literal_intact": true,
+    "doc_has_steps": true,
     "pass": true
   },
   "console": {
@@ -781,7 +845,7 @@
       "bad": {}
     },
     "contact.html": {
-      "checked": 31,
+      "checked": 32,
       "bad": {}
     }
   },
@@ -946,6 +1010,431 @@
     },
     "shrink_ratio": 0.593,
     "shrink_px": 33,
+    "pass": true
+  },
+  "enquiry_submit": {
+    "scenarios": [
+      {
+        "label": "assessment",
+        "inputs": {
+          "parentName": "Probe Parent",
+          "phone": "082 555 0123",
+          "email": "probe@example.com",
+          "learnerName": "Probe Learner",
+          "grade": "Grade 9",
+          "subject": "Mathematics and Physical Sciences",
+          "lessonType": "Online",
+          "area": "Ruimsig",
+          "message": "Please help with algebra and exam technique.",
+          "preferredTutor": "Alrecha Collins"
+        },
+        "send": {
+          "url": "https://script.google.com/macros/s/CTT_TEST_ENDPOINT/exec",
+          "transport": "beacon",
+          "fields": {
+            "parentName": "Probe Parent",
+            "phone": "082 555 0123",
+            "email": "probe@example.com",
+            "learnerName": "Probe Learner",
+            "grade": "Grade 9",
+            "subject": "Mathematics and Physical Sciences",
+            "lessonType": "Online",
+            "area": "Ruimsig",
+            "preferredTutor": "Alrecha Collins",
+            "message": "Please help with algebra and exam technique.",
+            "assessmentCompleted": "Yes",
+            "strongestPreference": "Visual",
+            "secondaryPreference": "Auditory",
+            "visualScore": "9",
+            "auditoryScore": "6",
+            "readWriteScore": "3",
+            "kinestheticScore": "0",
+            "sourcePage": "http://127.0.0.1:8011/__enquiry_submit.html"
+          }
+        },
+        "whatsapp": "https://wa.me/27732657260?text=Hi Chloe's Travelling Tutors,%0A%0AI would like to enquire about tutoring.%0A%0AParent / Guardian: Probe%20Parent%0APhone: 082%20555%200123%0AEmail: probe%40example.com%0ALearner: Probe%20Learner%0AGrade: Grade%209%0ASubject: Mathematics%20and%20Physical%20Sciences%0ALesson Type: Online%0AArea: Ruimsig%0APreferred Tutor: Alrecha%20Collins%0A%0AExtra details:%0APlease%20help%20with%20algebra%20and%20exam%20technique.%0A%0ALearning preferences assessment:%0ACompleted%0AStrongest preference: Visual%0ASecondary preference: Auditory%0AVisual score: 9%0AAuditory score: 6%0ARead/write score: 3%0AKinesthetic score: 0",
+        "warnings": [],
+        "answers": [
+          {
+            "index": 0,
+            "style": "Visual",
+            "value": "3"
+          },
+          {
+            "index": 1,
+            "style": "Auditory",
+            "value": "2"
+          },
+          {
+            "index": 2,
+            "style": "Read/write",
+            "value": "1"
+          },
+          {
+            "index": 3,
+            "style": "Kinesthetic",
+            "value": "0"
+          },
+          {
+            "index": 4,
+            "style": "Visual",
+            "value": "3"
+          },
+          {
+            "index": 5,
+            "style": "Auditory",
+            "value": "2"
+          },
+          {
+            "index": 6,
+            "style": "Read/write",
+            "value": "1"
+          },
+          {
+            "index": 7,
+            "style": "Kinesthetic",
+            "value": "0"
+          },
+          {
+            "index": 8,
+            "style": "Visual",
+            "value": "3"
+          },
+          {
+            "index": 9,
+            "style": "Auditory",
+            "value": "2"
+          },
+          {
+            "index": 10,
+            "style": "Read/write",
+            "value": "1"
+          },
+          {
+            "index": 11,
+            "style": "Kinesthetic",
+            "value": "0"
+          }
+        ],
+        "fields": {
+          "parentName": "Probe Parent",
+          "phone": "082 555 0123",
+          "email": "probe@example.com",
+          "learnerName": "Probe Learner",
+          "grade": "Grade 9",
+          "subject": "Mathematics and Physical Sciences",
+          "lessonType": "Online",
+          "area": "Ruimsig",
+          "preferredTutor": "Alrecha Collins",
+          "message": "Please help with algebra and exam technique.",
+          "assessmentCompleted": "Yes",
+          "strongestPreference": "Visual",
+          "secondaryPreference": "Auditory",
+          "visualScore": "9",
+          "auditoryScore": "6",
+          "readWriteScore": "3",
+          "kinestheticScore": "0",
+          "sourcePage": "http://127.0.0.1:8011/__enquiry_submit.html"
+        },
+        "url": "https://script.google.com/macros/s/CTT_TEST_ENDPOINT/exec",
+        "message": "Hi Chloe's Travelling Tutors,\n\nI would like to enquire about tutoring.\n\nParent / Guardian: Probe Parent\nPhone: 082 555 0123\nEmail: probe@example.com\nLearner: Probe Learner\nGrade: Grade 9\nSubject: Mathematics and Physical Sciences\nLesson Type: Online\nArea: Ruimsig\nPreferred Tutor: Alrecha Collins\n\nExtra details:\nPlease help with algebra and exam technique.\n\nLearning preferences assessment:\nCompleted\nStrongest preference: Visual\nSecondary preference: Auditory\nVisual score: 9\nAuditory score: 6\nRead/write score: 3\nKinesthetic score: 0",
+        "sent": true
+      },
+      {
+        "label": "no_assessment",
+        "inputs": {
+          "parentName": "Probe Parent",
+          "phone": "082 555 0123",
+          "email": "probe@example.com",
+          "learnerName": "Probe Learner",
+          "grade": "Grade 9",
+          "subject": "Mathematics and Physical Sciences",
+          "lessonType": "Online",
+          "area": "Ruimsig",
+          "message": "Please help with algebra and exam technique.",
+          "preferredTutor": "Alrecha Collins"
+        },
+        "send": {
+          "url": "https://script.google.com/macros/s/CTT_TEST_ENDPOINT/exec",
+          "transport": "beacon",
+          "fields": {
+            "parentName": "Probe Parent",
+            "phone": "082 555 0123",
+            "email": "probe@example.com",
+            "learnerName": "Probe Learner",
+            "grade": "Grade 9",
+            "subject": "Mathematics and Physical Sciences",
+            "lessonType": "Online",
+            "area": "Ruimsig",
+            "preferredTutor": "Alrecha Collins",
+            "message": "Please help with algebra and exam technique.",
+            "assessmentCompleted": "No",
+            "strongestPreference": "",
+            "secondaryPreference": "",
+            "visualScore": "",
+            "auditoryScore": "",
+            "readWriteScore": "",
+            "kinestheticScore": "",
+            "sourcePage": "http://127.0.0.1:8011/__enquiry_submit.html"
+          }
+        },
+        "whatsapp": "https://wa.me/27732657260?text=Hi Chloe's Travelling Tutors,%0A%0AI would like to enquire about tutoring.%0A%0AParent / Guardian: Probe%20Parent%0APhone: 082%20555%200123%0AEmail: probe%40example.com%0ALearner: Probe%20Learner%0AGrade: Grade%209%0ASubject: Mathematics%20and%20Physical%20Sciences%0ALesson Type: Online%0AArea: Ruimsig%0APreferred Tutor: Alrecha%20Collins%0A%0AExtra details:%0APlease%20help%20with%20algebra%20and%20exam%20technique.%0A%0ALearning preferences assessment:%0ANot completed",
+        "warnings": [],
+        "answers": [
+          {
+            "index": 0,
+            "style": "Visual",
+            "value": "3"
+          },
+          {
+            "index": 1,
+            "style": "Auditory",
+            "value": "2"
+          },
+          {
+            "index": 2,
+            "style": "Read/write",
+            "value": "1"
+          },
+          {
+            "index": 3,
+            "style": "Kinesthetic",
+            "value": "0"
+          },
+          {
+            "index": 4,
+            "style": "Visual",
+            "value": "3"
+          },
+          {
+            "index": 5,
+            "style": "Auditory",
+            "value": "2"
+          },
+          {
+            "index": 6,
+            "style": "Read/write",
+            "value": "1"
+          },
+          {
+            "index": 7,
+            "style": "Kinesthetic",
+            "value": "0"
+          },
+          {
+            "index": 8,
+            "style": "Visual",
+            "value": "3"
+          },
+          {
+            "index": 9,
+            "style": "Auditory",
+            "value": "2"
+          },
+          {
+            "index": 10,
+            "style": "Read/write",
+            "value": "1"
+          },
+          {
+            "index": 11,
+            "style": "Kinesthetic",
+            "value": "0"
+          }
+        ],
+        "fields": {
+          "parentName": "Probe Parent",
+          "phone": "082 555 0123",
+          "email": "probe@example.com",
+          "learnerName": "Probe Learner",
+          "grade": "Grade 9",
+          "subject": "Mathematics and Physical Sciences",
+          "lessonType": "Online",
+          "area": "Ruimsig",
+          "preferredTutor": "Alrecha Collins",
+          "message": "Please help with algebra and exam technique.",
+          "assessmentCompleted": "No",
+          "strongestPreference": "",
+          "secondaryPreference": "",
+          "visualScore": "",
+          "auditoryScore": "",
+          "readWriteScore": "",
+          "kinestheticScore": "",
+          "sourcePage": "http://127.0.0.1:8011/__enquiry_submit.html"
+        },
+        "url": "https://script.google.com/macros/s/CTT_TEST_ENDPOINT/exec",
+        "message": "Hi Chloe's Travelling Tutors,\n\nI would like to enquire about tutoring.\n\nParent / Guardian: Probe Parent\nPhone: 082 555 0123\nEmail: probe@example.com\nLearner: Probe Learner\nGrade: Grade 9\nSubject: Mathematics and Physical Sciences\nLesson Type: Online\nArea: Ruimsig\nPreferred Tutor: Alrecha Collins\n\nExtra details:\nPlease help with algebra and exam technique.\n\nLearning preferences assessment:\nNot completed",
+        "sent": true
+      },
+      {
+        "label": "no_endpoint",
+        "inputs": {
+          "parentName": "Probe Parent",
+          "phone": "082 555 0123",
+          "email": "probe@example.com",
+          "learnerName": "Probe Learner",
+          "grade": "Grade 9",
+          "subject": "Mathematics and Physical Sciences",
+          "lessonType": "Online",
+          "area": "Ruimsig",
+          "message": "Please help with algebra and exam technique.",
+          "preferredTutor": "Alrecha Collins"
+        },
+        "send": null,
+        "whatsapp": "https://wa.me/27732657260?text=Hi Chloe's Travelling Tutors,%0A%0AI would like to enquire about tutoring.%0A%0AParent / Guardian: Probe%20Parent%0APhone: 082%20555%200123%0AEmail: probe%40example.com%0ALearner: Probe%20Learner%0AGrade: Grade%209%0ASubject: Mathematics%20and%20Physical%20Sciences%0ALesson Type: Online%0AArea: Ruimsig%0APreferred Tutor: Alrecha%20Collins%0A%0AExtra details:%0APlease%20help%20with%20algebra%20and%20exam%20technique.%0A%0ALearning preferences assessment:%0ANot completed",
+        "warnings": [
+          "CTT enquiry: no Google Sheet endpoint configured, row not saved. See docs/ENQUIRY_FORM_SETUP.md."
+        ],
+        "answers": [
+          {
+            "index": 0,
+            "style": "Visual",
+            "value": "3"
+          },
+          {
+            "index": 1,
+            "style": "Auditory",
+            "value": "2"
+          },
+          {
+            "index": 2,
+            "style": "Read/write",
+            "value": "1"
+          },
+          {
+            "index": 3,
+            "style": "Kinesthetic",
+            "value": "0"
+          },
+          {
+            "index": 4,
+            "style": "Visual",
+            "value": "3"
+          },
+          {
+            "index": 5,
+            "style": "Auditory",
+            "value": "2"
+          },
+          {
+            "index": 6,
+            "style": "Read/write",
+            "value": "1"
+          },
+          {
+            "index": 7,
+            "style": "Kinesthetic",
+            "value": "0"
+          },
+          {
+            "index": 8,
+            "style": "Visual",
+            "value": "3"
+          },
+          {
+            "index": 9,
+            "style": "Auditory",
+            "value": "2"
+          },
+          {
+            "index": 10,
+            "style": "Read/write",
+            "value": "1"
+          },
+          {
+            "index": 11,
+            "style": "Kinesthetic",
+            "value": "0"
+          }
+        ]
+      }
+    ],
+    "location": "http://127.0.0.1:8011/__enquiry_submit.html",
+    "tutorOptions": [
+      "",
+      "Alex Smith",
+      "Alrecha Collins",
+      "Caleb Ross",
+      "Chloe Smith",
+      "Ethan Klebe",
+      "Isabella Stubbs",
+      "Keegan Anderson",
+      "Kirsten Snyman",
+      "Lauren Immelman",
+      "Megan Karam",
+      "Megan Meyer",
+      "Nevada Cawood",
+      "Nicole Vermeulen",
+      "Priyal Daya",
+      "Sabreen Limbada",
+      "Swasthi Prahalad"
+    ],
+    "endpoint": "",
+    "formTag": null,
+    "labels": [
+      "assessment",
+      "no_assessment",
+      "no_endpoint"
+    ],
+    "payload_keys": [
+      "area",
+      "assessmentCompleted",
+      "auditoryScore",
+      "email",
+      "grade",
+      "kinestheticScore",
+      "learnerName",
+      "lessonType",
+      "message",
+      "parentName",
+      "phone",
+      "preferredTutor",
+      "readWriteScore",
+      "secondaryPreference",
+      "sourcePage",
+      "strongestPreference",
+      "subject",
+      "visualScore"
+    ],
+    "payload_matches_sheet": true,
+    "expected_scores": {
+      "Visual": 9,
+      "Auditory": 6,
+      "Read/write": 3,
+      "Kinesthetic": 0
+    },
+    "expected_ranking": [
+      "Visual",
+      "Auditory",
+      "Read/write",
+      "Kinesthetic"
+    ],
+    "form_fields_sent_verbatim": true,
+    "tutor_from_roster": true,
+    "assessment_scores_sent": {
+      "completed": "Yes",
+      "primary": "Visual",
+      "secondary": "Auditory",
+      "visual": "9",
+      "auditory": "6",
+      "readwrite": "3",
+      "kinesthetic": "0"
+    },
+    "no_assessment_rows_blank": {
+      "completed": "No",
+      "visual": "",
+      "primary": ""
+    },
+    "source_page_recorded": true,
+    "whatsapp_matches": true,
+    "whatsapp_no_assessment_matches": true,
+    "whatsapp_number": "/27732657260",
+    "unconfigured": {
+      "sent": false,
+      "whatsapp": true,
+      "warned": true,
+      "warning": "CTT enquiry: no Google Sheet endpoint configured, row not saved. See docs/ENQUIRY_FORM_SETUP.md."
+    },
     "pass": true
   }
 }
