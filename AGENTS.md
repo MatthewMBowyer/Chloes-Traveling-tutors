@@ -26,7 +26,32 @@ asked for.
   byte-identical to upstream except for `.supervisor/` and `inputs/`, which are local
   only and must not be published.
 - Round 2 was published this way: PR #1, merge commit `a7c19fdd` on `main`.
-- Round 3: PR #2, merge commit `933d018`.
+- Round 3: PR #2, merge commit `933d018` (hidden blog, then SEO/crawl files and
+  the shrinking header, PRs #3/#4).
+- Round 4: PR #5, the Google Sheet enquiry endpoint. The custom domain
+  `chloestravellingtutors.com` now serves `main`, so the
+  `matthewmbowyer.github.io/Chloes-Traveling-tutors/` URLs redirect to it; both
+  work when checking what is live.
+- **Correct publishing procedure for the current repo state.** `git diff main`
+  in this repo is NOT the Round-3/4 change list: local `main` is the pre-Round-1
+  template, so it lists every round at once, and the Round 3/4 work is
+  uncommitted anyway. Build the change set from the tree instead:
+  ```
+  cd /tmp/ctt_upstream && git fetch origin --prune
+  git checkout -B round-N-<slug> origin/main
+  python3 /tmp/sync_publish.py          # copies the project tree, minus .git/.supervisor/inputs
+  git status --short                    # this is the real change set
+  ```
+  then commit, push, `gh pr create --base main`, and `gh pr merge <n> --merge
+  --delete-branch`. Before committing, confirm the list holds only intended
+  files and that `.supervisor/`, `inputs/` and the temp sync scripts are absent.
+  `gh` is authenticated as the owner, which is how the merges appear on GitHub.
+- **The local repo's HEAD is deliberately left at the pristine template** (the
+  working tree carries every round, uncommitted). `work/apply_round3_seo.py`
+  then `work/apply_round4_enquiry.py` restore-and-reapply in that order, and both
+  refuse to run twice: `git checkout -- index.html tutors.html contact.html`
+  gives back the pages the generators expect. Committing those three pages here
+  without rewriting the generators breaks that chain.
 - **Shipping gotcha that already bit once.** Build the file list from
   `git diff --name-status main -- . ':!.supervisor' ':!inputs' ':!ctt_verify_probe'`,
   NOT from `git status`. Round 2 shipped uncommitted changes only, so every file
@@ -50,6 +75,22 @@ asked for.
   `renderFeatured`. Used by both the pages and the tests.
 - `assets/css/ctt-custom.css` â€” palette variables (`--ctt-blue` etc.) and all
   custom classes.
+- `assets/js/ctt-enquiry.js` — posts one enquiry row to the owner's Google Sheet
+  (sendBeacon, `mode: "no-cors"` fetch fallback) before the form opens WhatsApp.
+  The endpoint is the single `var ENDPOINT = ""` constant;
+  `window.CTT_ENQUIRY_ENDPOINT` overrides it, which is how R4-02 tests the send
+  path without touching a real sheet.
+- `apps-script/enquiry-to-sheet.gs` — the Apps Script web app that appends the
+  row. Bound to its own spreadsheet (no id, no secret in the repo). Its `FIELDS`
+  list must equal the keys contact.html sends; R4-01 compares the two lists and
+  fails on drift. Owner setup: `docs/ENQUIRY_FORM_SETUP.md`. **Until the owner
+  deploys it and pastes the `/exec` URL, an enquiry is only ever delivered by
+  WhatsApp, and the console says a row was skipped** — that is the expected state
+  until they follow the doc, not a bug.
+- `work/apply_round3_seo.py`, `work/make_og_image.py`,
+  `work/apply_round4_enquiry.py` — generators for the Round 3 search content and
+  the Round 4 enquiry wiring. Each refuses to run twice; see the publishing notes
+  above for the restore-and-reapply order.
 
 ## Commands
 - Verify everything: `python3 tests/verify_site.py --port 8020 --probe-port 8021`
@@ -59,6 +100,14 @@ asked for.
 - Bookkeeping: `python3 work/write_bookkeeping.py`.
 
 ## Notes
+- Round 3 and Round 4 added checks: R3-02..R3-06 (head metadata, JSON-LD, roster
+  copy, robots/sitemap, shrinking header) and R4-01/R4-02 (enquiry source agrees
+  with the Apps Script; a real submit in a browser posts every field and opens
+  the unchanged WhatsApp message). Full suite is 38 checks.
+- R4-02 stubs `navigator.sendBeacon`/`fetch`/`window.open` in the probe copy and
+  points `window.CTT_ENQUIRY_ENDPOINT` at a fake URL: the real Sheet is in the
+  owner's Google account and a test must never write into it. Everything else in
+  the path is the shipped code.
 - Playwright is not installed; rendered-DOM and screenshot checks use headless
   Chromium (`--dump-dom` / `--screenshot`) against a throwaway copy in `/tmp`,
   never `file://` and never against the real deliverables.
