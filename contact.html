@@ -299,7 +299,6 @@
 		</div>
 
 		<script src="assets/data/tutors.js"></script>
-		<script src="assets/js/ctt-enquiry.js"></script>
 
 		<script>
 			// Original first-person learner statements written for CTT, covering the
@@ -501,18 +500,6 @@
 				const whatsappNumber = "27732657260";
 				let assessmentText = "Not completed";
 
-				// Blank by default, so a form sent without the assessment still
-				// writes a complete row with the columns visibly empty.
-				let assessment = {
-					completed: "No",
-					primary: "",
-					secondary: "",
-					visual: "",
-					auditory: "",
-					readwrite: "",
-					kinesthetic: ""
-				};
-
 				if (assessmentToggle.checked) {
 					const result = calculateAssessment();
 
@@ -529,16 +516,6 @@
 						"Auditory score: " + result.scores.Auditory + "%0A" +
 						"Read/write score: " + result.scores["Read/write"] + "%0A" +
 						"Kinesthetic score: " + result.scores.Kinesthetic;
-
-					assessment = {
-						completed: "Yes",
-						primary: result.primary,
-						secondary: result.secondary,
-						visual: result.scores.Visual,
-						auditory: result.scores.Auditory,
-						readwrite: result.scores["Read/write"],
-						kinesthetic: result.scores.Kinesthetic
-					};
 				}
 
 				const values = {
@@ -568,30 +545,6 @@
 					"Preferred Tutor: " + encodeURIComponent(values.preferredTutor || "No preference") + "%0A%0A" +
 					"Extra details:%0A" + encodeURIComponent(values.message || "None provided") + "%0A%0A" +
 					"Learning preferences assessment:%0A" + assessmentText;
-
-				// The row goes out before WhatsApp opens: on a phone, handing over to
-				// the WhatsApp app can background this page, and a row that was not
-				// sent yet would be lost. Keys here must match apps-script/enquiry-to-sheet.gs.
-				window.CTTEnquiry.send({
-					parentName: values.parentName,
-					phone: values.phone,
-					email: values.email,
-					learnerName: values.learnerName,
-					grade: values.grade,
-					subject: values.subject,
-					lessonType: values.lessonType,
-					area: values.area,
-					preferredTutor: values.preferredTutor,
-					message: values.message,
-					assessmentCompleted: assessment.completed,
-					strongestPreference: assessment.primary,
-					secondaryPreference: assessment.secondary,
-					visualScore: assessment.visual,
-					auditoryScore: assessment.auditory,
-					readWriteScore: assessment.readwrite,
-					kinestheticScore: assessment.kinesthetic,
-					sourcePage: window.location.href
-				});
 
 				window.open(
 					"https://wa.me/" + whatsappNumber + "?text=" + whatsappMessage,
