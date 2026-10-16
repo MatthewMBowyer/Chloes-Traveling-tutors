@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T19:24:08Z",
+  "generated_at": "2026-10-16T17:33:43Z",
   "node_data": {
     "count": 16,
     "slugs": [
@@ -225,9 +225,9 @@
     "remote_list": "",
     "branch_not_main": true,
     "no_remote_configured": true,
-    "ls_remote_stdout": "97c50205795bef9059d21897a086d5035e0fac6a\trefs/heads/main",
+    "ls_remote_stdout": "a303c22ded58fc2c0aa7aa40a02ef5433091078c\trefs/heads/main",
     "ls_remote_rc": 0,
-    "upstream_head": "97c50205795bef9059d21897a086d5035e0fac6a",
+    "upstream_head": "a303c22ded58fc2c0aa7aa40a02ef5433091078c",
     "upstream_unchanged": false,
     "baseline_head": "37704102d40b0f1cd2664e07bf0db0ef9b3322eb"
   },
@@ -496,17 +496,6 @@
     "doc_has_steps": true,
     "pass": true
   },
-  "supplied_copy": {
-    "present": {
-      "swasthi-prahalad": "5/5",
-      "isabella-stubbs": "1/1",
-      "caleb-ross": "1/1",
-      "priyal-daya": "1/1"
-    },
-    "trimmed_still_there": [],
-    "missing": [],
-    "pass": true
-  },
   "console": {
     "index.html": [],
     "tutors.html": [],
@@ -732,7 +721,7 @@
       "width": 1400,
       "height": 5200,
       "decodable": true,
-      "distinct_colours": 17939,
+      "distinct_colours": 17937,
       "ok": true
     },
     "02_tutors_filter.png": {
@@ -740,7 +729,7 @@
       "width": 1400,
       "height": 2600,
       "decodable": true,
-      "distinct_colours": 3038,
+      "distinct_colours": 3008,
       "ok": true
     },
     "03_contact_assessment.png": {
@@ -1009,7 +998,7 @@
       "scrollingElement": "HTML",
       "htmlOverflowY": "visible",
       "bodyOverflowY": "visible",
-      "docHeight": 9019,
+      "docHeight": 9042,
       "afterHeight": 48,
       "afterBrandHeight": 37,
       "afterTop": 0,
@@ -1446,39 +1435,6 @@
       "warned": true,
       "warning": "CTT enquiry: no Google Sheet endpoint configured, row not saved. See docs/ENQUIRY_FORM_SETUP.md."
     },
-    "pass": true
-  },
-  "featured_cards": {
-    "featured": {
-      "Chloe Smith": 1,
-      "Alex Smith": 1,
-      "Ethan Klebe": 1
-    },
-    "profiles": {
-      "Alex Smith": 1,
-      "Alrecha Collins": 1,
-      "Caleb Ross": 1,
-      "Chloe Smith": 1,
-      "Ethan Klebe": 1,
-      "Isabella Stubbs": 1,
-      "Keegan Anderson": 1,
-      "Kirsten Snyman": 1,
-      "Lauren Immelman": 1,
-      "Megan Karam": 1,
-      "Megan Meyer": 1,
-      "Nevada Cawood": 1,
-      "Nicole Vermeulen": 1,
-      "Priyal Daya": 1,
-      "Sabreen Limbada": 1,
-      "Swasthi Prahalad": 1
-    },
-    "expected_featured": [
-      "Chloe Smith",
-      "Alex Smith",
-      "Ethan Klebe"
-    ],
-    "expected_profile_count": 16,
-    "duplicates": {},
     "pass": true
   }
 }

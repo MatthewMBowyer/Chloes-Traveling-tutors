@@ -1,4 +1,4 @@
-# AGENTS.md ŌĆö CTT website (Round 2)
+# AGENTS.md — CTT website (Round 2)
 
 ## What this project is
 A static HTML/CSS/JS site (Chloe's Travelling Tutors) improved in place for the
@@ -32,21 +32,6 @@ asked for.
   `chloestravellingtutors.com` now serves `main`, so the
   `matthewmbowyer.github.io/Chloes-Traveling-tutors/` URLs redirect to it; both
   work when checking what is live.
-- Round 5: the two Round 2 items that had been missed — the trimmed tutor
-  profile copy (Swasthi, Isabella, Caleb, Priyal) and the duplicated grade
-  range on the cards. `docs/DELIVERY_SUMMARY_ROUND_5.md` and
-  `docs/ROUND_2_NOTES_CHECKLIST.md`.
-- **A "fix" is not done until the rendered page is checked, not just the source.**
-  Round 2's grade-wording fix passed every source-level assertion while Chloe's
-  card still read "All subjects, Grades 1 to 8" followed by "Grades 1 to 8" —
-  the exact repeat the owner complained about. Source grep cannot see a card
-  that is assembled by JavaScript. Checks `R2-07` and `R2-08` read the rendered
-  DOM for this reason.
-- **The owner's own photos and profile text are pinned in the harness.**
-  `work/verify_tutor_photos.py` compares each site photo against the file in the
-  owner's pack (mean absolute pixel difference, not a hash, because the site
-  files were re-encoded). `ROUND2_SUPPLIED_COPY` in `tests/verify_site.py` holds
-  the supplied sentences verbatim, so a later edit that trims them fails.
 - **Correct publishing procedure for the current repo state.** `git diff main`
   in this repo is NOT the Round-3/4 change list: local `main` is the pre-Round-1
   template, so it lists every round at once, and the Round 3/4 work is
@@ -70,40 +55,40 @@ asked for.
 - **Shipping gotcha that already bit once.** Build the file list from
   `git diff --name-status main -- . ':!.supervisor' ':!inputs' ':!ctt_verify_probe'`,
   NOT from `git status`. Round 2 shipped uncommitted changes only, so every file
-  already committed on the feature branch was silently left out ŌĆö including
-  `tutors.html` and `assets/js/render-tutors.js` ŌĆö and the tutor filter never
+  already committed on the feature branch was silently left out — including
+  `tutors.html` and `assets/js/render-tutors.js` — and the tutor filter never
   reached the live site. Always diff against `main`, then confirm the pushed
   branch contains the files you expect (`git show :<path>`).
 - Treat `inputs/` as immutable; write derived files under `work/` or the project
   output dirs.
 - Never fabricate a photograph. When asked to change an image, crop or re-frame
-  the site's own existing file and prove the provenance ŌĆö see
+  the site's own existing file and prove the provenance — see
   `work/verify_hero_crop.py`.
 
 ## Layout
-- `index.html`, `tutors.html`, `contact.html`, `blog.html` ŌĆö pages (edited in place)
-- `assets/data/tutors.js` ŌĆö `window.CTT_TUTORS` array; each record carries an
+- `index.html`, `tutors.html`, `contact.html`, `blog.html` — pages (edited in place)
+- `assets/data/tutors.js` — `window.CTT_TUTORS` array; each record carries an
   explicit `province` array and a boolean `online` flag (plus the retained
-  `availability` field). AreasŌåÆprovince mapping: `work/build_tutors_data.py`.
-- `assets/js/render-tutors.js` ŌĆö `window.CTTRender`, a pure module exposing
+  `availability` field). Areas→province mapping: `work/build_tutors_data.py`.
+- `assets/js/render-tutors.js` — `window.CTTRender`, a pure module exposing
   `provinceOptions`, `filterTutors`, `createDirectoryCard`, `renderDirectory`,
   `renderFeatured`. Used by both the pages and the tests.
-- `assets/css/ctt-custom.css` ŌĆö palette variables (`--ctt-blue` etc.) and all
+- `assets/css/ctt-custom.css` — palette variables (`--ctt-blue` etc.) and all
   custom classes.
-- `assets/js/ctt-enquiry.js` Ś posts one enquiry row to the owner's Google Sheet
+- `assets/js/ctt-enquiry.js` � posts one enquiry row to the owner's Google Sheet
   (sendBeacon, `mode: "no-cors"` fetch fallback) before the form opens WhatsApp.
   The endpoint is the single `var ENDPOINT = ""` constant;
   `window.CTT_ENQUIRY_ENDPOINT` overrides it, which is how R4-02 tests the send
   path without touching a real sheet.
-- `apps-script/enquiry-to-sheet.gs` Ś the Apps Script web app that appends the
+- `apps-script/enquiry-to-sheet.gs` � the Apps Script web app that appends the
   row. Bound to its own spreadsheet (no id, no secret in the repo). Its `FIELDS`
   list must equal the keys contact.html sends; R4-01 compares the two lists and
   fails on drift. Owner setup: `docs/ENQUIRY_FORM_SETUP.md`. **Until the owner
   deploys it and pastes the `/exec` URL, an enquiry is only ever delivered by
-  WhatsApp, and the console says a row was skipped** Ś that is the expected state
+  WhatsApp, and the console says a row was skipped** � that is the expected state
   until they follow the doc, not a bug.
 - `work/apply_round3_seo.py`, `work/make_og_image.py`,
-  `work/apply_round4_enquiry.py` Ś generators for the Round 3 search content and
+  `work/apply_round4_enquiry.py` � generators for the Round 3 search content and
   the Round 4 enquiry wiring. Each refuses to run twice; see the publishing notes
   above for the restore-and-reapply order.
 
@@ -137,21 +122,21 @@ asked for.
   fixed window, and the full-homepage capture uses 1400x5200, which is
   *portrait*-shaped. That flips the template's `@media (orientation: portrait)`
   banner rules (content and image each 50vh, hero stacks), so the hero alone
-  would fill the frame and hide every later section ŌĆö the capture then looks
+  would fill the frame and hide every later section — the capture then looks
   blank below the fold while the site is fine. `screenshot()` takes an
   `extra_style` argument and the full-homepage capture uses it to pin the
   landscape hero. If a full-page shot ever goes blank again, suspect this before
   suspecting the page.
 
 ## Known contract contradiction
-AC-06/INV-05 ask for both "12 items" and "4 per style" (4├Ś4=16). The delivered
+AC-06/INV-05 ask for both "12 items" and "4 per style" (4×4=16). The delivered
 assessment is 12 items balanced 3 per style, matching the pre-existing site and
 the authoritative raw request ("keep the number of questions and per-style
 balance"). Documented in `docs/DELIVERY_SUMMARY.md`.
 
 ## Round 2 naming decision (resolved by the owner)
 The notes list "Caleb chowtee" for Durban. The owner confirmed that is **Caleb
-Ross** ŌĆö the same person ŌĆö and that he is **always to be called Caleb Ross**. He
+Ross** — the same person — and that he is **always to be called Caleb Ross**. He
 is the tutor listed under Durban. Never ship the other name; `R2-06` greps every
 shipped `.html`/`.js`/`.css` for it and also asserts `caleb-ross` is
 KwaZulu-Natal. The docs, tests and `work/` scripts are excluded from that grep

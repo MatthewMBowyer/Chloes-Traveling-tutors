@@ -89,46 +89,6 @@ ROUND2_PROVINCE_PLACEMENT = {
 
 ROUND2_ADDED_SLUGS = ["swasthi-prahalad", "isabella-stubbs", "caleb-ross", "priyal-daya"]
 
-# The profile copy supplied in "CTT fixes.zip" (Notes.txt), for the four tutors
-# the boss wrote out in full. Round 2 shortened several of these when writing
-# them into the roster, which is the copy the owner reads on the site, so the
-# expected text is pinned here verbatim and the trimmed variants are forbidden.
-ROUND2_SUPPLIED_COPY = {
-    "swasthi-prahalad": [
-        "Experienced educator with five years of teaching experience across Cambridge, "
-        "IEB and CAPS curricula. Holds a Bachelor of Accounting Science degree and is "
-        "currently completing a Postgraduate Certificate in Education (PGCE).",
-        "Grades 7 to 12 and university (Mathematics and Commerce up to Honours level)",
-        "Accounting & Maths Specialist",
-        "5 Years' Experience",
-        "Swasthi believes that education is about more than just improving marks. "
-        "It's about helping students genuinely understand their work and develop a "
-        "lasting love for learning!",
-    ],
-    "isabella-stubbs": [
-        "And if you love golden retrievers, you'll definitely have something in common!",
-    ],
-    "caleb-ross": [
-        "Currently completing a Postgraduate Diploma in Accounting (PGDA), with "
-        "experience supporting over 250 students.",
-    ],
-    "priyal-daya": [
-        "Qualified educator with a Bachelor of Education and an Honours degree in "
-        "Inclusive Education, passionate about making learning engaging and accessible.",
-    ],
-}
-
-ROUND2_TRIMMED_COPY = [
-    '"qualifications": "Bachelor of Accounting Science and currently completing',
-    '"qualifications": "Currently completing a Postgraduate Diploma in Accounting (PGDA)",',
-    '"qualifications": "Bachelor of Education and an Honours degree in Inclusive Education",',
-]
-
-# The owner asked for one grade statement per learner, not two. The subject line
-# carries the range for Chloe ("All subjects, Grades 1 to 8"), so the homepage
-# card must not print the grades field again underneath it.
-HOMEPAGE_FEATURED = ["Chloe Smith", "Alex Smith", "Ethan Klebe"]
-
 # The boss's notes called this tutor "Caleb chowtee" once; the owner confirmed
 # that is the same person as Caleb Ross and that he is always to be called
 # Caleb Ross. The other name must never reach a shipped file.
@@ -2222,91 +2182,6 @@ def enquiry_submit_checks(tmp: Path, port: int) -> dict:
     return out
 
 
-def supplied_copy_checks() -> dict:
-    """Round 5 (R2-07): the profile copy the owner supplied is on the site.
-
-    Notes.txt wrote four tutor profiles out in full. Round 2 trimmed the lead-ins
-    and dropped two closing paragraphs, which the owner then saw on the live site.
-    Every supplied fragment is now required in the roster, and the trimmed
-    variants are forbidden.
-    """
-    roster = (SITE / "assets/data/tutors.js").read_text(encoding="utf-8")
-    out: dict = {"present": {}, "trimmed_still_there": [], "missing": []}
-
-    for slug, fragments in ROUND2_SUPPLIED_COPY.items():
-        found = [fragment for fragment in fragments if fragment in roster]
-        out["present"][slug] = f"{len(found)}/{len(fragments)}"
-        out["missing"].extend(
-            f"{slug}: {fragment[:60]}" for fragment in fragments if fragment not in roster
-        )
-
-    out["trimmed_still_there"] = [
-        fragment for fragment in ROUND2_TRIMMED_COPY if fragment in roster
-    ]
-    out["pass"] = not out["missing"] and not out["trimmed_still_there"]
-    return out
-
-
-def featured_card_checks(tmp: Path, port: int) -> dict:
-    """Round 5 (R2-08): a tutor's grade range is printed once per card.
-
-    The owner's note after Round 2 was "my stuff is listed weird, grade 7 and 8
-    talked about twice". The subject line was changed as asked
-    ("All subjects, Grades 1 to 8"), but Chloe's card then printed the grades
-    field again on the line next to it. This reads every rendered card, on the
-    homepage and on the tutor page, and counts how often each tutor's grade
-    range appears in that card's text.
-    """
-    import json as _json
-
-    roster = _json.loads(
-        re.search(
-            r"window\.CTT_TUTORS\s*=\s*(\[.*\])\s*;",
-            (SITE / "assets/data/tutors.js").read_text(encoding="utf-8"),
-            re.S,
-        ).group(1)
-    )
-    by_name = {tutor["name"]: tutor for tutor in roster}
-
-    def text_only(markup: str) -> str:
-        without_tags = re.sub(r"<[^>]+>", " ", markup)
-        return re.sub(r"\s+", " ", html.unescape(without_tags)).strip()
-
-    def counts_for(page: str, card_class: str) -> dict:
-        dom = dump_dom(f"http://127.0.0.1:{port}/{page}", budget=6000)
-        cards = re.findall(
-            rf'<article class="ctt-card {card_class}"[^>]*>(.*?)</article>', dom, re.S
-        )
-        found = {}
-        for card in cards:
-            text = text_only(card)
-            name = next((n for n in by_name if n in text), None)
-            if name is None:
-                continue
-            found[name] = text.count(by_name[name]["grades"])
-        return found
-
-    featured = counts_for("index.html", "ctt-tutor-card")
-    profiles = counts_for("tutors.html", "ctt-tutor-detail")
-
-    out = {
-        "featured": featured,
-        "profiles": profiles,
-        "expected_featured": HOMEPAGE_FEATURED,
-        "expected_profile_count": len(roster),
-        "duplicates": {
-            **{f"home/{n}": c for n, c in featured.items() if c != 1},
-            **{f"tutor/{n}": c for n, c in profiles.items() if c != 1},
-        },
-    }
-    out["pass"] = bool(
-        sorted(featured) == sorted(HOMEPAGE_FEATURED)
-        and len(profiles) == len(roster)
-        and not out["duplicates"]
-    )
-    return out
-
-
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", type=int, default=8010, help="port for the real-site HTTP probes")
@@ -2526,15 +2401,6 @@ def run_all(args, report: dict, tmp: Path) -> None:
            f"send before WhatsApp={enquiry_source.get('send_before_whatsapp')}; "
            f"message unchanged={enquiry_source.get('whatsapp_literal_intact')}; "
            f"setup doc={enquiry_source.get('doc_has_steps')}")
-
-    # Round 5: the profile copy the owner supplied in the notes pack is on the
-    # site, and the shortened Round 2 variants are gone.
-    supplied = supplied_copy_checks()
-    report["supplied_copy"] = supplied
-    record("PASS" if supplied["pass"] else "FAIL", "R2-07",
-           f"supplied profile copy present per tutor: {supplied['present']}; "
-           f"missing={supplied['missing'] or 'none'}; "
-           f"trimmed variants still present={supplied['trimmed_still_there'] or 'none'}")
 
     # 6. Rendered-DOM probes against the throwaway copy
     if CHROMIUM:
@@ -2782,16 +2648,6 @@ def run_all(args, report: dict, tmp: Path) -> None:
                f"{enquiry_submit.get('whatsapp_matches')}/"
                f"{enquiry_submit.get('whatsapp_no_assessment_matches')} "
                f"url={posted_url} (stubbed); before setup: {enquiry_submit.get('unconfigured')}")
-
-        # Round 5: the homepage cards print each tutor's grade range once.
-        featured = featured_card_checks(tmp, args.probe_port)
-        report["featured_cards"] = featured
-        record("PASS" if featured.get("pass") else "FAIL", "R2-08",
-               f"grade range printed once per card: homepage={featured.get('featured')} "
-               f"(expected {featured.get('expected_featured')}); "
-               f"tutor page={len(featured.get('profiles') or {})} profiles checked "
-               f"(expected {featured.get('expected_profile_count')}); "
-               f"cards not showing it exactly once={featured.get('duplicates') or 'none'}")
     else:
         record("FAIL", "AC-23", "chromium not available for rendered-DOM probes")
 

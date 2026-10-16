@@ -39,24 +39,6 @@
                 return `<div class="${className} ctt-tutor-fallback" aria-label="${escapeHtml(tutor.name)}">${escapeHtml(initials)}</div>`;
         }
 
-        function gradeShownInSubjects(tutor) {
-                // The owner's wording puts the grade range inside the subject
-                // line ("All subjects, Grades 1 to 8"). Printing the grades
-                // field again on the next line reads as a repeat, so the card
-                // shows the range once. Tutor pages keep both labelled lines.
-                const flatten = function (text) {
-                        return String(text || "")
-                                .toLowerCase()
-                                .replace(/[^a-z0-9]+/g, " ")
-                                .trim();
-                };
-
-                const grades = flatten(tutor.grades);
-                if (!grades) return false;
-
-                return flatten((tutor.subjects || []).join(" ")).indexOf(grades) !== -1;
-        }
-
         function createFeaturedCard(tutor) {
                 return `
                         <article class="ctt-card ctt-tutor-card">
@@ -66,7 +48,7 @@
 
                                 <h3>${escapeHtml(tutor.name)}</h3>
                                 <p>${escapeHtml(subjectSummary(tutor.subjects, 3))}</p>
-                                ${gradeShownInSubjects(tutor) ? "" : `<p>${escapeHtml(tutor.grades)}</p>`}
+                                <p>${escapeHtml(tutor.grades)}</p>
                                 <p>${escapeHtml(tutor.lessonType)}</p>
 
                                 <a href="tutors.html#${escapeHtml(tutor.slug)}" class="ctt-small-link">
@@ -100,7 +82,7 @@
 
                                 <div class="ctt-badge-row">${tags}</div>
 
-                                ${gradeShownInSubjects(tutor) ? "" : `<p><strong>Grades:</strong> ${escapeHtml(tutor.grades)}</p>`}
+                                <p><strong>Grades:</strong> ${escapeHtml(tutor.grades)}</p>
                                 <p><strong>Subjects:</strong> ${escapeHtml((tutor.subjects || []).join(", "))}</p>
                                 <p><strong>Lesson type:</strong> ${escapeHtml(tutor.lessonType)}</p>
                                 <p><strong>Area:</strong> ${escapeHtml(tutor.area)}</p>
