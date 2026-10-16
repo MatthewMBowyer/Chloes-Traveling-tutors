@@ -22,9 +22,8 @@
 					<div class="ctt-section-title">
 						<h1>Meet the Tutors</h1>
 						<p>
-							Our tutors bring different qualifications, personalities and areas of expertise.
-							We use your learner's needs, location, subjects and learning preferences to help find
-							the right match.
+							Meet some of the people behind CTT. Our tutors bring different strengths,
+							qualifications and teaching styles, so we can find the right fit for every learner.
 						</p>
 					</div>
 				</div>
@@ -32,6 +31,35 @@
 
 			<section class="ctt-section">
 				<div class="ctt-inner">
+					<div class="ctt-filter-box">
+						<h2>Find the right tutor</h2>
+						<p>
+							Filter our tutors by province, or show only tutors who teach online.
+						</p>
+
+						<div class="ctt-filter-grid">
+							<div>
+								<label for="provinceFilter">Province</label>
+								<select id="provinceFilter">
+									<option value="all">All provinces</option>
+								</select>
+							</div>
+
+							<div class="ctt-filter-toggle">
+								<input type="checkbox" id="onlineFilter" />
+								<label for="onlineFilter">Online lessons only</label>
+							</div>
+
+							<div>
+								<button id="clearTutorFilters" class="button secondary" type="button">
+									Clear filters
+								</button>
+							</div>
+						</div>
+
+						<p id="tutorFilterSummary" class="ctt-filter-summary" role="status"></p>
+					</div>
+
 					<div id="tutorDirectory" class="ctt-tutor-directory"></div>
 
 					<ul class="actions special ctt-directory-actions">
@@ -57,7 +85,66 @@
 		<script src="assets/data/tutors.js"></script>
 		<script src="assets/js/render-tutors.js"></script>
 		<script>
-			CTTRender.renderDirectory("tutorDirectory");
+			(function () {
+				const provinceFilter = document.getElementById("provinceFilter");
+				const onlineFilter = document.getElementById("onlineFilter");
+				const clearFilters = document.getElementById("clearTutorFilters");
+				const summary = document.getElementById("tutorFilterSummary");
+
+				const provinceLabels = {
+					"Gauteng": "Gauteng",
+					"KwaZulu-Natal": "KwaZulu-Natal",
+					"Western Cape": "Western Cape"
+				};
+
+				// Options come from the data, never hard-coded.
+				CTTRender.provinceOptions(window.CTT_TUTORS).forEach(function (province) {
+					const option = document.createElement("option");
+					option.value = province;
+					option.textContent = provinceLabels[province] || province;
+					provinceFilter.appendChild(option);
+				});
+
+				function currentOptions() {
+					return {
+						province: provinceFilter.value,
+						online: onlineFilter.checked
+					};
+				}
+
+				function updateSummary() {
+					const options = currentOptions();
+					const matches = CTTRender.filterTutors(window.CTT_TUTORS, options);
+					const parts = [];
+
+					if (options.province !== "all") {
+						parts.push(provinceLabels[options.province] || options.province);
+					}
+
+					if (options.online) {
+						parts.push("online lessons");
+					}
+
+					const scope = parts.length ? " for " + parts.join(" and ") : "";
+					summary.textContent = matches.length + (matches.length === 1 ? " tutor" : " tutors") + scope + ".";
+				}
+
+				function applyFilters() {
+					CTTRender.renderDirectory("tutorDirectory", currentOptions());
+					updateSummary();
+				}
+
+				provinceFilter.addEventListener("change", applyFilters);
+				onlineFilter.addEventListener("change", applyFilters);
+
+				clearFilters.addEventListener("click", function () {
+					provinceFilter.value = "all";
+					onlineFilter.checked = false;
+					applyFilters();
+				});
+
+				applyFilters();
+			})();
 		</script>
 	</body>
 </html>

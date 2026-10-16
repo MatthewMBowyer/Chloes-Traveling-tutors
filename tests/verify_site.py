@@ -465,14 +465,12 @@ window.addEventListener("load", function () {
   });
   var featured = document.querySelectorAll("#featuredTutors .ctt-tutor-card");
 
-  // Full section order across #wrapper (hero, learning, tutors, start,
-  // how-CTT-started, footer).
+  // Full section order across #wrapper (hero, learning, tutors, start, footer).
   function label(el) {
     if (el.id === "home") { return "hero"; }
     if (el.classList.contains("ctt-learning-box") || el.querySelector(".ctt-learning-box")) { return "learning"; }
     if (el.querySelector("#featuredTutors")) { return "tutors"; }
     if (el.classList.contains("ctt-start-section")) { return "start"; }
-    if (el.querySelector && el.querySelector("h2") && /How CTT started/.test(el.querySelector("h2").textContent)) { return "how-started"; }
     if (el.id === "site-footer") { return "footer"; }
     return null;
   }
@@ -619,7 +617,6 @@ def wording_checks() -> dict:
         "Meet some of the people behind CTT. Our tutors bring different strengths, "
         "qualifications and teaching styles, so we can find the right fit for every learner."
     )
-    grade4 = "Chloe started tutoring her younger brother and his friends when they were in Grade 4"
 
     def norm(text):
         return re.sub(r"\s+", " ", text)
@@ -654,9 +651,10 @@ def wording_checks() -> dict:
         # Carried over from Round 1.
         "hero_old_sentence_gone": "Tutoring that" not in index,
         "hero_old_oh_moment_gone": "Oh, I finally get it" not in index,
-        "grade4_exact": grade4 in norm(index),
-        "single_quote_phrase": "no child is \u2018not smart enough\u2019" in norm(index),
-        "double_curly_gone": "\u201cnot smart enough\u201d" not in index,
+        # Round 3: the owner removed the "How CTT started" section, so the
+        # Round 1 wording assertions for it no longer apply.
+        "how_started_gone": "How CTT started" not in index
+        and "ctt-chloe-section" not in index,
         "tutors_desc_exact": new_tutors_desc in norm(tutors),
         "tutors_old_desc_gone": "personalities and areas of expertise" not in tutors,
         "home_intro_matches": new_tutors_desc in norm(index),
@@ -673,6 +671,35 @@ def wording_checks() -> dict:
 
 UPSTREAM = "https://github.com/MatthewMBowyer/Chloes-Traveling-tutors"
 BASELINE_HEAD = "37704102d40b0f1cd2664e07bf0db0ef9b3322eb"
+# The owner overrode the original read-only GitHub rule and asked for the work to
+# be published, so the check is now "is the deliverable live?" rather than
+# "was main left alone?".
+LIVE_SITE = "https://matthewmbowyer.github.io/Chloes-Traveling-tutors"
+
+
+def live_publish_checks() -> dict:
+    """Fetch the deployed site and confirm it serves the current deliverable."""
+    out: dict = {"live_site": LIVE_SITE}
+    try:
+        for name, path in (("index", "index.html"), ("tutors", "tutors.html")):
+            req = urllib.request.Request(
+                f"{LIVE_SITE}/{path}", headers={"User-Agent": "ctt-verify"}
+            )
+            with urllib.request.urlopen(req, timeout=45) as resp:
+                out[f"{name}_status"] = resp.status
+                out[f"{name}_html"] = resp.read().decode("utf-8", "replace")
+    except Exception as exc:  # network/Pages hiccup must not crash the run
+        out["error"] = f"{type(exc).__name__}: {exc}"
+        return out
+
+    index_html = out.pop("index_html", "")
+    tutors_html = out.pop("tutors_html", "")
+
+    out["how_started_gone_live"] = "How CTT started" not in index_html
+    out["filter_live"] = 'id="provinceFilter"' in tutors_html and "ctt-filter-box" in tutors_html
+    out["tutor_directory_live"] = 'id="tutorDirectory"' in tutors_html
+    out["published"] = bool(out["how_started_gone_live"] and out["filter_live"])
+    return out
 
 
 def git_checks() -> dict:
@@ -1331,8 +1358,14 @@ def run_all(args, report: dict, tmp: Path) -> None:
     record("PASS" if (git["branch_not_main"] and git["no_remote_configured"]) else "FAIL", "AC-26",
            f"branch={git['branch']} remotes=[{git['remote_list']}]")
     if not args.skip_network:
-        record("PASS" if git.get("upstream_unchanged") else "FAIL", "AC-25",
-               f"upstream main HEAD={git.get('upstream_head')} baseline={BASELINE_HEAD}")
+        live = live_publish_checks()
+        report["live"] = live
+        if live.get("error"):
+            record("SKIP", "AC-25", f"live site unreachable: {live['error']}")
+        else:
+            record("PASS" if live.get("published") else "FAIL", "AC-25",
+                   f"live {LIVE_SITE}: how_started_gone={live.get('how_started_gone_live')} "
+                   f"filter={live.get('filter_live')} status={live.get('index_status')}/{live.get('tutors_status')}")
 
     # 5. HTTP probes against the real site
     statuses = probe_paths(args.port)
@@ -1398,7 +1431,8 @@ def run_all(args, report: dict, tmp: Path) -> None:
 
         # Round 2 layout order, straight from the boss's notes: picture+quote,
         # meet the tutors, getting started, every child learns differently.
-        expected_order = ["hero", "tutors", "start", "learning", "how-started", "footer"]
+        # Round 3 removes the "How CTT started" section the owner cut.
+        expected_order = ["hero", "tutors", "start", "learning", "footer"]
         actual_order = order.get("sectionOrder", [])
         record("PASS" if actual_order == expected_order else "FAIL", "AC-20",
                f"rendered section order {actual_order} vs documented {expected_order}")

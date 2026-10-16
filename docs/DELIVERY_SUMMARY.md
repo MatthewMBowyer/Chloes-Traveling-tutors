@@ -65,14 +65,19 @@ Full instructions are in `docs/PREVIEW.md`.
 
 ### 3. Homepage — final section order
 
-Exactly the order the notes asked for, verified against the rendered DOM:
+Verified against the rendered DOM:
 
 1. Hero — picture and quote — `#home`
 2. Meet the tutors — `#featuredTutors`
 3. Getting started is easy! — `.ctt-start-section`
 4. Every child learns differently — `.ctt-learning-box`
-5. How CTT started
-6. Footer
+5. Footer
+
+**Round 3: the "How CTT started" section was removed** at the owner's request. Its
+markup, its inline CSS (`.ctt-chloe-section`, `.ctt-story-highlight`) and the
+now-unused `.ctt-about-image` rules in `assets/css/ctt-custom.css` are all gone.
+The founder photo `images/Chloe_image.jpeg` is left on disk untouched, so the
+change is reversible. Harness checks `how_started_gone` and `AC-07` cover this.
 
 ### 4. Meet the tutors — corrections to Chloe's listing
 
@@ -176,7 +181,7 @@ Run the harness yourself:
 python3 tests/verify_site.py --port 8020 --probe-port 8021
 ```
 
-Last run: **30 checks, 0 failures.**
+Last run: **30 checks, 0 failures.** (Round 3 raises this to 31 with `AC-25` re-pointed at the live site.)
 
 ---
 
@@ -185,21 +190,24 @@ Last run: **30 checks, 0 failures.**
 1. **Blog posts.** The notes say Chloe will send blog content and that the three
    placeholders are for the owner to fill. Nothing was written on her behalf.
 
-2. **Publishing to GitHub — blocked by a read-only credential.** No push, remote
-   commit or pull request was made or attempted. The work is on the local branch
-   `feature/round-1-improvements` in a local repository with **no remote
-   configured**. Owner action: review the preview, approve, and publish from your
-   side.
-
 ---
 
-## Nothing was pushed; `main` is untouched
+## Publishing
 
-- Local branch: **`feature/round-1-improvements`** (never `main`).
-- Remotes configured on the local repository: **none** (`git remote -v` is empty).
-- No push, remote commit or pull request was made or attempted.
-- Upstream `main` is **unchanged**: a read-only `git ls-remote` still reports the
-  planning-time baseline HEAD `37704102d40b0f1cd2664e07bf0db0ef9b3322eb`.
+The original brief asked for local-only work with the production `main` left
+untouched. **The owner overrode that** and asked for the work to go live, so it was
+published:
+
+- Round 2 shipped as PR [#1](https://github.com/MatthewMBowyer/Chloes-Traveling-tutors/pull/1),
+  merged to `main` as `a7c19fdd`.
+- The local repository is **not a clone** — its `main` shares no history with
+  upstream, so it cannot be pushed directly. Publishing is done by cloning
+  upstream, laying the deliverable files onto a branch cut from `origin/main`,
+  and pushing that. See `AGENTS.md`.
+- `.supervisor/` (agent state) and `inputs/` (source material) are **never**
+  published.
+- Work continues on the local branch **`feature/round-1-improvements`**, which
+  still has **no remote configured** (`git remote -v` is empty).
 
 Nothing else is unfinished. No fabricated evidence or fabricated photo appears in
 this summary or in the evidence files.
