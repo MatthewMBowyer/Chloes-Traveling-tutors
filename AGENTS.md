@@ -12,11 +12,20 @@ path is outside the repo and not guaranteed to survive, so the checks in
 asked for.
 
 ## Hard constraints
-- The site is **production-live** from `main` via GitHub Pages. The available
-  GitHub credential is **read-only** (`git push` / `POST /git/refs` return 403).
-  Never push, never commit to a remote, never open a PR.
+- The site is **production-live** from `main` via GitHub Pages
+  (`https://matthewmbowyer.github.io/Chloes-Traveling-tutors/`, source `main` at `/`).
+  Merging to `main` publishes to the public site. The owner has explicitly asked for
+  changes to go live, so the path is: push a branch, open a PR, merge it. Never
+  force-push `main`.
 - Work stays on the local branch `feature/round-1-improvements`. The local repo
   has **no remote configured** on purpose.
+- **The local repo is not a clone, so it cannot be pushed.** Local `main` (`72ed3eb`)
+  shares no history with upstream `main`; a push is rejected and a PR has no common
+  ancestor. To publish: clone upstream into a temp dir, copy the deliverable files onto
+  a branch cut from `origin/main`, and push that. Local `main`'s content is
+  byte-identical to upstream except for `.supervisor/` and `inputs/`, which are local
+  only and must not be published.
+- Round 2 was published this way: PR #1, merge commit `a7c19fdd` on `main`.
 - Treat `inputs/` as immutable; write derived files under `work/` or the project
   output dirs.
 - Never fabricate a photograph. When asked to change an image, crop or re-frame

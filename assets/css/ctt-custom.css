@@ -683,30 +683,6 @@ p {
 }
 
 /* =========================================================
-   Chloe image
-   ========================================================= */
-
-.spotlight.ctt-chloe-section > .image.ctt-about-image {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	overflow: hidden;
-	background: #ffffff;
-}
-
-.spotlight.ctt-chloe-section > .image.ctt-about-image img {
-	position: relative;
-	top: auto;
-	left: auto;
-	width: 88%;
-	height: 88%;
-	min-height: 0;
-	display: block;
-	object-fit: contain;
-	object-position: center;
-}
-
-/* =========================================================
    Tablet and mobile
    ========================================================= */
 
@@ -748,11 +724,6 @@ p {
 		margin-top: 0.35rem;
 	}
 
-	.spotlight.ctt-chloe-section > .image.ctt-about-image img {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-	}
 }
 
 /* =========================================================

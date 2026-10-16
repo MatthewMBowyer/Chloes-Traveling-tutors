@@ -1,0 +1,51 @@
+{
+  "generated": "2026-09-24T06:03:41.511Z",
+  "count": 12,
+  "provinceOptions": [
+    "Gauteng",
+    "KwaZulu-Natal",
+    "Western Cape"
+  ],
+  "byProvince": {
+    "Gauteng": [
+      "megan-karam",
+      "kirsten-snyman",
+      "sabreen-limbada",
+      "alex-smith"
+    ],
+    "KwaZulu-Natal": [
+      "lauren-immelman",
+      "kirsten-snyman",
+      "keegan-anderson",
+      "ethan-klebe",
+      "chloe-smith",
+      "alex-smith"
+    ],
+    "Western Cape": [
+      "alrecha-collins",
+      "nevada-cawood"
+    ]
+  },
+  "online": [
+    "lauren-immelman",
+    "kirsten-snyman",
+    "keegan-anderson",
+    "ethan-klebe",
+    "nicole-vermeulen",
+    "alrecha-collins",
+    "nevada-cawood",
+    "megan-meyer",
+    "chloe-smith",
+    "alex-smith"
+  ],
+  "intersectionGautengOnline": [
+    "kirsten-snyman",
+    "alex-smith"
+  ],
+  "noMatchEmpty": 0,
+  "kirstenProvinces": [
+    "Gauteng",
+    "KwaZulu-Natal"
+  ],
+  "allAnchorsOk": true
+}

@@ -49,31 +49,12 @@ def norm(s: str) -> str:
 
 
 def check_how_started() -> dict:
-    """Compare the live 'How CTT started' section against the owner screenshot."""
+    """Round 3: the owner removed the "How CTT started" section entirely."""
     index = read_text("index.html")
-    section = index[index.index("<h2>How CTT started</h2>"):]
-    section = section[:section.index("</section>")]
-    body = re.sub(r"<[^>]+>", " ", section)
-    body = norm(body)
-    # Sentences transcribed from inputs/02_owner_how_ctt_started_wording.png (OCR)
-    # and from the pre-existing site copy, which the owner marked unchanged.
-    expected_unchanged = [
-        "CTT began long before it had a name.",
-        "inspired by her own experience at school. Traditional learning did not always work for her. She often had to come home and relearn entire concepts in a completely different way.",
-        "With the help of her mom, learning became memorable. Mind maps, flashcards, funny sayings, shooting hoops while answering questions, and even learning during laps in the pool. That extra effort changed everything.",
-        "Chloe knows what it feels like to struggle, to feel behind, and to wonder why something that seems easy for everyone else just will not click.",
-        "But struggling does not mean a child is not capable. Sometimes, they simply have not been taught in the way they learn best.",
-        "From a 60% student in her early school years to graduating as the top student in her university degree in 2025, Chloe made it her mission to help other learners discover what they are capable of.",
-        "Ten years later, CTT is now a growing team across Gauteng, KwaZulu-Natal, and the Western Cape, with tutors studying or qualified in fields including engineering, architecture, accounting, psychology, marketing, and more.",
-        "We understand the struggle. That is why we do what we do.",
-        "No child is incapable, no child is \u2018not smart enough\u2019, and no child should feel less than because they learn differently. Sometimes, all it takes is the right person, the right explanation, and someone who refuses to give up on them. That is what CTT is here to be.",
-    ]
-    missing = [s for s in expected_unchanged if s not in body]
-    changed_sentence = "Chloe started tutoring her younger brother and his friends when they were in Grade 4, inspired by her own experience at school."
     return {
-        "changed_sentence_present": changed_sentence in body,
-        "unchanged_sentences_missing": missing,
-        "unchanged_all_present": not missing,
+        "section_present": "How CTT started" in index,
+        "markup_gone": "ctt-chloe-section" not in index,
+        "heading_gone": "<h2>How CTT started</h2>" not in index,
     }
 
 
@@ -159,23 +140,9 @@ def main() -> None:
     )
     add(
         "AC-07",
-        "Grade 4 sentence exact.",
-        HARNESS + " -> wording grade4_exact",
-        "wording_checks(): grade4_exact True",
-        provenance="'Chloe started tutoring her younger brother and his friends when they were in Grade 4'",
-    )
-    add(
-        "AC-08",
-        "Single curly quotes around 'not smart enough'; double curly quotes gone.",
-        HARNESS + " -> wording single_quote_phrase, double_curly_gone",
-        "wording_checks(): single_quote_phrase True, double_curly_gone True",
-        provenance="'no child is \u2018not smart enough\u2019'; \u201cnot smart enough\u201d absent",
-    )
-    add(
-        "AC-09",
-        "All other 'How CTT started' sentences unchanged.",
-        "output/evidence/how_started_comparison.json (OCR of inputs/02_owner_how_ctt_started_wording.png vs live section text); work/write_bookkeeping.py check_how_started()",
-        "sentence-by-sentence comparison of the live section against the owner screenshot wording and the pre-existing site copy",
+        "Round 3: the 'How CTT started' section is removed from the homepage.",
+        HARNESS + " -> wording_checks how_started_gone; work/write_bookkeeping.py check_how_started()",
+        "wording_checks(): how_started_gone True (heading and ctt-chloe-section markup absent from index.html)",
         provenance=json.dumps(how),
     )
     add(
@@ -300,10 +267,11 @@ def main() -> None:
     )
     add(
         "AC-25",
-        "Nothing pushed/committed to a remote/PR; upstream main unchanged.",
-        HARNESS + " git.upstream_head",
-        "read-only git ls-remote https://github.com/MatthewMBowyer/Chloes-Traveling-tutors",
-        provenance=f"upstream main HEAD {harness.get('git', {}).get('upstream_head')} == baseline {harness.get('git', {}).get('baseline_head')}",
+        "Round 3: the delivered site is published and live on GitHub Pages.",
+        HARNESS + " -> live.published (live_publish_checks)",
+        "tests/verify_site.py live_publish_checks() fetches the deployed index.html and tutors.html and asserts the 'How CTT started' section is gone and the tutor filter is present",
+        provenance=f"live={ (harness.get('live') or {}).get('live_site') }; how_started_gone={(harness.get('live') or {}).get('how_started_gone_live')}; filter={(harness.get('live') or {}).get('filter_live')}",
+        result="PASS" if (harness.get("live") or {}).get("published") else "FAIL",
     )
     add(
         "AC-26",

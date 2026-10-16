@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T19:54:16Z",
+  "generated_at": "2026-10-16T07:43:59Z",
   "node_data": {
     "count": 16,
     "slugs": [
@@ -193,9 +193,7 @@
     "blog_three_placeholders": true,
     "hero_old_sentence_gone": true,
     "hero_old_oh_moment_gone": true,
-    "grade4_exact": true,
-    "single_quote_phrase": true,
-    "double_curly_gone": true,
+    "how_started_gone": true,
     "tutors_desc_exact": true,
     "tutors_old_desc_gone": true,
     "home_intro_matches": true,
@@ -227,11 +225,20 @@
     "remote_list": "",
     "branch_not_main": true,
     "no_remote_configured": true,
-    "ls_remote_stdout": "37704102d40b0f1cd2664e07bf0db0ef9b3322eb\trefs/heads/main",
+    "ls_remote_stdout": "a12e2a6b94624e1fc450421fe73eb3eb2219b284\trefs/heads/main",
     "ls_remote_rc": 0,
-    "upstream_head": "37704102d40b0f1cd2664e07bf0db0ef9b3322eb",
-    "upstream_unchanged": true,
+    "upstream_head": "a12e2a6b94624e1fc450421fe73eb3eb2219b284",
+    "upstream_unchanged": false,
     "baseline_head": "37704102d40b0f1cd2664e07bf0db0ef9b3322eb"
+  },
+  "live": {
+    "live_site": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors",
+    "index_status": 200,
+    "tutors_status": 200,
+    "how_started_gone_live": false,
+    "filter_live": false,
+    "tutor_directory_live": true,
+    "published": false
   },
   "http": {
     "index.html": 200,
@@ -299,8 +306,7 @@
       "Chloe\u2019s Travelling Tutors \u2014 personalised tutoring",
       "Meet our tutors",
       "Getting started is easy!",
-      "Every child learns differently",
-      "How CTT started"
+      "Every child learns differently"
     ],
     "h1Count": 1,
     "h1Texts": [
@@ -318,7 +324,6 @@
       "tutors",
       "start",
       "learning",
-      "how-started",
       "footer"
     ],
     "featuredCount": 3,
@@ -334,8 +339,7 @@
     "Chloe\u2019s Travelling Tutors \u2014 personalised tutoring",
     "Meet our tutors",
     "Getting started is easy!",
-    "Every child learns differently",
-    "How CTT started"
+    "Every child learns differently"
   ],
   "filter": {
     "options": [
@@ -469,7 +473,7 @@
       "width": 1400,
       "height": 5200,
       "decodable": true,
-      "distinct_colours": 24985,
+      "distinct_colours": 17876,
       "ok": true
     },
     "02_tutors_filter.png": {
@@ -581,7 +585,7 @@
   },
   "assets": {
     "index.html": {
-      "checked": 34,
+      "checked": 33,
       "bad": {}
     },
     "tutors.html": {
