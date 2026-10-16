@@ -130,18 +130,6 @@ p {
 		linear-gradient(180deg, #ffffff 0%, #f7fbfc 100%);
 }
 
-.ctt-hero h1 {
-	font-size: clamp(2.5rem, 5vw, 5rem);
-	line-height: 0.95;
-	margin-bottom: 1.25rem;
-}
-
-.ctt-hero .major {
-	font-size: 1.1rem;
-	line-height: 1.7;
-	max-width: 37rem;
-}
-
 .button.primary {
 	background-color: var(--ctt-blue);
 	box-shadow: inset 0 0 0 1px var(--ctt-blue);
@@ -296,38 +284,6 @@ p {
 .ctt-learning-item p {
 	font-size: 0.92rem;
 	margin: 0;
-}
-
-.ctt-quote {
-	background: var(--ctt-white);
-	border-top: 4px solid var(--ctt-blue);
-	border-bottom: 4px solid var(--ctt-blue);
-	text-align: center;
-	padding: 3.5rem 2rem;
-}
-
-.ctt-quote blockquote {
-	border-left: none;
-	margin: 0 auto;
-	max-width: 900px;
-	padding: 0;
-	font-size: clamp(1.5rem, 3vw, 2.4rem);
-	line-height: 1.35;
-	color: var(--ctt-dark-grey);
-	font-weight: 500;
-}
-
-.ctt-quote strong {
-	color: var(--ctt-blue);
-	font-weight: 800;
-}
-
-.ctt-quote cite {
-	display: block;
-	margin-top: 1rem;
-	color: var(--ctt-soft-grey);
-	font-style: normal;
-	font-weight: 700;
 }
 
 .ctt-tutor-card {
@@ -714,7 +670,6 @@ p {
 	transform: translateY(-0.5rem) rotate(-45deg);
 }
 
-
 /* =========================================================
    Homepage opening image
    ========================================================= */
@@ -724,9 +679,8 @@ p {
 	height: 100%;
 	display: block;
 	object-fit: cover;
-	object-position: center;
+	object-position: center 35%;
 }
-
 
 /* =========================================================
    Chloe image
@@ -751,7 +705,6 @@ p {
 	object-fit: contain;
 	object-position: center;
 }
-
 
 /* =========================================================
    Tablet and mobile
@@ -801,7 +754,6 @@ p {
 		object-fit: contain;
 	}
 }
-
 
 /* =========================================================
    Small phones
@@ -1055,3 +1007,144 @@ p {
 	}
 }
 
+/* =========================================================
+   Round 1 improvements: hero reassurance strip and tutor filters
+   Styled with the existing CTT palette variables only.
+   ========================================================= */
+
+.ctt-filter-box {
+	background: var(--ctt-white);
+	border: 1px solid rgba(142, 153, 162, 0.25);
+	border-radius: 1rem;
+	padding: 1.75rem;
+	margin-bottom: 2.5rem;
+	box-shadow: 0 1rem 2.5rem rgba(57, 57, 57, 0.06);
+}
+
+.ctt-filter-box h2 {
+	margin-bottom: 0.5rem;
+}
+
+.ctt-filter-box p {
+	margin-bottom: 0;
+}
+
+.ctt-filter-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1.25rem;
+	align-items: end;
+	margin-top: 1.5rem;
+}
+
+.ctt-filter-grid label {
+	display: block;
+	margin-bottom: 0.35rem;
+	color: var(--ctt-dark-grey);
+	font-weight: 800;
+}
+
+.ctt-filter-toggle {
+	display: flex;
+	align-items: center;
+	gap: 0.65rem;
+	padding: 0.75rem 1rem;
+	border: 1px solid var(--ctt-border);
+	border-radius: 0.7rem;
+	background: rgba(0, 151, 178, 0.08);
+}
+
+.ctt-filter-toggle label {
+	margin: 0;
+	color: var(--ctt-blue);
+	cursor: pointer;
+}
+
+.ctt-filter-toggle input {
+	width: auto;
+	margin: 0;
+	flex: 0 0 auto;
+}
+
+.ctt-filter-summary {
+	margin-top: 1.25rem;
+	color: var(--ctt-soft-grey);
+	font-weight: 700;
+}
+
+.ctt-directory-empty {
+	grid-column: 1 / -1;
+	padding: 2.5rem 1.75rem;
+	border: 2px dashed var(--ctt-border);
+	border-radius: 1rem;
+	background: var(--ctt-light-bg);
+	text-align: center;
+}
+
+.ctt-directory-empty h3 {
+	margin-bottom: 0.65rem;
+}
+
+.ctt-directory-empty p {
+	margin: 0;
+	color: var(--ctt-dark-grey);
+}
+
+/* Visible keyboard focus on the filter controls, following existing conventions. */
+.ctt-filter-box select:focus-visible,
+.ctt-filter-box button:focus-visible,
+.ctt-filter-toggle input:focus-visible {
+	outline: 3px solid var(--ctt-blue);
+	outline-offset: 2px;
+}
+
+@media screen and (max-width: 980px) {
+	.ctt-filter-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* =========================================================
+   Homepage opening quote (Round 2)
+   The hero leads with the quote instead of a headline, and the
+   portrait panel is cropped to the two people.
+   ========================================================= */
+
+/* The Round 2 hero has no visible headline, so the page would otherwise ship
+   with no <h1>. This keeps one in the document for assistive tech without
+   changing the visual design. */
+.ctt-visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+}
+
+.ctt-hero-quote {
+	border-left: 0.35rem solid var(--ctt-blue);
+	margin: 0 0 1rem 0;
+	padding: 0 0 0 1.5rem;
+	max-width: 34rem;
+	font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+	line-height: 1.3;
+	color: var(--ctt-dark-grey);
+	font-weight: 500;
+}
+
+.ctt-hero-quote strong {
+	color: var(--ctt-blue);
+	font-weight: 800;
+}
+
+.ctt-hero-cite {
+	display: block;
+	margin: 0 0 2rem 0;
+	color: var(--ctt-soft-grey);
+	font-style: normal;
+	font-weight: 700;
+}

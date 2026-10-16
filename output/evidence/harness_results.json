@@ -1,0 +1,630 @@
+{
+  "generated_at": "2026-10-15T19:54:16Z",
+  "node_data": {
+    "count": 16,
+    "slugs": [
+      "lauren-immelman",
+      "megan-karam",
+      "kirsten-snyman",
+      "keegan-anderson",
+      "sabreen-limbada",
+      "ethan-klebe",
+      "nicole-vermeulen",
+      "alrecha-collins",
+      "nevada-cawood",
+      "megan-meyer",
+      "chloe-smith",
+      "alex-smith",
+      "swasthi-prahalad",
+      "isabella-stubbs",
+      "caleb-ross",
+      "priyal-daya"
+    ],
+    "uniqueSlugs": true,
+    "fieldsComplete": true,
+    "provinceArrays": true,
+    "hasEmptyProvince": [],
+    "availabilityRetained": true,
+    "removedAbsent": true,
+    "imagesExist": true,
+    "missingImages": [],
+    "lizeImageGone": true,
+    "provinceOptions": [
+      "Gauteng",
+      "KwaZulu-Natal",
+      "Western Cape"
+    ],
+    "allCount": 16,
+    "byProvince": {
+      "Gauteng": [
+        "megan-karam",
+        "kirsten-snyman",
+        "sabreen-limbada",
+        "megan-meyer",
+        "chloe-smith",
+        "alex-smith",
+        "isabella-stubbs"
+      ],
+      "KwaZulu-Natal": [
+        "lauren-immelman",
+        "keegan-anderson",
+        "ethan-klebe",
+        "nicole-vermeulen",
+        "swasthi-prahalad",
+        "caleb-ross"
+      ],
+      "Western Cape": [
+        "alrecha-collins",
+        "nevada-cawood",
+        "priyal-daya"
+      ]
+    },
+    "online": [
+      "lauren-immelman",
+      "kirsten-snyman",
+      "keegan-anderson",
+      "ethan-klebe",
+      "nicole-vermeulen",
+      "alrecha-collins",
+      "nevada-cawood",
+      "megan-meyer",
+      "chloe-smith",
+      "alex-smith",
+      "swasthi-prahalad",
+      "caleb-ross",
+      "priyal-daya"
+    ],
+    "offlineOnly": 16,
+    "intersectionGautengOnline": [
+      "kirsten-snyman",
+      "megan-meyer",
+      "chloe-smith",
+      "alex-smith"
+    ],
+    "noMatch": 0,
+    "provinceBySlug": {
+      "lauren-immelman": [
+        "KwaZulu-Natal"
+      ],
+      "megan-karam": [
+        "Gauteng"
+      ],
+      "kirsten-snyman": [
+        "Gauteng"
+      ],
+      "keegan-anderson": [
+        "KwaZulu-Natal"
+      ],
+      "sabreen-limbada": [
+        "Gauteng"
+      ],
+      "ethan-klebe": [
+        "KwaZulu-Natal"
+      ],
+      "nicole-vermeulen": [
+        "KwaZulu-Natal"
+      ],
+      "alrecha-collins": [
+        "Western Cape"
+      ],
+      "nevada-cawood": [
+        "Western Cape"
+      ],
+      "megan-meyer": [
+        "Gauteng"
+      ],
+      "chloe-smith": [
+        "Gauteng"
+      ],
+      "alex-smith": [
+        "Gauteng"
+      ],
+      "swasthi-prahalad": [
+        "KwaZulu-Natal"
+      ],
+      "isabella-stubbs": [
+        "Gauteng"
+      ],
+      "caleb-ross": [
+        "KwaZulu-Natal"
+      ],
+      "priyal-daya": [
+        "Western Cape"
+      ]
+    },
+    "expectedByProvince": {
+      "Gauteng": [
+        "megan-karam",
+        "kirsten-snyman",
+        "sabreen-limbada",
+        "megan-meyer",
+        "chloe-smith",
+        "alex-smith",
+        "isabella-stubbs"
+      ],
+      "KwaZulu-Natal": [
+        "lauren-immelman",
+        "keegan-anderson",
+        "ethan-klebe",
+        "nicole-vermeulen",
+        "swasthi-prahalad",
+        "caleb-ross"
+      ],
+      "Western Cape": [
+        "alrecha-collins",
+        "nevada-cawood",
+        "priyal-daya"
+      ]
+    },
+    "expectedOnline": [
+      "lauren-immelman",
+      "kirsten-snyman",
+      "keegan-anderson",
+      "ethan-klebe",
+      "nicole-vermeulen",
+      "alrecha-collins",
+      "nevada-cawood",
+      "megan-meyer",
+      "chloe-smith",
+      "alex-smith",
+      "swasthi-prahalad",
+      "caleb-ross",
+      "priyal-daya"
+    ],
+    "multiProvince": [],
+    "anchorIdsOk": true,
+    "duplicateSlugDetected": true,
+    "brokenImageDetected": true
+  },
+  "wording": {
+    "hero_quote_leads": true,
+    "hero_quote_before_actions": true,
+    "hero_old_headline_gone": true,
+    "hero_old_eyebrow_gone": true,
+    "hero_old_body_gone": true,
+    "hero_points_gone": true,
+    "hero_crop_image": true,
+    "hero_old_image_gone": true,
+    "grades_wording_exact": true,
+    "grades_old_gone": true,
+    "preferred_tutor_is_select": true,
+    "preferred_tutor_from_roster": true,
+    "blog_filter_gone": true,
+    "blog_three_placeholders": true,
+    "hero_old_sentence_gone": true,
+    "hero_old_oh_moment_gone": true,
+    "grade4_exact": true,
+    "single_quote_phrase": true,
+    "double_curly_gone": true,
+    "tutors_desc_exact": true,
+    "tutors_old_desc_gone": true,
+    "home_intro_matches": true,
+    "home_intro_old_gone": true,
+    "subject_label_exact": true,
+    "subject_old_gone": true,
+    "british_personalised": true
+  },
+  "wording_pass": true,
+  "input_hashes": {
+    "01_owner_homepage_direction.png": {
+      "expected": "570bb287b77b8039e89f507ca3fc77f2f28283e36f9c0a76366f3a3a24dea84b",
+      "actual": "570bb287b77b8039e89f507ca3fc77f2f28283e36f9c0a76366f3a3a24dea84b",
+      "match": true
+    },
+    "02_owner_how_ctt_started_wording.png": {
+      "expected": "7d15b107cfd2123cac9b362667427f76d511b3313e4b65764ab657cacc7e42cc",
+      "actual": "7d15b107cfd2123cac9b362667427f76d511b3313e4b65764ab657cacc7e42cc",
+      "match": true
+    },
+    "03_owner_meet_tutors_description.png": {
+      "expected": "eac4d20c0c89727fc607418b532c5e14b4a181019c8226ee98f0382a50a9d6f3",
+      "actual": "eac4d20c0c89727fc607418b532c5e14b4a181019c8226ee98f0382a50a9d6f3",
+      "match": true
+    }
+  },
+  "git": {
+    "branch": "feature/round-1-improvements",
+    "remote_list": "",
+    "branch_not_main": true,
+    "no_remote_configured": true,
+    "ls_remote_stdout": "37704102d40b0f1cd2664e07bf0db0ef9b3322eb\trefs/heads/main",
+    "ls_remote_rc": 0,
+    "upstream_head": "37704102d40b0f1cd2664e07bf0db0ef9b3322eb",
+    "upstream_unchanged": true,
+    "baseline_head": "37704102d40b0f1cd2664e07bf0db0ef9b3322eb"
+  },
+  "http": {
+    "index.html": 200,
+    "tutors.html": 200,
+    "blog.html": 200,
+    "contact.html": 200,
+    "header.html": 200,
+    "footer/footer.html": 200,
+    "assets/data/tutors.js": 200,
+    "assets/js/render-tutors.js": 200,
+    "assets/css/ctt-custom.css": 200,
+    "footer.html (named in request)": 404
+  },
+  "console": {
+    "index.html": [],
+    "tutors.html": [],
+    "blog.html": [],
+    "contact.html": []
+  },
+  "availability_dom": {
+    "tutors.html": {
+      "availability_present": false,
+      "empty_strong_present": false
+    },
+    "index.html": {
+      "availability_present": false,
+      "empty_strong_present": false
+    }
+  },
+  "contact_dropdown": {
+    "isSelect": true,
+    "optionCount": 17,
+    "options": [
+      "Alex Smith",
+      "Alrecha Collins",
+      "Caleb Ross",
+      "Chloe Smith",
+      "Ethan Klebe",
+      "Isabella Stubbs",
+      "Keegan Anderson",
+      "Kirsten Snyman",
+      "Lauren Immelman",
+      "Megan Karam",
+      "Megan Meyer",
+      "Nevada Cawood",
+      "Nicole Vermeulen",
+      "Priyal Daya",
+      "Sabreen Limbada",
+      "Swasthi Prahalad"
+    ],
+    "hasPlaceholder": true
+  },
+  "blog": {
+    "cardCount": 3,
+    "titles": [
+      "How to help your child study without overwhelm",
+      "Why every child learns differently",
+      "When should you get a tutor?"
+    ],
+    "filterControls": [],
+    "imagePlaceholders": 3
+  },
+  "order": {
+    "headings": [
+      "Chloe\u2019s Travelling Tutors \u2014 personalised tutoring",
+      "Meet our tutors",
+      "Getting started is easy!",
+      "Every child learns differently",
+      "How CTT started"
+    ],
+    "h1Count": 1,
+    "h1Texts": [
+      "Chloe\u2019s Travelling Tutors \u2014 personalised tutoring"
+    ],
+    "h1Boxes": [
+      {
+        "w": 1,
+        "h": 1,
+        "visible": false
+      }
+    ],
+    "sectionOrder": [
+      "hero",
+      "tutors",
+      "start",
+      "learning",
+      "how-started",
+      "footer"
+    ],
+    "featuredCount": 3,
+    "featuredNames": [
+      "Chloe Smith",
+      "Alex Smith",
+      "Ethan Klebe"
+    ],
+    "availabilityString": false
+  },
+  "order_ok": true,
+  "headings": [
+    "Chloe\u2019s Travelling Tutors \u2014 personalised tutoring",
+    "Meet our tutors",
+    "Getting started is easy!",
+    "Every child learns differently",
+    "How CTT started"
+  ],
+  "filter": {
+    "options": [
+      "all",
+      "Gauteng",
+      "KwaZulu-Natal",
+      "Western Cape"
+    ],
+    "perOption": {
+      "Gauteng": [
+        "alex-smith",
+        "chloe-smith",
+        "isabella-stubbs",
+        "kirsten-snyman",
+        "megan-karam",
+        "megan-meyer",
+        "sabreen-limbada"
+      ],
+      "KwaZulu-Natal": [
+        "caleb-ross",
+        "ethan-klebe",
+        "keegan-anderson",
+        "lauren-immelman",
+        "nicole-vermeulen",
+        "swasthi-prahalad"
+      ],
+      "Western Cape": [
+        "alrecha-collins",
+        "nevada-cawood",
+        "priyal-daya"
+      ]
+    },
+    "emptyShown": true,
+    "emptyAnchors": null,
+    "anchorsPerOption": {
+      "all": [
+        "alex-smith",
+        "alrecha-collins",
+        "caleb-ross",
+        "chloe-smith",
+        "ethan-klebe",
+        "isabella-stubbs",
+        "keegan-anderson",
+        "kirsten-snyman",
+        "lauren-immelman",
+        "megan-karam",
+        "megan-meyer",
+        "nevada-cawood",
+        "nicole-vermeulen",
+        "priyal-daya",
+        "sabreen-limbada",
+        "swasthi-prahalad"
+      ]
+    },
+    "onlineOnly": [
+      "alex-smith",
+      "alrecha-collins",
+      "caleb-ross",
+      "chloe-smith",
+      "ethan-klebe",
+      "keegan-anderson",
+      "kirsten-snyman",
+      "lauren-immelman",
+      "megan-meyer",
+      "nevada-cawood",
+      "nicole-vermeulen",
+      "priyal-daya",
+      "swasthi-prahalad"
+    ],
+    "gautengOnline": [
+      "alex-smith",
+      "chloe-smith",
+      "kirsten-snyman",
+      "megan-meyer"
+    ],
+    "emptyText": "\n                                No tutors match these filters yet\n                                \n                                        Try choosing a different province, or clear the Online filter.\n                                        You can also contact us and we will help find the right fit.\n                                \n                        ",
+    "actionsPresent": [
+      "Find My Tutor",
+      "Contact CTT"
+    ],
+    "controls": {
+      "province": {
+        "tag": "SELECT",
+        "id": "provinceFilter",
+        "labels": [
+          "Province"
+        ],
+        "ariaLabel": null,
+        "text": "",
+        "disabled": false,
+        "hidden": false
+      },
+      "online": {
+        "tag": "INPUT",
+        "id": "onlineFilter",
+        "labels": [
+          "Online lessons only"
+        ],
+        "ariaLabel": null,
+        "text": "",
+        "disabled": false,
+        "hidden": false
+      },
+      "clear": {
+        "tag": "BUTTON",
+        "id": "clearTutorFilters",
+        "labels": [],
+        "ariaLabel": null,
+        "text": "Clear filters",
+        "disabled": false,
+        "hidden": false
+      }
+    },
+    "focusable": {
+      "province": true,
+      "online": true,
+      "clear": true
+    }
+  },
+  "screenshots": {
+    "01_homepage_hero.png": {
+      "captured": true,
+      "width": 1400,
+      "height": 1000,
+      "decodable": true,
+      "distinct_colours": 24715,
+      "ok": true
+    },
+    "01_homepage_full.png": {
+      "captured": true,
+      "width": 1400,
+      "height": 5200,
+      "decodable": true,
+      "distinct_colours": 24985,
+      "ok": true
+    },
+    "02_tutors_filter.png": {
+      "captured": true,
+      "width": 1400,
+      "height": 2600,
+      "decodable": true,
+      "distinct_colours": 3008,
+      "ok": true
+    },
+    "03_contact_assessment.png": {
+      "captured": true,
+      "width": 1400,
+      "height": 5200,
+      "decodable": true,
+      "distinct_colours": 1806,
+      "ok": true
+    }
+  },
+  "contact_result": {
+    "hidden": false,
+    "text": "Learning preferences summary Strongest preference: Visual Secondary preference: Read/write This result guides tutor matching and lesson planning. It does not limit your child to one way of learning.",
+    "bottomPx": 4371,
+    "pageHeight": 5180
+  },
+  "assessment": {
+    "items": [
+      {
+        "text": "I understand new work best when I can see a diagram, picture or demonstration of it.",
+        "style": "Visual"
+      },
+      {
+        "text": "I remember more when someone explains the work to me out loud.",
+        "style": "Auditory"
+      },
+      {
+        "text": "I learn best by reading my notes or textbook carefully and then rewriting the key points.",
+        "style": "Read/write"
+      },
+      {
+        "text": "I learn best when I can try something myself, such as building, moving or doing a practical activity.",
+        "style": "Kinesthetic"
+      },
+      {
+        "text": "I use colour, mind maps or highlighted notes to help me remember information.",
+        "style": "Visual"
+      },
+      {
+        "text": "I talk my way through a problem, or read my notes out loud, when I am studying.",
+        "style": "Auditory"
+      },
+      {
+        "text": "I make lists, summaries or flashcards when I revise.",
+        "style": "Read/write"
+      },
+      {
+        "text": "I remember things better once I have used them in a real-life example or activity.",
+        "style": "Kinesthetic"
+      },
+      {
+        "text": "I picture the page or the diagram in my head when I try to recall what I have learnt.",
+        "style": "Visual"
+      },
+      {
+        "text": "I learn well in discussions, where I can ask questions and hear other people's answers.",
+        "style": "Auditory"
+      },
+      {
+        "text": "I prefer written instructions and written feedback, because I can read them again later.",
+        "style": "Read/write"
+      },
+      {
+        "text": "I get restless and lose focus if I have to sit still for a long time.",
+        "style": "Kinesthetic"
+      }
+    ],
+    "allFirstPerson": true,
+    "styleCounts": {
+      "Visual": 3,
+      "Auditory": 3,
+      "Read/write": 3,
+      "Kinesthetic": 3
+    },
+    "scaleLabels": [
+      "Not like my child",
+      "Sometimes",
+      "Often",
+      "Very much like my child"
+    ],
+    "scaleValues": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "initialQuestionsHidden": true,
+    "initialResultHidden": true,
+    "afterToggleQuestionsHidden": false,
+    "afterToggleResultHidden": true,
+    "fieldsetCount": 12,
+    "afterElevenResultHidden": true,
+    "afterElevenHtml": "",
+    "afterAllResultHidden": false,
+    "afterAllHtml": "<h3>Learning preferences summary</h3> <p> <strong>Strongest preference:</strong> Visual<br> <strong>Secondary preference:</strong> Auditory </p> <p class=\"ctt-assessment-note\"> This result guides tutor matching and lesson planning. It does not limit your child to one way of learning. </p>",
+    "answeredCount": 12,
+    "scoresChanged": true,
+    "afterToggleOffQuestionsHidden": true,
+    "afterToggleOffResultHidden": true
+  },
+  "assets": {
+    "index.html": {
+      "checked": 34,
+      "bad": {}
+    },
+    "tutors.html": {
+      "checked": 32,
+      "bad": {}
+    },
+    "blog.html": {
+      "checked": 14,
+      "bad": {}
+    },
+    "contact.html": {
+      "checked": 31,
+      "bad": {}
+    }
+  },
+  "fragments": {
+    "index.html": {
+      "headerNonEmpty": true,
+      "footerNonEmpty": true,
+      "headerHasNav": true,
+      "footerHasGrid": true,
+      "protocol": "http:"
+    },
+    "tutors.html": {
+      "headerNonEmpty": true,
+      "footerNonEmpty": true,
+      "headerHasNav": true,
+      "footerHasGrid": true,
+      "protocol": "http:"
+    },
+    "blog.html": {
+      "headerNonEmpty": true,
+      "footerNonEmpty": true,
+      "headerHasNav": true,
+      "footerHasGrid": true,
+      "protocol": "http:"
+    },
+    "contact.html": {
+      "headerNonEmpty": true,
+      "footerNonEmpty": true,
+      "headerHasNav": true,
+      "footerHasGrid": true,
+      "protocol": "http:"
+    }
+  }
+}
