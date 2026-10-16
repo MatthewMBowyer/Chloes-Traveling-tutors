@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T07:43:59Z",
+  "generated_at": "2026-10-16T14:31:06Z",
   "node_data": {
     "count": 16,
     "slugs": [
@@ -225,9 +225,9 @@
     "remote_list": "",
     "branch_not_main": true,
     "no_remote_configured": true,
-    "ls_remote_stdout": "a12e2a6b94624e1fc450421fe73eb3eb2219b284\trefs/heads/main",
+    "ls_remote_stdout": "94c1ce2963970d55dba613281e663c863e22f1ea\trefs/heads/main",
     "ls_remote_rc": 0,
-    "upstream_head": "a12e2a6b94624e1fc450421fe73eb3eb2219b284",
+    "upstream_head": "94c1ce2963970d55dba613281e663c863e22f1ea",
     "upstream_unchanged": false,
     "baseline_head": "37704102d40b0f1cd2664e07bf0db0ef9b3322eb"
   },
@@ -235,10 +235,10 @@
     "live_site": "https://matthewmbowyer.github.io/Chloes-Traveling-tutors",
     "index_status": 200,
     "tutors_status": 200,
-    "how_started_gone_live": false,
-    "filter_live": false,
+    "how_started_gone_live": true,
+    "filter_live": true,
     "tutor_directory_live": true,
-    "published": false
+    "published": true
   },
   "http": {
     "index.html": 200,
@@ -465,7 +465,7 @@
       "width": 1400,
       "height": 1000,
       "decodable": true,
-      "distinct_colours": 24715,
+      "distinct_colours": 24711,
       "ok": true
     },
     "01_homepage_full.png": {
@@ -607,6 +607,21 @@
       "footerNonEmpty": true,
       "headerHasNav": true,
       "footerHasGrid": true,
+      "navLinks": [
+        {
+          "href": "index.html",
+          "text": "Home"
+        },
+        {
+          "href": "tutors.html",
+          "text": "Tutors"
+        },
+        {
+          "href": "contact.html",
+          "text": "Contact"
+        }
+      ],
+      "robotsMeta": null,
       "protocol": "http:"
     },
     "tutors.html": {
@@ -614,6 +629,21 @@
       "footerNonEmpty": true,
       "headerHasNav": true,
       "footerHasGrid": true,
+      "navLinks": [
+        {
+          "href": "index.html",
+          "text": "Home"
+        },
+        {
+          "href": "tutors.html",
+          "text": "Tutors"
+        },
+        {
+          "href": "contact.html",
+          "text": "Contact"
+        }
+      ],
+      "robotsMeta": null,
       "protocol": "http:"
     },
     "blog.html": {
@@ -621,6 +651,21 @@
       "footerNonEmpty": true,
       "headerHasNav": true,
       "footerHasGrid": true,
+      "navLinks": [
+        {
+          "href": "index.html",
+          "text": "Home"
+        },
+        {
+          "href": "tutors.html",
+          "text": "Tutors"
+        },
+        {
+          "href": "contact.html",
+          "text": "Contact"
+        }
+      ],
+      "robotsMeta": "noindex, nofollow",
       "protocol": "http:"
     },
     "contact.html": {
@@ -628,7 +673,67 @@
       "footerNonEmpty": true,
       "headerHasNav": true,
       "footerHasGrid": true,
+      "navLinks": [
+        {
+          "href": "index.html",
+          "text": "Home"
+        },
+        {
+          "href": "tutors.html",
+          "text": "Tutors"
+        },
+        {
+          "href": "contact.html",
+          "text": "Contact"
+        }
+      ],
+      "robotsMeta": null,
       "protocol": "http:"
     }
+  },
+  "blog_hidden": {
+    "nav_by_page": {
+      "index.html": [
+        "index.html",
+        "tutors.html",
+        "contact.html"
+      ],
+      "tutors.html": [
+        "index.html",
+        "tutors.html",
+        "contact.html"
+      ],
+      "blog.html": [
+        "index.html",
+        "tutors.html",
+        "contact.html"
+      ],
+      "contact.html": [
+        "index.html",
+        "tutors.html",
+        "contact.html"
+      ]
+    },
+    "nav_pages_without_blog": [
+      "index.html",
+      "tutors.html",
+      "blog.html",
+      "contact.html"
+    ],
+    "nav_has_no_blog": true,
+    "nav_labels": [
+      "Contact",
+      "Home",
+      "Tutors"
+    ],
+    "robots_by_page": {
+      "index.html": null,
+      "tutors.html": null,
+      "blog.html": "noindex, nofollow",
+      "contact.html": null
+    },
+    "blog_not_indexed": true,
+    "blog_page_still_served": true,
+    "hidden": true
   }
 }

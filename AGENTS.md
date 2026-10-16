@@ -26,6 +26,14 @@ asked for.
   byte-identical to upstream except for `.supervisor/` and `inputs/`, which are local
   only and must not be published.
 - Round 2 was published this way: PR #1, merge commit `a7c19fdd` on `main`.
+- Round 3: PR #2, merge commit `933d018`.
+- **Shipping gotcha that already bit once.** Build the file list from
+  `git diff --name-status main -- . ':!.supervisor' ':!inputs' ':!ctt_verify_probe'`,
+  NOT from `git status`. Round 2 shipped uncommitted changes only, so every file
+  already committed on the feature branch was silently left out — including
+  `tutors.html` and `assets/js/render-tutors.js` — and the tutor filter never
+  reached the live site. Always diff against `main`, then confirm the pushed
+  branch contains the files you expect (`git show :<path>`).
 - Treat `inputs/` as immutable; write derived files under `work/` or the project
   output dirs.
 - Never fabricate a photograph. When asked to change an image, crop or re-frame

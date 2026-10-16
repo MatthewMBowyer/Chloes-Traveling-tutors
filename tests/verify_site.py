@@ -900,6 +900,14 @@ window.addEventListener("load", function () {
       footerNonEmpty: !!footer && footer.innerHTML.trim().length > 0,
       headerHasNav: !!header && !!header.querySelector(".ctt-navigation"),
       footerHasGrid: !!footer && !!footer.querySelector(".ctt-footer-grid"),
+      navLinks: header ? Array.prototype.map.call(
+        header.querySelectorAll(".ctt-navigation a"),
+        function (a) { return { href: a.getAttribute("href"), text: a.textContent.trim() }; }
+      ) : [],
+      robotsMeta: (function () {
+        var m = document.querySelector('meta[name="robots"]');
+        return m ? m.getAttribute("content") : null;
+      })(),
       protocol: window.location.protocol
     });
     document.body.appendChild(blob);
@@ -907,6 +915,42 @@ window.addEventListener("load", function () {
 });
 </script>
 """
+
+
+def blog_hidden_checks(fragments: dict) -> dict:
+    """Round 3: the blog page is unlisted from the navigation and not indexed.
+
+    The nav comes from the header.html fragment the browser fetches at runtime,
+    so this reads the rendered nav rather than the page source.
+    """
+    out: dict = {}
+    nav_by_page = {
+        page: [link.get("href") for link in (data.get("navLinks") or [])]
+        for page, data in fragments.items()
+    }
+    out["nav_by_page"] = nav_by_page
+    out["nav_pages_without_blog"] = [
+        page for page, hrefs in nav_by_page.items() if "blog.html" not in hrefs
+    ]
+    out["nav_has_no_blog"] = all("blog.html" not in hrefs for hrefs in nav_by_page.values())
+    out["nav_labels"] = sorted(
+        {
+            link.get("text")
+            for data in fragments.values()
+            for link in (data.get("navLinks") or [])
+        }
+    )
+    robots = {
+        page: data.get("robotsMeta")
+        for page, data in fragments.items()
+        if isinstance(data, dict)
+    }
+    out["robots_by_page"] = robots
+    out["blog_not_indexed"] = "noindex" in (robots.get("blog.html") or "")
+    # Still reachable by direct URL: unlisted, not deleted. R2-03 proves it renders.
+    out["blog_page_still_served"] = (SITE / "blog.html").is_file()
+    out["hidden"] = bool(out["nav_has_no_blog"] and out["blog_not_indexed"])
+    return out
 
 
 def probe_fragments(tmp: Path, port: int) -> dict:
@@ -1576,6 +1620,14 @@ def run_all(args, report: dict, tmp: Path) -> None:
         )
         record("PASS" if frags_ok else "FAIL", "INV-08",
                f"header/footer fragments loaded over HTTP: {frags}")
+
+        # Round 3: the owner asked for the blog page to be hidden from view.
+        hidden = blog_hidden_checks(frags)
+        report["blog_hidden"] = hidden
+        record("PASS" if hidden["hidden"] else "FAIL", "R3-01",
+               f"blog unlisted: rendered nav {hidden['nav_labels']} over pages "
+               f"{hidden['nav_pages_without_blog']}; blog noindex={hidden['blog_not_indexed']}; "
+               f"page still served={hidden['blog_page_still_served']}")
     else:
         record("FAIL", "AC-23", "chromium not available for rendered-DOM probes")
 

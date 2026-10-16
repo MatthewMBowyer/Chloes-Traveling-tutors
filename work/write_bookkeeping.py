@@ -281,6 +281,14 @@ def main() -> None:
         provenance=f"branch {harness.get('git', {}).get('branch')}; remotes empty",
     )
     add(
+        "R3-01",
+        "Round 3: the blog page is hidden from view - unlisted from the navigation and not indexed.",
+        HARNESS + " -> blog_hidden (blog_hidden_checks over the rendered nav)",
+        "tests/verify_site.py blog_hidden_checks(): reads the rendered nav of all four pages (the header comes from the header.html fragment the browser fetches at runtime) and asserts no page links to blog.html; reads the blog page's robots meta",
+        provenance=f"rendered nav={ (harness.get('blog_hidden') or {}).get('nav_labels') }; pages without a blog link={ (harness.get('blog_hidden') or {}).get('nav_pages_without_blog') }; blog noindex={ (harness.get('blog_hidden') or {}).get('blog_not_indexed') }; page still served={ (harness.get('blog_hidden') or {}).get('blog_page_still_served') }",
+        result="PASS" if (harness.get("blog_hidden") or {}).get("hidden") else "FAIL",
+    )
+    add(
         "AC-27",
         "One clean local preview delivered and reachable.",
         "scripts/serve_preview.sh, docs/PREVIEW.md, docs/DELIVERY_SUMMARY.md",
