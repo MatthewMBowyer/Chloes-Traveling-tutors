@@ -24,6 +24,7 @@ import sys
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -1735,6 +1736,452 @@ def header_shrink_checks(tmp: Path, port: int) -> dict:
     return out
 
 
+# Round 4: the enquiry form has to save the submission to the owner's Google
+# Sheet as well as hand it to WhatsApp. The endpoint is stubbed rather than
+# built, because a real sheet lives in the owner's Google account and a test
+# must not write into it. Everything else in the path is the shipped code.
+ENQUIRY_ENDPOINT = "https://script.google.com/macros/s/CTT_TEST_ENDPOINT/exec"
+
+ENQUIRY_PROBE = """<script>
+window.CTT_ENQUIRY_ENDPOINT = "%(endpoint)s";
+
+// Recorded instead of sent, so the test never reaches a real sheet.
+navigator.sendBeacon = function (url, body) {
+  window.__cttLastSend = { url: url, transport: "beacon", fields: asObject(body) };
+  return true;
+};
+
+window.fetch = function (url, options) {
+  window.__cttLastSend = {
+    url: url,
+    transport: "fetch",
+    mode: options && options.mode,
+    fields: asObject(options && options.body)
+  };
+  return Promise.resolve({ type: "opaque" });
+};
+
+window.open = function (url) {
+  window.__cttLastOpen = url;
+  return null;
+};
+
+function asObject(body) {
+  var out = {};
+  if (body && typeof body.forEach === "function") {
+    body.forEach(function (value, key) { out[key] = String(value); });
+  }
+  return out;
+}
+</script>"""
+
+ENQUIRY_DRIVER = """<script>
+window.addEventListener("load", function () {
+  setTimeout(function () {
+    var warnings = [];
+    var realWarn = console.warn;
+    console.warn = function () {
+      warnings.push(Array.prototype.join.call(arguments, " "));
+      realWarn.apply(console, arguments);
+    };
+
+    var form = document.getElementById("whatsappForm");
+    var toggle = document.getElementById("assessmentToggle");
+    var tutorSelect = document.getElementById("preferredTutor");
+    var scenarios = [];
+    var pattern = [];
+
+    var inputs = {
+      parentName: "Probe Parent",
+      phone: "082 555 0123",
+      email: "probe@example.com",
+      learnerName: "Probe Learner",
+      grade: "Grade 9",
+      subject: "Mathematics and Physical Sciences",
+      lessonType: "Online",
+      area: "Ruimsig",
+      message: "Please help with algebra and exam technique."
+    };
+
+    function set(id, value) {
+      var field = document.getElementById(id);
+      field.value = value;
+      field.dispatchEvent(new Event("input", { bubbles: true }));
+      field.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    // One answer per style, so the ranking is known: Visual 9, Auditory 6,
+    // Read/write 3, Kinesthetic 0. Styles are read from the page, so the probe
+    // stays correct if the wording of a question changes.
+    var valueByStyle = { "Visual": "3", "Auditory": "2", "Read/write": "1", "Kinesthetic": "0" };
+
+    function answerAssessment() {
+      assessmentItems.forEach(function (item, index) {
+        var input = document.querySelector(
+          'input[name="assessment_' + index + '"][value="' + valueByStyle[item.style] + '"]'
+        );
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+        pattern.push({ index: index, style: item.style, value: valueByStyle[item.style] });
+      });
+    }
+
+    function fillInputs() {
+      Object.keys(inputs).forEach(function (id) { set(id, inputs[id]); });
+    }
+
+    function record(label) {
+      scenarios.push({
+        label: label,
+        inputs: Object.assign({}, inputs, { preferredTutor: tutorSelect.value }),
+        send: window.__cttLastSend || null,
+        whatsapp: window.__cttLastOpen || null,
+        warnings: warnings.slice(),
+        answers: pattern.slice()
+      });
+      window.__cttLastSend = null;
+      window.__cttLastOpen = null;
+      warnings.length = 0;
+    }
+
+    function submit(label) {
+      fillInputs();
+      form.dispatchEvent(new Event("submit", { cancelable: true }));
+      record(label);
+    }
+
+    tutorSelect.selectedIndex = 2;
+
+    toggle.checked = true;
+    toggle.dispatchEvent(new Event("change", { bubbles: true }));
+    answerAssessment();
+    submit("assessment");
+
+    toggle.checked = false;
+    toggle.dispatchEvent(new Event("change", { bubbles: true }));
+    submit("no_assessment");
+
+    window.CTT_ENQUIRY_ENDPOINT = "";
+    submit("no_endpoint");
+
+    var blob = document.createElement("script");
+    blob.type = "application/json";
+    blob.id = "cttEnquiryResult";
+    blob.textContent = JSON.stringify({
+      scenarios: scenarios,
+      location: window.location.href,
+      tutorOptions: Array.prototype.map.call(tutorSelect.options, function (option) {
+        return option.value;
+      }),
+      endpoint: window.CTTEnquiry ? window.CTTEnquiry.endpoint() : null,
+      formTag: form.getAttribute("action")
+    });
+    document.body.appendChild(blob);
+  }, 1500);
+});
+</script>"""
+
+
+def script_block(path: Path, name: str) -> list[str]:
+    """Read the quoted entries of a `var <name> = [ ... ];` list."""
+    text = path.read_text(encoding="utf-8")
+    match = re.search(rf"var {name} = \[(.*?)\];", text, re.S)
+    if not match:
+        raise SystemExit(f"{path.name}: no {name} list")
+    return re.findall(r'"([^"]+)"', match.group(1))
+
+
+def sent_keys(page: str) -> list[str]:
+    """Record keys in contact.html's window.CTTEnquiry.send({...}) call."""
+    text = page_source(page)
+    start = text.find("window.CTTEnquiry.send({")
+    if start == -1:
+        return []
+    end = text.find("});", start)
+    body = text[start:end]
+    return re.findall(r"^\s*(\w+):", body, re.M)
+
+
+def expected_whatsapp_message(inputs: dict, assessment_text: str) -> str:
+    """The prefilled message the form has always opened, field for field.
+
+    Pinned here on purpose: Round 4 adds a Sheet row, and this is how we know
+    the WhatsApp handoff the owner relies on did not change while doing it.
+    """
+    return (
+        "Hi Chloe's Travelling Tutors,\n\n"
+        "I would like to enquire about tutoring.\n\n"
+        f"Parent / Guardian: {inputs['parentName']}\n"
+        f"Phone: {inputs['phone']}\n"
+        f"Email: {inputs['email']}\n"
+        f"Learner: {inputs['learnerName']}\n"
+        f"Grade: {inputs['grade']}\n"
+        f"Subject: {inputs['subject']}\n"
+        f"Lesson Type: {inputs['lessonType']}\n"
+        f"Area: {inputs['area']}\n"
+        f"Preferred Tutor: {inputs['preferredTutor'] or 'No preference'}\n\n"
+        f"Extra details:\n{inputs['message'] or 'None provided'}\n\n"
+        "Learning preferences assessment:\n" + assessment_text
+    )
+
+
+def whatsapp_text(url: str) -> str:
+    query = urllib.parse.parse_qs(urllib.parse.urlparse(url or "").query)
+    return (query.get("text") or [""])[0]
+
+
+def enquiry_source_checks() -> dict:
+    """Round 4 (R4-01): the shipped code and the Apps Script agree.
+
+    The website and the Google Sheet script can only drift if the column keys
+    drift, so both lists are read from the files and compared. Nothing here
+    needs a browser.
+    """
+    module = SITE / "assets/js/ctt-enquiry.js"
+    script = SITE / "apps-script/enquiry-to-sheet.gs"
+    doc = SITE / "docs/ENQUIRY_FORM_SETUP.md"
+    page = page_source("contact.html")
+    out: dict = {
+        "module_present": module.exists(),
+        "script_present": script.exists(),
+        "doc_present": doc.exists(),
+    }
+
+    if not (out["module_present"] and out["script_present"] and out["doc_present"]):
+        out["pass"] = False
+        return out
+
+    js = module.read_text(encoding="utf-8")
+    gs = script.read_text(encoding="utf-8")
+    docs = doc.read_text(encoding="utf-8")
+
+    out["transports"] = {
+        "formdata": "new FormData()" in js,
+        "beacon": "navigator.sendBeacon" in js,
+        "no_cors_fallback": 'mode: "no-cors"' in js,
+    }
+    out["endpoint_paste_point"] = bool(re.search(r'var ENDPOINT = "";', js))
+    out["loaded_by_page"] = '<script src="assets/js/ctt-enquiry.js"></script>' in page
+    out["send_before_whatsapp"] = 0 < page.find("window.CTTEnquiry.send({") < page.find("window.open(")
+    out["prevent_default_first"] = page.find("event.preventDefault()") < page.find(
+        "window.CTTEnquiry.send({"
+    )
+
+    keys = sent_keys("contact.html")
+    fields = script_block(script, "FIELDS")
+    headers = script_block(script, "HEADERS")
+    out["sent_keys"] = keys
+    out["sheet_fields"] = fields
+    out["keys_match_sheet"] = sorted(keys) == sorted(fields)
+    out["sheet_header_count"] = len(headers)
+    out["headers_cover_fields"] = len(headers) == len(fields) + 1
+    out["script_has_handlers"] = "function doPost(e)" in gs and "function doGet()" in gs
+    out["script_sanitises"] = bool(
+        re.search(r"function clean_\(value\)", gs)
+        and re.search(r"/\^\[=\+\\-@", gs)
+        and "clean_(params[FIELDS[i]])" in gs
+    )
+    out["script_no_hardcoded_sheet"] = "openById" not in gs
+
+    # The prompt asked for exactly these five things to be kept per enquiry.
+    out["captures_asked_fields"] = all(
+        key in keys
+        for key in [
+            "parentName",
+            "learnerName",
+            "subject",
+            "preferredTutor",
+            "assessmentCompleted",
+        ]
+    ) and "new Date()" in gs
+
+    out["whatsapp_literal_intact"] = all(
+        line in page
+        for line in [
+            '"Hi Chloe\'s Travelling Tutors,%0A%0A"',
+            '"I would like to enquire about tutoring.%0A%0A"',
+            '"Parent / Guardian: " + encodeURIComponent(values.parentName) + "%0A" +',
+            '"Phone: " + encodeURIComponent(values.phone) + "%0A" +',
+            '"Email: " + encodeURIComponent(values.email) + "%0A" +',
+            '"Learner: " + encodeURIComponent(values.learnerName) + "%0A" +',
+            '"Grade: " + encodeURIComponent(values.grade) + "%0A" +',
+            '"Subject: " + encodeURIComponent(values.subject) + "%0A" +',
+            '"Lesson Type: " + encodeURIComponent(values.lessonType) + "%0A" +',
+            '"Area: " + encodeURIComponent(values.area) + "%0A" +',
+            '"Preferred Tutor: " + encodeURIComponent(values.preferredTutor || "No preference") + "%0A%0A" +',
+            '"Extra details:%0A" + encodeURIComponent(values.message || "None provided") + "%0A%0A" +',
+            '"Learning preferences assessment:%0A" + assessmentText;',
+            '"https://wa.me/" + whatsappNumber + "?text=" + whatsappMessage,',
+        ]
+    )
+
+    out["doc_has_steps"] = all(
+        fragment in docs
+        for fragment in [
+            "apps-script/enquiry-to-sheet.gs",
+            "assets/js/ctt-enquiry.js",
+            "/exec",
+            "Extensions \u2192 Apps Script",
+            "Deploy \u2192 New deployment",
+        ]
+    )
+
+    out["pass"] = bool(
+        all(out["transports"].values())
+        and out["endpoint_paste_point"]
+        and out["loaded_by_page"]
+        and out["send_before_whatsapp"]
+        and out["prevent_default_first"]
+        and out["keys_match_sheet"]
+        and out["headers_cover_fields"]
+        and out["script_has_handlers"]
+        and out["script_sanitises"]
+        and out["script_no_hardcoded_sheet"]
+        and out["captures_asked_fields"]
+        and out["whatsapp_literal_intact"]
+        and out["doc_has_steps"]
+    )
+    return out
+
+
+def probe_enquiry_submit(tmp: Path, port: int) -> dict:
+    """Submit the real form three ways in a browser and record what left it."""
+    probe = tmp / "__enquiry_submit.html"
+    shutil.copyfile(tmp / "contact.html", probe)
+    inject_head(probe, ENQUIRY_PROBE % {"endpoint": ENQUIRY_ENDPOINT})
+    inject_head(probe, ENQUIRY_DRIVER)
+    dom = dump_dom(f"http://127.0.0.1:{port}/{probe.name}", budget=8000)
+    match = re.search(
+        r'<script type="application/json" id="cttEnquiryResult">(.*?)</script>', dom, re.S
+    )
+    if not match:
+        return {"error": "no enquiry result", "form_present": 'id="whatsappForm"' in dom}
+    return json.loads(html_unescape(match.group(1)))
+
+
+def enquiry_submit_checks(tmp: Path, port: int) -> dict:
+    """Round 4 (R4-02): one enquiry produces one sheet row and one WhatsApp.
+
+    The three scenarios are the states that matter: assessment completed, no
+    assessment, and the weeks before the owner pastes their endpoint in.
+    """
+    out = probe_enquiry_submit(tmp, port)
+    if out.get("error"):
+        out["pass"] = False
+        return out
+
+    scenarios = {row["label"]: row for row in out.get("scenarios", [])}
+    out["labels"] = list(scenarios)
+    assessment = scenarios.get("assessment", {})
+    without = scenarios.get("no_assessment", {})
+    unconfigured = scenarios.get("no_endpoint", {})
+
+    for name, row in [("assessment", assessment), ("no_assessment", without)]:
+        send = row.get("send") or {}
+        row["fields"] = send.get("fields") or {}
+        row["url"] = send.get("url")
+        row["message"] = whatsapp_text(row.get("whatsapp"))
+        row["sent"] = bool(send)
+
+    # Every key the sheet script declares, and nothing beyond it.
+    out["payload_keys"] = sorted((assessment.get("fields") or {}).keys())
+    out["payload_matches_sheet"] = out["payload_keys"] == sorted(
+        script_block(SITE / "apps-script/enquiry-to-sheet.gs", "FIELDS")
+    )
+
+    # The answers the probe gave, scored here rather than trusting the page.
+    answers = assessment.get("answers") or []
+    scores = {style: 0 for style in ["Visual", "Auditory", "Read/write", "Kinesthetic"]}
+    for answer in answers:
+        scores[answer["style"]] += int(answer["value"])
+    out["expected_scores"] = scores
+    out["expected_ranking"] = sorted(scores, key=lambda style: -scores[style])
+
+    fields = assessment.get("fields") or {}
+    inputs = assessment.get("inputs") or {}
+    out["form_fields_sent_verbatim"] = all(
+        fields.get(key) == inputs.get(key)
+        for key in [
+            "parentName",
+            "phone",
+            "email",
+            "learnerName",
+            "grade",
+            "subject",
+            "lessonType",
+            "area",
+            "preferredTutor",
+            "message",
+        ]
+    )
+    out["tutor_from_roster"] = (inputs.get("preferredTutor") or "") in out.get("tutorOptions", [])
+    out["assessment_scores_sent"] = {
+        "completed": fields.get("assessmentCompleted"),
+        "primary": fields.get("strongestPreference"),
+        "secondary": fields.get("secondaryPreference"),
+        "visual": fields.get("visualScore"),
+        "auditory": fields.get("auditoryScore"),
+        "readwrite": fields.get("readWriteScore"),
+        "kinesthetic": fields.get("kinestheticScore"),
+    }
+    out["no_assessment_rows_blank"] = {
+        "completed": (without.get("fields") or {}).get("assessmentCompleted"),
+        "visual": (without.get("fields") or {}).get("visualScore"),
+        "primary": (without.get("fields") or {}).get("strongestPreference"),
+    }
+    out["source_page_recorded"] = fields.get("sourcePage") == out.get("location")
+
+    # The prefilled WhatsApp message, decoded and compared line for line.
+    completed_text = (
+        "Completed\n"
+        f"Strongest preference: {out['expected_ranking'][0]}\n"
+        f"Secondary preference: {out['expected_ranking'][1]}\n"
+        f"Visual score: {scores['Visual']}\n"
+        f"Auditory score: {scores['Auditory']}\n"
+        f"Read/write score: {scores['Read/write']}\n"
+        f"Kinesthetic score: {scores['Kinesthetic']}"
+    )
+    out["whatsapp_matches"] = assessment.get("message") == expected_whatsapp_message(
+        inputs, completed_text
+    )
+    out["whatsapp_no_assessment_matches"] = without.get("message") == expected_whatsapp_message(
+        without.get("inputs") or {}, "Not completed"
+    )
+    out["whatsapp_number"] = urllib.parse.urlparse(assessment.get("whatsapp") or "").path
+
+    out["unconfigured"] = {
+        "sent": bool(unconfigured.get("send")),
+        "whatsapp": bool(unconfigured.get("whatsapp")),
+        "warned": any("endpoint" in warning for warning in unconfigured.get("warnings") or []),
+        "warning": (unconfigured.get("warnings") or [None])[0],
+    }
+
+    out["pass"] = bool(
+        len(scenarios) == 3
+        and assessment.get("url") == ENQUIRY_ENDPOINT
+        and without.get("url") == ENQUIRY_ENDPOINT
+        and out["payload_matches_sheet"]
+        and out["form_fields_sent_verbatim"]
+        and out["tutor_from_roster"]
+        and out["assessment_scores_sent"]["completed"] == "Yes"
+        and out["assessment_scores_sent"]["primary"] == out["expected_ranking"][0]
+        and out["assessment_scores_sent"]["secondary"] == out["expected_ranking"][1]
+        and out["assessment_scores_sent"]["visual"] == str(scores["Visual"])
+        and out["assessment_scores_sent"]["auditory"] == str(scores["Auditory"])
+        and out["assessment_scores_sent"]["readwrite"] == str(scores["Read/write"])
+        and out["assessment_scores_sent"]["kinesthetic"] == str(scores["Kinesthetic"])
+        and out["no_assessment_rows_blank"] == {"completed": "No", "visual": "", "primary": ""}
+        and out["source_page_recorded"]
+        and out["whatsapp_matches"]
+        and out["whatsapp_no_assessment_matches"]
+        and out["whatsapp_number"] == "/27732657260"
+        and out["unconfigured"]["sent"] is False
+        and out["unconfigured"]["whatsapp"] is True
+        and out["unconfigured"]["warned"] is True
+    )
+    return out
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", type=int, default=8010, help="port for the real-site HTTP probes")
@@ -1940,6 +2387,20 @@ def run_all(args, report: dict, tmp: Path) -> None:
            f"blog not disallowed={crawl.get('blog_not_disallowed')}; sitemap urls={crawl.get('sitemap_urls')} "
            f"blog excluded={crawl.get('blog_excluded')} files exist={crawl.get('sitemap_local_files_exist')} "
            f"no noindex urls={crawl.get('no_noindex_sitemap_urls')}")
+
+    # Round 4: the owner wants each enquiry saved to a Google Sheet as well as
+    # handed to WhatsApp, with the assessment results and a timestamp.
+    enquiry_source = enquiry_source_checks()
+    report["enquiry_source"] = enquiry_source
+    record("PASS" if enquiry_source["pass"] else "FAIL", "R4-01",
+           f"site and Apps Script agree: keys={enquiry_source.get('sent_keys')} "
+           f"match={enquiry_source.get('keys_match_sheet')} "
+           f"headers={enquiry_source.get('sheet_header_count')} "
+           f"(fields={len(enquiry_source.get('sheet_fields') or [])}+timestamp); "
+           f"transport={enquiry_source.get('transports')}; "
+           f"send before WhatsApp={enquiry_source.get('send_before_whatsapp')}; "
+           f"message unchanged={enquiry_source.get('whatsapp_literal_intact')}; "
+           f"setup doc={enquiry_source.get('doc_has_steps')}")
 
     # 6. Rendered-DOM probes against the throwaway copy
     if CHROMIUM:
@@ -2164,6 +2625,29 @@ def run_all(args, report: dict, tmp: Path) -> None:
                f"ratio={shrink.get('shrink_ratio')}), pinned at top={phone.get('afterTop')} "
                f"while scrolled={phone.get('afterScrolled')}; restored="
                f"{phone.get('restoredHeight')} scrolled={phone.get('restoredScrolled')}")
+
+        # Round 4: one real submit, three states, checked at the network edge.
+        enquiry_submit = enquiry_submit_checks(tmp, args.probe_port)
+        report["enquiry_submit"] = enquiry_submit
+        sent = next(
+            (row for row in enquiry_submit.get("scenarios", []) if row.get("label") == "assessment"),
+            {},
+        )
+        posted_url = ((sent.get("send") or {}).get("url") or "")
+        rows = enquiry_submit.get("assessment_scores_sent", {})
+        record("PASS" if enquiry_submit.get("pass") else "FAIL", "R4-02",
+               f"submits={enquiry_submit.get('labels')}; posted keys={enquiry_submit.get('payload_keys')} "
+               f"match sheet={enquiry_submit.get('payload_matches_sheet')} "
+               f"fields verbatim={enquiry_submit.get('form_fields_sent_verbatim')} "
+               f"tutor from roster={enquiry_submit.get('tutor_from_roster')} "
+               f"source page={enquiry_submit.get('source_page_recorded')}; "
+               f"scores sent={rows} expected={enquiry_submit.get('expected_scores')} "
+               f"ranking={enquiry_submit.get('expected_ranking')}; "
+               f"no-assessment row={enquiry_submit.get('no_assessment_rows_blank')}; "
+               f"WhatsApp {enquiry_submit.get('whatsapp_number')} text unchanged="
+               f"{enquiry_submit.get('whatsapp_matches')}/"
+               f"{enquiry_submit.get('whatsapp_no_assessment_matches')} "
+               f"url={posted_url} (stubbed); before setup: {enquiry_submit.get('unconfigured')}")
     else:
         record("FAIL", "AC-23", "chromium not available for rendered-DOM probes")
 
