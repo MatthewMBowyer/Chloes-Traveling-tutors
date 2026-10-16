@@ -327,8 +327,8 @@ window.CTT_TUTORS = [
     "name": "Swasthi Prahalad",
     "slug": "swasthi-prahalad",
     "image": "images/swasthi_prahalad.jpg",
-    "qualifications": "Bachelor of Accounting Science and currently completing a Postgraduate Certificate in Education (PGCE)",
-    "grades": "Grades 7 to 12 and university",
+    "qualifications": "Experienced educator with five years of teaching experience across Cambridge, IEB and CAPS curricula. Holds a Bachelor of Accounting Science degree and is currently completing a Postgraduate Certificate in Education (PGCE).",
+    "grades": "Grades 7 to 12 and university (Mathematics and Commerce up to Honours level)",
     "subjects": [
       "Mathematics",
       "Physical Sciences",
@@ -344,11 +344,12 @@ window.CTT_TUTORS = [
     "online": true,
     "availability": "Contact CTT for availability",
     "tags": [
-      "Accounting and Maths specialist",
+      "Accounting & Maths Specialist",
       "Head of Academics",
+      "5 Years' Experience",
       "Cambridge, IEB and CAPS"
     ],
-    "bio": "Swasthi is a passionate and dedicated educator with five years of teaching experience and a love for helping learners reach their full potential. As the Head of Academics at a learning centre, she brings valuable expertise across the Cambridge, IEB and CAPS curricula. She specialises in breaking down challenging concepts into simple, understandable lessons tailored to each learner's needs. Her approach focuses on building confidence, developing critical thinking skills and creating a supportive environment where learners feel motivated to succeed."
+    "bio": "Swasthi is a passionate and dedicated educator with five years of teaching experience and a love for helping learners reach their full potential. As the Head of Academics at a learning centre, she brings valuable expertise across the Cambridge, IEB and CAPS curricula. She specialises in breaking down challenging concepts into simple, understandable lessons tailored to each learner's needs. Her approach focuses on building confidence, developing critical thinking skills and creating a supportive environment where learners feel motivated to succeed. Swasthi believes that education is about more than just improving marks. It's about helping students genuinely understand their work and develop a lasting love for learning!"
   },
   {
     "name": "Isabella Stubbs",
@@ -375,13 +376,13 @@ window.CTT_TUTORS = [
       "Making learning simple",
       "Confidence building"
     ],
-    "bio": "Isabella believes there is no better feeling than when a confusing concept finally clicks. As a Physiotherapy student and qualified Pilates Instructor, she brings patience, enthusiasm and a fresh perspective to every lesson. Her goal is to simplify challenging topics, build confidence and help learners experience those rewarding lightbulb moments."
+    "bio": "Isabella believes there is no better feeling than when a confusing concept finally clicks. As a Physiotherapy student and qualified Pilates Instructor, she brings patience, enthusiasm and a fresh perspective to every lesson. Her goal is to simplify challenging topics, build confidence and help learners experience those rewarding lightbulb moments. And if you love golden retrievers, you'll definitely have something in common!"
   },
   {
     "name": "Caleb Ross",
     "slug": "caleb-ross",
     "image": "images/caleb_ross.jpg",
-    "qualifications": "Currently completing a Postgraduate Diploma in Accounting (PGDA)",
+    "qualifications": "Currently completing a Postgraduate Diploma in Accounting (PGDA), with experience supporting over 250 students.",
     "grades": "Grade 1 to university",
     "subjects": [
       "Accounting",
@@ -407,7 +408,7 @@ window.CTT_TUTORS = [
     "name": "Priyal Daya",
     "slug": "priyal-daya",
     "image": "images/priyal_daya.jpg",
-    "qualifications": "Bachelor of Education and an Honours degree in Inclusive Education",
+    "qualifications": "Qualified educator with a Bachelor of Education and an Honours degree in Inclusive Education, passionate about making learning engaging and accessible.",
     "grades": "Grades 4 to 12",
     "subjects": [
       "Life Sciences",
