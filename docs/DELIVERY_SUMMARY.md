@@ -181,7 +181,7 @@ Run the harness yourself:
 python3 tests/verify_site.py --port 8020 --probe-port 8021
 ```
 
-Last run: **30 checks, 0 failures.** (Round 3 raises this to 31 with `AC-25` re-pointed at the live site.)
+Last run: **31 checks, 0 failures.**
 
 ---
 
@@ -189,6 +189,13 @@ Last run: **30 checks, 0 failures.** (Round 3 raises this to 31 with `AC-25` re-
 
 1. **Blog posts.** The notes say Chloe will send blog content and that the three
    placeholders are for the owner to fill. Nothing was written on her behalf.
+
+   **Round 3: the blog page is hidden from view** at the owner's request. The
+   **Blog** link is gone from the navigation on every page, and the page carries
+   `noindex, nofollow` so it stays out of search results. The page itself is kept,
+   not deleted, because the content is still coming — it is unlisted, not removed,
+   so it is still reachable by direct URL (`/blog.html`). Say the word if you would
+   rather it redirect to the homepage or be deleted outright. Verified by `R3-01`.
 
 ---
 

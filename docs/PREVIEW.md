@@ -42,7 +42,7 @@ python3 -m http.server 8010 --bind 127.0.0.1
 | Homepage | http://127.0.0.1:8010/index.html | The **quote now opens the page**, with the smaller cropped picture beside it. Then **Meet our tutors**, **Getting started**, **Every child learns differently** |
 | Tutors page | http://127.0.0.1:8010/tutors.html | The 16-tutor roster with the new people (Chloe, Megan Meyer, Sabreen, Caleb, Swasthi, Priyal), and the **Province / Online** filter. Try Gauteng, then tick "Online lessons only" to see the intersection; click **Clear filters** to reset |
 | Contact | http://127.0.0.1:8010/contact.html | **Preferred Tutor** as a drop-down listing every tutor. Tick "Complete assessment", answer all 12 questions, and the learning-preferences summary appears |
-| Blog | http://127.0.0.1:8010/blog.html | The filter is gone; **three placeholders** remain for you to fill in |
+| Blog | http://127.0.0.1:8010/blog.html | **Hidden from the navigation (Round 3).** Direct URL only. The filter is gone; **three placeholders** remain for you to fill in |
 
 ## What you should NOT see
 
